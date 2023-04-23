@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "72373035853",
+    "project_id": "tungtee-9b10a",
+    "storage_bucket": "tungtee-9b10a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:72373035853:android:13eba04cd661e370da8d04",
+        "android_client_info": {
+          "package_name": "com.example.tungtee"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "72373035853-kgl9dugcrlj1jk4fl9vdkn9646fgn5h6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByE9uB1ayaq-Vo2FClWzPN-jGMZoyIE-0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "72373035853-kgl9dugcrlj1jk4fl9vdkn9646fgn5h6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
