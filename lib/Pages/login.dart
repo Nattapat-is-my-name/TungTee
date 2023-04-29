@@ -1,11 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:tungtee/colors/colors.dart';
 import 'package:tungtee/components/custom_appbar.dart';
+import 'package:tungtee/services/auth_service.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   final _loginFormKey = GlobalKey<FormState>();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  bool isShowPassword = false;
+
+  void handleShowPassword() {
+    setState(() {
+      if (isShowPassword) {
+        isShowPassword = false;
+      } else {
+        isShowPassword = true;
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +65,13 @@ class LoginPage extends StatelessWidget {
                         const Text('Email/Username'),
                         const SizedBox(height: 8),
                         TextFormField(
+                          controller: emailController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your email/username';
+                            }
+                            return null;
+                          },
                           decoration: InputDecoration(
                               hintText: 'your_email@mail.com',
                               border: OutlineInputBorder(
@@ -49,13 +83,22 @@ class LoginPage extends StatelessWidget {
                         const Text('Password'),
                         const SizedBox(height: 8),
                         TextFormField(
+                          controller: passwordController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your password';
+                            }
+                            return null;
+                          },
                           autocorrect: false,
-                          obscureText: true,
+                          obscureText: !isShowPassword,
                           decoration: InputDecoration(
-                              suffixIcon: const Icon(
-                                Icons.visibility_off,
-                                size: 18,
-                              ),
+                              suffixIcon: GestureDetector(
+                                  onTap: handleShowPassword,
+                                  child: isShowPassword
+                                      ? const Icon(Icons.visibility, size: 18)
+                                      : const Icon(Icons.visibility_off,
+                                          size: 18)),
                               hintText: '*******',
                               border: OutlineInputBorder(
                                   borderSide: const BorderSide(
@@ -63,15 +106,31 @@ class LoginPage extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(8))),
                         ),
                         const SizedBox(height: 16),
-                        const Text('Forgot Password?',
+                        GestureDetector(
+                          onTap: () {},
+                          child: const Text(
+                            'Forgot Password?',
                             style: TextStyle(
-                                fontWeight: FontWeight.w500, fontSize: 14)),
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                                color: rawPrimaryColor),
+                          ),
+                        ),
                         const SizedBox(height: 40),
                         SizedBox(
                           width: double.infinity,
                           height: 45,
                           child: FilledButton(
-                              onPressed: () {}, child: const Text('Login')),
+                              onPressed: () async {
+                                if (_loginFormKey.currentState!.validate()) {
+                                  final userCredential = await AuthService()
+                                      .registerWithEmailAndPassword(
+                                          emailController.text,
+                                          passwordController.text);
+                                  print(userCredential.user);
+                                }
+                              },
+                              child: const Text('Login')),
                         ),
                         const SizedBox(height: 45),
                         Row(
@@ -99,8 +158,8 @@ class LoginPage extends StatelessWidget {
                           child: ElevatedButton.icon(
                             onPressed: () {},
                             style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all(Colors.white),
+                                backgroundColor: MaterialStateProperty.all(
+                                    Colors.transparent),
                                 shape: MaterialStateProperty.all(
                                     RoundedRectangleBorder(
                                         borderRadius:
@@ -121,17 +180,16 @@ class LoginPage extends StatelessWidget {
                             const Text('You don\'t have an account? ',
                                 style: TextStyle(
                                     fontWeight: FontWeight.w300, fontSize: 12)),
-                            TextButton(
-                                style: TextButton.styleFrom(
-                                  splashFactory: NoSplash.splashFactory,
-                                ),
-                                onPressed: () {},
-                                child: const Text(
-                                  'Sign up',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 14),
-                                ))
+                            GestureDetector(
+                              onTap: () {},
+                              child: const Text(
+                                'Sign up',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 14,
+                                    color: rawPrimaryColor),
+                              ),
+                            ),
                           ],
                         ),
                       ]),
