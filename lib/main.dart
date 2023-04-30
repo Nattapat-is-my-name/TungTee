@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tungtee/Pages/welcome.dart';
+import 'package:tungtee/Pages/BasicInformation.dart';
 
 void main() {
   runApp(const MyApp());
