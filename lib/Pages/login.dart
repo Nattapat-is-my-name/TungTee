@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tungtee/Pages/forgot_password.dart';
+import 'package:tungtee/Pages/register.dart';
 import 'package:tungtee/colors/colors.dart';
 import 'package:tungtee/components/custom_appbar.dart';
 import 'package:tungtee/services/auth_service.dart';
@@ -107,7 +109,13 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         const SizedBox(height: 16),
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ForgotPasswordPage()));
+                          },
                           child: const Text(
                             'Forgot Password?',
                             style: TextStyle(
@@ -181,7 +189,13 @@ class _LoginPageState extends State<LoginPage> {
                                 style: TextStyle(
                                     fontWeight: FontWeight.w300, fontSize: 12)),
                             GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const RegisterPage()));
+                              },
                               child: const Text(
                                 'Sign up',
                                 style: TextStyle(
