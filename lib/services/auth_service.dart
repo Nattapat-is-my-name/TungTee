@@ -28,3 +28,17 @@ class AuthService {
     return await _auth.signInWithCredential(credential);
   }
 }
+
+// https://stackoverflow.com/questions/67617502/what-are-the-error-codes-for-flutter-firebase-auth-exception
+class SignInError {
+  static const wrongPassword = 'wrong-password';
+  static const invalidEmail = 'invalid-email';
+  static const userDisabled = 'user-disabled';
+  static const userNotFound = 'user-not-found';
+  static const accountExistsWithDifferentCredential =
+      'account-exists-with-different-credential';
+  static const invalidCredential = 'invalid-credential';
+  static const operationNotAllowed = 'operation-not-allowed';
+  static const invalidVerificationCode = 'invalid-verification-code';
+  static const invalidVerificationId = 'invalid-verification-id';
+}
