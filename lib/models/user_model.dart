@@ -20,4 +20,20 @@ class UserModel {
     required this.gender,
     required this.birthDate,
   });
+
+  Map<String, dynamic> toJSON() {
+    return {
+      'userId': userId,
+      'fullname': fullname,
+      'nickname': nickname,
+      'email': email,
+      'phone': phone,
+      'gender': gender,
+      'birthDate': birthDate.toIso8601String(),
+      'interests': interests,
+      'createdEvents': createdEvents,
+      'joinedEvents': joinedEvents,
+      'behaviorPoint': behaviorPoint,
+    };
+  }
 }

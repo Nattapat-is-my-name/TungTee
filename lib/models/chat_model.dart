@@ -8,6 +8,15 @@ class ChatRoomModel {
     required this.eventId,
     required this.maximumPeople,
   });
+
+  Map<String, dynamic> toJSON() {
+    return {
+      'event_id': eventId,
+      'maximum_people': maximumPeople,
+      'joined_users': joinedUsers,
+      'chat_messages': chatMessages.map((message) => message.toJSON()).toList(),
+    };
+  }
 }
 
 class ChatMessageModel {
@@ -22,4 +31,13 @@ class ChatMessageModel {
     required this.message,
     required this.images,
   });
+
+  Map<String, dynamic> toJSON() {
+    return {
+      'user_id': userId,
+      'date_send': dateSend.toIso8601String(),
+      'message': message,
+      'images': images,
+    };
+  }
 }

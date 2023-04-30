@@ -10,7 +10,7 @@ class EventModel {
   final DateOfEventModel dateOfEvent;
   final LocationModel location;
   final List<String> images; // Array of Base64 String
-  final List<String> joinedUsers; // list of userId String
+  final List<String> joinedUsers = []; // list of userId String
 
   EventModel({
     required this.eventId,
@@ -24,8 +24,24 @@ class EventModel {
     required this.dateOfEvent,
     required this.location,
     required this.images,
-    required this.joinedUsers,
   });
+
+  Map<String, dynamic> toJSON() {
+    return {
+      'event_id': eventId,
+      'owner_id': ownerId,
+      'event_title': eventTitle,
+      'event_description': eventDescription,
+      'maximum_people': maximumPeople,
+      'tags': tags,
+      'age_restriction': ageRestriction.toJSON(),
+      'date_created': dateCreated.toIso8601String(),
+      'date_of_event': dateOfEvent.toJSON(),
+      'location': location.toJSON(),
+      'images': images,
+      'joined_users': joinedUsers,
+    };
+  }
 }
 
 class AgeRestrictionModel {
@@ -36,6 +52,13 @@ class AgeRestrictionModel {
     required this.minimumAge,
     required this.maximumAge,
   });
+
+  Map<String, dynamic> toJSON() {
+    return {
+      'minimum_age': minimumAge,
+      'maximum_age': maximumAge,
+    };
+  }
 }
 
 class DateOfEventModel {
@@ -46,6 +69,13 @@ class DateOfEventModel {
     required this.start,
     required this.end,
   });
+
+  Map<String, dynamic> toJSON() {
+    return {
+      'start': start.toIso8601String(),
+      'end': end.toIso8601String(),
+    };
+  }
 }
 
 class LocationModel {
@@ -56,4 +86,11 @@ class LocationModel {
     required this.latitude,
     required this.longitude,
   });
+
+  Map<String, dynamic> toJSON() {
+    return {
+      'latitude': latitude,
+      'longitude': longitude,
+    };
+  }
 }
