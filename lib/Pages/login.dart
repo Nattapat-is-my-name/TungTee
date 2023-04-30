@@ -29,6 +29,17 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
+  Future<void> handleSignInWithEmailAndPassword() async {
+    try {
+      if (_loginFormKey.currentState!.validate()) {
+        await AuthService().signInWithEmailAndPassword(
+            emailController.text, passwordController.text);
+      }
+    } on FirebaseAuthException catch (error) {
+      AuthService.handleSignInError(error.code);
+    }
+  }
+
   @override
   void dispose() {
     emailController.dispose();
@@ -129,15 +140,7 @@ class _LoginPageState extends State<LoginPage> {
                           width: double.infinity,
                           height: 45,
                           child: FilledButton(
-                              onPressed: () async {
-                                if (_loginFormKey.currentState!.validate()) {
-                                  final userCredential = await AuthService()
-                                      .registerWithEmailAndPassword(
-                                          emailController.text,
-                                          passwordController.text);
-                                  print(userCredential.user);
-                                }
-                              },
+                              onPressed: handleSignInWithEmailAndPassword,
                               child: const Text('Login')),
                         ),
                         const SizedBox(height: 45),
