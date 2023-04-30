@@ -6,14 +6,21 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    User user = FirebaseAuth.instance.currentUser!;
+
     return Scaffold(
       appBar: AppBar(),
       body: Center(
-        child: FilledButton(
-            onPressed: () {
-              FirebaseAuth.instance.signOut();
-            },
-            child: const Text('Sign out')),
+        child: Column(
+          children: [
+            Text('${user.email}'),
+            FilledButton(
+                onPressed: () {
+                  FirebaseAuth.instance.signOut();
+                },
+                child: const Text('Sign out')),
+          ],
+        ),
       ),
     );
   }
