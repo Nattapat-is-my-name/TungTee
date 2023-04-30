@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:tungtee/Pages/forgot_password.dart';
+import 'package:tungtee/pages/forgot_password.dart';
 import 'package:tungtee/colors/colors.dart';
 import 'package:tungtee/services/auth_service.dart';
 
