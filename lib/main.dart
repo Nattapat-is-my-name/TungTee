@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:tungtee/Pages/welcome.dart';
+import 'package:tungtee/pages/auth_control.dart';
+import 'package:tungtee/pages/welcome.dart';
+import 'package:tungtee/constants/colors.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -17,7 +19,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'Flutter Demo',
-        theme: ThemeData(primarySwatch: Colors.purple),
-        home: const WelcomePage());
+        // theme: ThemeData(primarySwatch: Color.fromARGB(255, 103, 80, 164)),
+        theme: ThemeData(primarySwatch: primaryColor),
+        home: const AuthPageController());
   }
 }
