@@ -27,6 +27,31 @@ class AuthService {
 
     return await _auth.signInWithCredential(credential);
   }
+
+  static void handleSignInError(String errorCode) {
+    switch (errorCode) {
+      case SignInError.wrongPassword:
+        {}
+        break;
+      case SignInError.invalidEmail:
+        {}
+        break;
+      case SignInError.userDisabled:
+        {}
+        break;
+      case SignInError.userNotFound:
+        {}
+        break;
+      case SignInError.invalidCredential:
+        {}
+        break;
+      case SignInError.accountExistsWithDifferentCredential:
+        {}
+        break;
+      default:
+        print('Error code: ${errorCode}');
+    }
+  }
 }
 
 // https://stackoverflow.com/questions/67617502/what-are-the-error-codes-for-flutter-firebase-auth-exception
