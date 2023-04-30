@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tungtee/Pages/forgot_password.dart';
 import 'package:tungtee/Pages/register.dart';
@@ -35,6 +36,14 @@ class _LoginPageState extends State<LoginPage> {
         await AuthService().signInWithEmailAndPassword(
             emailController.text, passwordController.text);
       }
+    } on FirebaseAuthException catch (error) {
+      AuthService.handleSignInError(error.code);
+    }
+  }
+
+  Future<void> handleSignInWithGoogle() async {
+    try {
+      await AuthService().signInWithGoogle();
     } on FirebaseAuthException catch (error) {
       AuthService.handleSignInError(error.code);
     }
@@ -167,7 +176,7 @@ class _LoginPageState extends State<LoginPage> {
                           width: double.infinity,
                           height: 45,
                           child: ElevatedButton.icon(
-                            onPressed: () {},
+                            onPressed: handleSignInWithGoogle,
                             style: ButtonStyle(
                                 backgroundColor: MaterialStateProperty.all(
                                     Colors.transparent),
