@@ -247,46 +247,48 @@ class _PolicyState extends State<Policy> {
   bool Tick = false;
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return FittedBox(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Checkbox(
-                value: Tick,
-                onChanged: (bool ?value) {
-                    setState(() {
-                      Tick = value!;
-                    });
-                },
-                activeColor: Colors.purple,
-              ),
-              const Text("By registering, you are agreeing with our ",
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2,
-                style: TextStyle(
-                  color: Colors.grey
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Checkbox(
+                  value: Tick,
+                  onChanged: (bool ?value) {
+                      setState(() {
+                        Tick = value!;
+                      });
+                  },
+                  activeColor: Colors.purple,
+                ),
+                RichText(
+                  text: const TextSpan(children: [
+                    TextSpan(text:"By registering, you are agreeing with our ",
+                      style: TextStyle(color: Colors.grey)
+                    ),
+                    TextSpan(text: "Terms of Use",
+                      style: TextStyle(
+                        color: Colors.purple,
+                        decoration: TextDecoration.underline
+                      ), 
+                    ),
+                    TextSpan(text: " and ",
+                      style: TextStyle(
+                        color: Colors.grey
+                      ),
+                    ),
+                    TextSpan(text: "Privacy Policy",
+                      style: TextStyle(
+                        color: Colors.purple,
+                        decoration: TextDecoration.underline
+                      ), 
+                    )
+                  ]
                 ),
               ),
-              const Text("Terms of Use",
-                style: TextStyle(
-                  color: Colors.purple,
-                  decoration: TextDecoration.underline
-                ), 
-              ),
-              const Text(" and ",
-                style: TextStyle(
-                  color: Colors.grey
-                ),
-              ),
-              const Text("Privacy Policy",
-                style: TextStyle(
-                  color: Colors.purple,
-                  decoration: TextDecoration.underline
-                ), 
-              ),
-            ],),
+            ],
+          ),
         ),
     );
   }
