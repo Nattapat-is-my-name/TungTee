@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tungtee/Pages/persona.dart';
 import 'package:tungtee/Pages/welcome.dart';
 
 void main() {
@@ -14,6 +15,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(primarySwatch: Colors.purple),
-        home: const WelcomePage());
+        home: const Persona());
   }
 }

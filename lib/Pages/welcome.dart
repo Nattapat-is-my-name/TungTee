@@ -15,7 +15,7 @@ class WelcomePage extends StatelessWidget {
             style: TextStyle(fontSize: 47),
           ),
           SizedBox(
-            height: 40,
+            height: 80,
           ),
           MyButton()
         ],
