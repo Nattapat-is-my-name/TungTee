@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-class AuthService {
+class AuthProvider {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<UserCredential> registerWithEmailAndPassword(

@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tungtee/pages/forgot_password.dart';
 import 'package:tungtee/constants/colors.dart';
-import 'package:tungtee/services/auth_service.dart';
+import 'package:tungtee/services/auth_provider.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({Key? key}) : super(key: key);
@@ -45,7 +45,7 @@ class _LoginFormState extends State<LoginForm> {
   Future<void> handleSignInWithEmailAndPassword() async {
     try {
       if (_loginFormKey.currentState!.validate()) {
-        await AuthService().signInWithEmailAndPassword(
+        await AuthProvider().signInWithEmailAndPassword(
             emailController.text, passwordController.text);
       }
     } on FirebaseAuthException catch (error) {
@@ -76,9 +76,9 @@ class _LoginFormState extends State<LoginForm> {
 
   Future<void> handleSignInWithGoogle() async {
     try {
-      await AuthService().signInWithGoogle();
+      await AuthProvider().signInWithGoogle();
     } on FirebaseAuthException catch (error) {
-      AuthService.handleSignInError(error.code);
+      AuthProvider.handleSignInError(error.code);
     }
   }
 
