@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tungtee/pages/register.dart';
 import 'package:tungtee/constants/colors.dart';
+import 'package:tungtee/services/auth_provider.dart';
 import 'package:tungtee/widgets/custom_appbar.dart';
 import 'package:tungtee/widgets/login_form.dart';
 
@@ -67,7 +68,9 @@ class _LoginPageState extends State<LoginPage> {
                         width: double.infinity,
                         height: 45,
                         child: ElevatedButton.icon(
-                          onPressed: () {},
+                          onPressed: () async {
+                            await AuthProvider().signInWithGoogle();
+                          },
                           style: ButtonStyle(
                               backgroundColor:
                                   MaterialStateProperty.all(Colors.transparent),
