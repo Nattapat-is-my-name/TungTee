@@ -10,7 +10,7 @@ class EventModel {
   final DateOfEventModel dateOfEvent;
   final LocationModel location;
   final List<String> images; // Array of Base64 String
-  final List<String> joinedUsers = []; // list of userId String
+  final List<String> joinedUsers; // list of userId String
 
   EventModel({
     required this.eventId,
@@ -24,6 +24,7 @@ class EventModel {
     required this.dateOfEvent,
     required this.location,
     required this.images,
+    required this.joinedUsers,
   });
 
   Map<String, dynamic> toJSON() {
