@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:tungtee/Pages/register.dart';
 import 'package:tungtee/Constants/colors.dart';
 import 'package:tungtee/services/auth_provider.dart';
-import 'package:tungtee/widgets/custom_appbar.dart';
-import 'package:tungtee/widgets/login_form.dart';
+import 'package:tungtee/Widgets/custom_appbar.dart';
+import 'package:tungtee/Widgets/login_form.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

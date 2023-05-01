@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:tungtee/services/event_provider.dart';
+import 'package:tungtee/Services/event_provider.dart';
 import 'package:tungtee/Models/event_model.dart';
 
 class HomePage extends StatelessWidget {
