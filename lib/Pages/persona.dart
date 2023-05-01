@@ -57,11 +57,80 @@ class _MyformState extends State<Myform> {
                 ),
                 Row(
                   children: const [
-                    Interest(title: "⚽️ Soccer"),
+                    Interest(title: "🏈 Soccer"),
                     Interest(title: "🏀 Basketball"),
                     Interest(title: "⚽️ Football")
                   ],
-                )
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: const [
+                    Interest(title: "🏋🏻 Body weight"),
+                    Interest(title: "🏐 VolleyBall"),
+                    Interest(title: "🎾 Tennis")
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: const [
+                    Interest(title: "🎨 Painting"),
+                    Interest(title: "✏️ Drawing"),
+                    Interest(title: "✍🏻 Writing")
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: const [
+                    Interest(title: "🎤 Pop"),
+                    Interest(title: "🎸 Rock"),
+                    Interest(title: "👨🏻‍🎤 Hip-hop"),
+                    Interest(title: "🎵 Jazz")
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: const [
+                    Interest(title: "🏖️ Beaches"),
+                    Interest(title: "⛰️ Moutains"),
+                    Interest(title: "🌆 City sightseeing"),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: const [
+                    Interest(title: "🌍 International destination"),
+                    Interest(title: "🛣️ Road trips"),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: const [
+                    Interest(title: "🍿 Movies"),
+                    Interest(title: "📺 TV shows"),
+                    Interest(title: "🎮 Video games"),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: const [
+                    Interest(title: "🎭 Stand-up comedy"),
+                    Interest(title: "🎯 Board games"),
+                  ],
+                ),
               ],
             ))
       ],
