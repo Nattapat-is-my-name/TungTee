@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tungtee/models/event_model.dart';
+import 'package:tungtee/Models/event_model.dart';
 
 class EventProvider {
   final _eventCollection = FirebaseFirestore.instance

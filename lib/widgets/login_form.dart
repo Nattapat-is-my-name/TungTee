@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:tungtee/pages/forgot_password.dart';
-import 'package:tungtee/constants/colors.dart';
-import 'package:tungtee/services/auth_provider.dart';
+import 'package:tungtee/Pages/forgot_password.dart';
+import 'package:tungtee/Constants/colors.dart';
+import 'package:tungtee/Services/auth_provider.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({Key? key}) : super(key: key);

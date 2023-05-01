@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:tungtee/models/event_model.dart';
-import 'package:tungtee/models/user_model.dart';
+import 'package:tungtee/Models/event_model.dart';
+import 'package:tungtee/Models/user_model.dart';
 
 class UserProvider {
   final _userCollection = FirebaseFirestore.instance.collection('Users');

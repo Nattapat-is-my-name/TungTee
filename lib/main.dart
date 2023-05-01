@@ -1,8 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:tungtee/pages/auth_control.dart';
-import 'package:tungtee/pages/welcome.dart';
-import 'package:tungtee/constants/colors.dart';
+import 'package:tungtee/Pages/auth_control.dart';
+import 'package:tungtee/Pages/welcome.dart';
+import 'package:tungtee/Constants/colors.dart';
 import 'firebase_options.dart';
 
 void main() async {

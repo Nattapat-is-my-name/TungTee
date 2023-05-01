@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:tungtee/pages/home.dart';
-import 'package:tungtee/pages/login.dart';
+import 'package:tungtee/Pages/home.dart';
+import 'package:tungtee/Pages/login.dart';
 
 class AuthPageController extends StatelessWidget {
   const AuthPageController({super.key});

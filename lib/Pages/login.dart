@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tungtee/pages/register.dart';
-import 'package:tungtee/constants/colors.dart';
+import 'package:tungtee/Pages/register.dart';
+import 'package:tungtee/Constants/colors.dart';
 import 'package:tungtee/services/auth_provider.dart';
 import 'package:tungtee/widgets/custom_appbar.dart';
 import 'package:tungtee/widgets/login_form.dart';
