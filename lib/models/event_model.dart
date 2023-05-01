@@ -43,6 +43,43 @@ class EventModel {
       'joined_users': joinedUsers,
     };
   }
+
+  factory EventModel.fromJSON(Map<String, dynamic> json) {
+    final String eventId = json['event_id'];
+    final String ownerId = json['owner_id'];
+    final String eventTitle = json['event_title'];
+    final String eventDescription = json['event_description'];
+    final int maximumPeople = json['maximum_people'];
+    final List<String> tags = List<String>.from(json['tags']);
+    final AgeRestrictionModel ageRestriction =
+        AgeRestrictionModel.fromJSON(json['age_restriction']);
+    final DateTime dateCreated = DateTime.parse(json['date_created']);
+    final DateOfEventModel dateOfEvent =
+        DateOfEventModel.fromJSON(json['date_of_event']);
+    final LocationModel location = LocationModel.fromJSON(json['location']);
+    final List<String> images = List<String>.from(json['images']);
+    final List<String> joinedUsers = List<String>.from(json['joined_users']);
+
+    return EventModel(
+      eventId: eventId,
+      ownerId: ownerId,
+      eventTitle: eventTitle,
+      eventDescription: eventDescription,
+      maximumPeople: maximumPeople,
+      tags: tags,
+      ageRestriction: ageRestriction,
+      dateCreated: dateCreated,
+      dateOfEvent: dateOfEvent,
+      location: location,
+      images: images,
+      joinedUsers: joinedUsers,
+    );
+  }
+
+  @override
+  String toString() {
+    return 'EventModel{eventId: $eventId, ownerId: $ownerId, eventTitle: $eventTitle, eventDescription: $eventDescription, maximumPeople: $maximumPeople, tags: $tags, ageRestriction: $ageRestriction, dateCreated: $dateCreated, dateOfEvent: $dateOfEvent, location: $location, images: $images, joinedUsers: $joinedUsers}';
+  }
 }
 
 class AgeRestrictionModel {
@@ -59,6 +96,17 @@ class AgeRestrictionModel {
       'minimum_age': minimumAge,
       'maximum_age': maximumAge,
     };
+  }
+
+  factory AgeRestrictionModel.fromJSON(Map<String, dynamic> json) {
+    return AgeRestrictionModel(
+      minimumAge: json['minimum_age'] ?? 0,
+      maximumAge: json['maximum_age'] ?? 0,
+    );
+  }
+  @override
+  String toString() {
+    return 'AgeRestrictionModel{minimumAge: $minimumAge, maximumAge: $maximumAge}';
   }
 }
 
@@ -77,6 +125,17 @@ class DateOfEventModel {
       'end': end.toIso8601String(),
     };
   }
+
+  factory DateOfEventModel.fromJSON(Map<String, dynamic> json) {
+    return DateOfEventModel(
+      start: DateTime.parse(json['start'] ?? ""),
+      end: DateTime.parse(json['end'] ?? ""),
+    );
+  }
+  @override
+  String toString() {
+    return 'DateOfEventModel{start: $start, end: $end}';
+  }
 }
 
 class LocationModel {
@@ -93,5 +152,16 @@ class LocationModel {
       'latitude': latitude,
       'longitude': longitude,
     };
+  }
+
+  factory LocationModel.fromJSON(Map<String, dynamic> json) {
+    return LocationModel(
+      latitude: json['latitude'] ?? 0.0,
+      longitude: json['longitude'] ?? 0.0,
+    );
+  }
+  @override
+  String toString() {
+    return 'LocationModel{latitude: $latitude, longitude: $longitude}';
   }
 }
