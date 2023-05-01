@@ -40,4 +40,20 @@ class UserModel {
       'behaviorPoint': behaviorPoint,
     };
   }
+
+  factory UserModel.fromJSON(Map<String, dynamic> json) {
+    return UserModel(
+      userId: json['userId'],
+      fullname: json['fullname'],
+      nickname: json['nickname'],
+      email: json['email'],
+      phone: json['phone'],
+      gender: json['gender'],
+      birthDate: DateTime.parse(json['birthDate']),
+      interests: List<String>.from(json['interests']),
+      createdEvents: List<String>.from(json['createdEvents']),
+      joinedEvents: List<String>.from(json['joinedEvents']),
+      behaviorPoint: json['behaviorPoint'],
+    );
+  }
 }
