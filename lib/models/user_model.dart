@@ -6,10 +6,10 @@ class UserModel {
   final String phone;
   final String gender; // female, male, others
   final DateTime birthDate; // 2 options: 1.below 18 2. above 18
-  final List<String> interests = []; // maximum 5
-  final List<String> createdEvents = [];
-  final List<String> joinedEvents = [];
-  final int behaviorPoint = 3;
+  final List<String> interests; // maximum 5
+  final List<String> createdEvents;
+  final List<String> joinedEvents;
+  final int behaviorPoint;
 
   UserModel({
     required this.userId,
@@ -19,6 +19,10 @@ class UserModel {
     required this.phone,
     required this.gender,
     required this.birthDate,
+    required this.interests,
+    required this.createdEvents,
+    required this.joinedEvents,
+    required this.behaviorPoint,
   });
 
   Map<String, dynamic> toJSON() {
