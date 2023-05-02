@@ -1,12 +1,14 @@
 class ChatRoomModel {
   final String eventId;
   final int maximumPeople; // same data in the EventModel
-  final List<String> joinedUsers = [];
-  final List<ChatMessageModel> chatMessages = [];
+  final List<String> joinedUsers;
+  final List<ChatMessageModel> chatMessages;
 
   ChatRoomModel({
     required this.eventId,
     required this.maximumPeople,
+    required this.joinedUsers,
+    required this.chatMessages,
   });
 
   Map<String, dynamic> toJSON() {
