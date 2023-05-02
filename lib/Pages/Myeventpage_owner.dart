@@ -1,18 +1,20 @@
 import '../Widgets/dynamicchip.dart';
 import '../Widgets/cardevent.dart';
 import 'package:flutter/material.dart';
-// import 'CardT.dart';
 
-class HomePages extends StatefulWidget {
-  const HomePages({
+// import 'CardT.dart';
+const List<String> list = <String>['All', 'or', 'nothing', 'at', 'all'];
+
+class Myevent_owner extends StatefulWidget {
+  const Myevent_owner({
     super.key,
   });
 
   @override
-  State<HomePages> createState() => _HomePagesState();
+  State<Myevent_owner> createState() => _Myevent_owner_state();
 }
 
-class _HomePagesState extends State<HomePages> {
+class _Myevent_owner_state extends State<Myevent_owner> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,15 +33,9 @@ class _HomePagesState extends State<HomePages> {
                       //Welcome Name
                       Column(
                         children: const [
-                          Text('Welcome Boss',
-                              style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.33,
-                                  color: Color(0xff3b383e))),
                           Text(
                             // tungtee9sD (57:18316)
-                            'TUNG TEE',
+                            'My Event',
                             style: TextStyle(
                               fontSize: 36,
                               fontWeight: FontWeight.w400,
@@ -58,27 +54,7 @@ class _HomePagesState extends State<HomePages> {
                       ),
                     ],
                   ),
-
-                  //Search Bar
-                  Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 0, vertical: 16),
-                      child: TextField(
-                          decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(50.0),
-                        ),
-                        prefixIcon: const Icon(Icons.search),
-                        hintText: 'Search Event',
-                      ))),
                 ]),
-              ),
-              //Chip
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: const [dynamicChip()],
-                ),
               ),
               Container(
                 padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
@@ -93,18 +69,67 @@ class _HomePagesState extends State<HomePages> {
                           Row(
                             children: const [
                               Text(
-                                'Event',
+                                'Joined Event',
                                 style: TextStyle(
-                                  fontSize: 36,
+                                  fontSize: 15,
                                   fontWeight: FontWeight.w400,
                                   height: 1.2222222222,
                                   color: Color(0xff000000),
                                 ),
                               ),
+                              const DropdownButtonExample(),
                             ],
                           ),
                         ],
                       ),
+                    ),
+                    const CardLayout(
+                      thumbnail: Image(
+                        image: NetworkImage(
+                            'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
+                        fit: BoxFit.cover,
+                        height: 100,
+                        width: 80,
+                      ),
+                      title: 'หมู',
+                      subtitle:
+                          'Flutter continues to improve and expand its horizons. '
+                          'This text should max out at two lines and clip',
+                      toptitle: 'Fri 17 Mar 08:09',
+                      amountPerson: '5',
+                      maxPerson: '10',
+                    ),
+                    const CardLayout(
+                      thumbnail: Image(
+                        image: NetworkImage(
+                            'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
+                        fit: BoxFit.cover,
+                        height: 100,
+                        width: 80,
+                      ),
+                      title: 'หมู',
+                      subtitle:
+                          'Flutter continues to improve and expand its horizons. '
+                          'This text should max out at two lines and clip',
+                      toptitle: 'Fri 17 Mar 08:09',
+                      amountPerson: '5',
+                      maxPerson: '10',
+                    ),
+                    const CardLayout(
+                      thumbnail: Image(
+                        image: NetworkImage(
+                            'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
+                        fit: BoxFit.cover,
+                        height: 100,
+                        width: 80,
+                      ),
+                      title: 'หมู',
+                      subtitle:
+                          'Flutter continues to improve and expand its horizons. '
+                          'This text should max out at two lines and clip',
+                      toptitle: 'Fri 17 Mar 08:09',
+                      amountPerson: '5',
+                      maxPerson: '10',
                     ),
                     const CardLayout(
                       thumbnail: Image(
@@ -129,50 +154,43 @@ class _HomePagesState extends State<HomePages> {
           ),
         ),
       ),
-      
     );
   }
 }
 
-class _DemoBottomAppBar extends StatelessWidget {
+class DropdownButtonExample extends StatefulWidget {
+  const DropdownButtonExample({super.key});
+
+  @override
+  State<DropdownButtonExample> createState() => _DropdownButtonExampleState();
+}
+
+class _DropdownButtonExampleState extends State<DropdownButtonExample> {
+  String dropdownValue = list.first;
+
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 200),
-      height: 80.0,
-      child: BottomAppBar(
-        child: Row(
-          children: <Widget>[
-            IconButton(
-              tooltip: 'Open popup menu',
-              icon: const Icon(Icons.more_vert),
-              onPressed: () {
-                final SnackBar snackBar = SnackBar(
-                  content: const Text('Yay! A SnackBar!'),
-                  action: SnackBarAction(
-                    label: 'Undo',
-                    onPressed: () {},
-                  ),
-                );
-
-                // Find the ScaffoldMessenger in the widget tree
-                // and use it to show a SnackBar.
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
-              },
-            ),
-            IconButton(
-              tooltip: 'Search',
-              icon: const Icon(Icons.search),
-              onPressed: () {},
-            ),
-            IconButton(
-              tooltip: 'Favorite',
-              icon: const Icon(Icons.favorite),
-              onPressed: () {},
-            ),
-          ],
-        ),
+    return DropdownButton<String>(
+      value: dropdownValue,
+      icon: const Icon(Icons.arrow_downward),
+      elevation: 16,
+      style: const TextStyle(color: Colors.deepPurple),
+      underline: Container(
+        height: 2,
+        color: Colors.deepPurpleAccent,
       ),
+      onChanged: (String? value) {
+        // This is called when the user selects an item.
+        setState(() {
+          dropdownValue = value!;
+        });
+      },
+      items: list.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
     );
   }
 }

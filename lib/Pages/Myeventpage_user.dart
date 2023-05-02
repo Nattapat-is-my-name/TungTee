@@ -1,7 +1,9 @@
 import '../Widgets/dynamicchip.dart';
 import '../Widgets/cardevent.dart';
 import 'package:flutter/material.dart';
+
 // import 'CardT.dart';
+const List<String> list = <String>['All', 'or', 'nothing', 'at', 'all'];
 
 class Myevent_user extends StatefulWidget {
   const Myevent_user({
@@ -65,7 +67,7 @@ class _Myevent_user_state extends State<Myevent_user> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
-                            children: const [
+                            children: [
                               Text(
                                 'Joined Event',
                                 style: TextStyle(
@@ -75,19 +77,67 @@ class _Myevent_user_state extends State<Myevent_user> {
                                   color: Color(0xff000000),
                                 ),
                               ),
-                               Text(
-                                'Joined Event',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.2222222222,
-                                  color: Color(0xff000000),
+                              Expanded(
+                                child: Flex(
+                                  direction: Axis.horizontal,
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    DropdownButtonExample(),
+                                  ],
                                 ),
                               ),
                             ],
                           ),
                         ],
                       ),
+                    ),
+                    const CardLayout(
+                      thumbnail: Image(
+                        image: NetworkImage(
+                            'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
+                        fit: BoxFit.cover,
+                        height: 100,
+                        width: 80,
+                      ),
+                      title: 'หมู',
+                      subtitle:
+                          'Flutter continues to improve and expand its horizons. '
+                          'This text should max out at two lines and clip',
+                      toptitle: 'Fri 17 Mar 08:09',
+                      amountPerson: '5',
+                      maxPerson: '10',
+                    ),
+                    const CardLayout(
+                      thumbnail: Image(
+                        image: NetworkImage(
+                            'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
+                        fit: BoxFit.cover,
+                        height: 100,
+                        width: 80,
+                      ),
+                      title: 'หมู',
+                      subtitle:
+                          'Flutter continues to improve and expand its horizons. '
+                          'This text should max out at two lines and clip',
+                      toptitle: 'Fri 17 Mar 08:09',
+                      amountPerson: '5',
+                      maxPerson: '10',
+                    ),
+                    const CardLayout(
+                      thumbnail: Image(
+                        image: NetworkImage(
+                            'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
+                        fit: BoxFit.cover,
+                        height: 100,
+                        width: 80,
+                      ),
+                      title: 'หมู',
+                      subtitle:
+                          'Flutter continues to improve and expand its horizons. '
+                          'This text should max out at two lines and clip',
+                      toptitle: 'Fri 17 Mar 08:09',
+                      amountPerson: '5',
+                      maxPerson: '10',
                     ),
                     const CardLayout(
                       thumbnail: Image(
@@ -112,6 +162,44 @@ class _Myevent_user_state extends State<Myevent_user> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class DropdownButtonExample extends StatefulWidget {
+  const DropdownButtonExample({super.key});
+
+  @override
+  State<DropdownButtonExample> createState() => _DropdownButtonExampleState();
+}
+
+class _DropdownButtonExampleState extends State<DropdownButtonExample> {
+  String dropdownValue = list.first;
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<String>(
+      value: dropdownValue,
+      icon: const Icon(Icons.arrow_downward),
+      alignment: Alignment.centerLeft,
+      elevation: 16,
+      style: const TextStyle(color: Colors.deepPurple),
+      underline: Container(
+        height: 2,
+        color: Colors.deepPurpleAccent,
+      ),
+      onChanged: (String? value) {
+        // This is called when the user selects an item.
+        setState(() {
+          dropdownValue = value!;
+        });
+      },
+      items: list.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
     );
   }
 }

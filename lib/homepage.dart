@@ -130,12 +130,6 @@ class _HomePagesState extends State<HomePages> {
         ),
       ),
       bottomNavigationBar: const MyWidget(),
-      floatingActionButton: FloatingActionButton(
-        tooltip: 'Add New Item',
-        onPressed: () {},
-        child: const Icon(Icons.add),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endContained,
     );
   }
 }
