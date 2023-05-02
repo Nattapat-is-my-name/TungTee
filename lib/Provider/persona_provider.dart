@@ -7,12 +7,15 @@ class PersonaProvider with ChangeNotifier {
     PersonaModel(title: "🏀 Basketball"),
     PersonaModel(title: "⚽️ Football"),
   ];
-
   List<PersonaModel> getPersona() {
     return persona;
   }
 
   void addPersona(PersonaModel persona) {
     this.persona.add(persona);
+  }
+
+  void deletePersona(String text) {
+    persona.removeWhere((element) => element.title == text);
   }
 }

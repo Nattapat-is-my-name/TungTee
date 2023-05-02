@@ -154,8 +154,11 @@ class _InterestState extends State<Interest> {
             PersonaModel result = PersonaModel(title: widget.title);
 
             var provider = Provider.of<PersonaProvider>(context, listen: false);
-
-            provider.addPersona(result);
+            if (_selected) {
+              provider.addPersona(result);
+            } else {
+              provider.deletePersona(result.title);
+            }
           },
           child: Container(
             decoration: BoxDecoration(
@@ -171,36 +174,6 @@ class _InterestState extends State<Interest> {
           ),
         )
       ],
-    );
-  }
-}
-
-class MyPersona extends StatelessWidget {
-  const MyPersona({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Consumer(
-      builder: (context, PersonaProvider provider, child) {
-        return Container(
-          margin: const EdgeInsets.fromLTRB(0, 8, 0, 2),
-          child: Row(
-            children: [
-              for (var i in provider.persona)
-                Flexible(
-                  flex: 3,
-                  child: Container(
-                      decoration: BoxDecoration(
-                          color: primaryColor.shade900,
-                          borderRadius: BorderRadius.circular(20)),
-                      margin: const EdgeInsets.fromLTRB(0, 0, 8, 0),
-                      padding: const EdgeInsets.fromLTRB(8, 2, 8, 5),
-                      child: Text(i.title.toString())),
-                )
-            ],
-          ),
-        );
-      },
     );
   }
 }
