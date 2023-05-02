@@ -6,45 +6,47 @@ class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back),color: Colors.black , onPressed: () {  },),
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-      ),
-      body: SafeArea(
-        child: Padding(
-              padding: const EdgeInsets.only(
-                left: 20.0,
-                right: 20.0,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
-                    "Create account!",
-                    style: TextStyle(fontSize: 35,fontWeight: FontWeight.bold),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left:5.0),
-                    child: Text("Register to get started."),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  InputForm(),
-                  SizedBox(height: 10,),
-                  Policy(),
-                  Button(),
-                  Center(child: Text("Or Connect Via",style: TextStyle(color: Colors.grey,))),
-                  Google(),
-                ],
-              ),
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+        ),
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.only(
+              left: 20.0,
+              right: 20.0,
             ),
-      )
-    );
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                Text(
+                  "Create account!",
+                  style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 5.0),
+                  child: Text("Register to get started."),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                InputForm(),
+                SizedBox(
+                  height: 10,
+                ),
+                Policy(),
+                Button(),
+                Center(
+                    child: Text("Or Connect Via",
+                        style: TextStyle(
+                          color: Colors.grey,
+                        ))),
+                Google(),
+              ],
+            ),
+          ),
+        ));
   }
 }
 
@@ -61,49 +63,44 @@ class _InputFormState extends State<InputForm> {
   @override
   Widget build(BuildContext context) {
     return Container(
-    padding: const EdgeInsets.all(8.0),
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-
-        //1
-        const Padding(
-          padding: EdgeInsets.only(left:8.0),
-          child: Text("Name"),
-        ),
-        Padding(
-            padding: const EdgeInsets.only(left:8.0,right:8.0),
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          //1
+          const Padding(
+            padding: EdgeInsets.only(left: 8.0),
+            child: Text("Name"),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0, right: 8.0),
             child: TextFormField(
               decoration: const InputDecoration(
-                hintText: "Name",
-                border: OutlineInputBorder()
-              ),
+                  hintText: "Name", border: OutlineInputBorder()),
             ),
           ),
 
           //2
           const Padding(
-          padding: EdgeInsets.only(left:8.0,top: 15),
-          child: Text("Email/Username"),
-        ),
+            padding: EdgeInsets.only(left: 8.0, top: 15),
+            child: Text("Email/Username"),
+          ),
           Padding(
-            padding: const EdgeInsets.only(left:8.0,right:8.0),
+            padding: const EdgeInsets.only(left: 8.0, right: 8.0),
             child: TextFormField(
               decoration: const InputDecoration(
-                hintText: "E-mail",
-                border: OutlineInputBorder()
-              ),
+                  hintText: "E-mail", border: OutlineInputBorder()),
             ),
           ),
 
           //3
           const Padding(
-          padding: EdgeInsets.only(left:8.0,top: 15),
-          child: Text("Password"),
-        ),
+            padding: EdgeInsets.only(left: 8.0, top: 15),
+            child: Text("Password"),
+          ),
           Padding(
-            padding: const EdgeInsets.only(left:8.0,right:8.0),
+            padding: const EdgeInsets.only(left: 8.0, right: 8.0),
             child: TextFormField(
               decoration: const InputDecoration(
                 hintText: "Password",
@@ -115,11 +112,11 @@ class _InputFormState extends State<InputForm> {
 
           //4
           const Padding(
-          padding: EdgeInsets.only(left:8.0,top: 15),
-          child: Text("Confirm Password"),
-        ),
+            padding: EdgeInsets.only(left: 8.0, top: 15),
+            child: Text("Confirm Password"),
+          ),
           Padding(
-            padding: const EdgeInsets.only(left:8.0,right:8.0),
+            padding: const EdgeInsets.only(left: 8.0, right: 8.0),
             child: TextFormField(
               decoration: const InputDecoration(
                 hintText: "Confirm Password",
@@ -128,8 +125,8 @@ class _InputFormState extends State<InputForm> {
               ),
             ),
           ),
-      ],
-    ),
+        ],
+      ),
     );
   }
 }
@@ -147,18 +144,17 @@ class _PassStateState extends State<PassState> {
   void initState() {
     _passwordVisible = false;
   }
+
   @override
   Widget build(BuildContext context) {
     return IconButton(
       icon: Icon(
-        _passwordVisible
-        ? Icons.visibility
-        : Icons.visibility_off,
+        _passwordVisible ? Icons.visibility : Icons.visibility_off,
         color: Theme.of(context).primaryColorDark,
       ),
       onPressed: () {
         setState(() {
-            _passwordVisible = !_passwordVisible;
+          _passwordVisible = !_passwordVisible;
         });
       },
     );
@@ -212,21 +208,22 @@ class Google extends StatelessWidget {
           child: ElevatedButton(
             onPressed: () {},
             style: ElevatedButton.styleFrom(
-              shape: const StadiumBorder(),
-              backgroundColor: Colors.white,
-              side: const BorderSide(color: Colors.purple)
-            ),
+                shape: const StadiumBorder(),
+                backgroundColor: Colors.white,
+                side: const BorderSide(color: Colors.purple)),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.network(
                     'http://pngimg.com/uploads/google/google_PNG19635.png',
-                    fit:BoxFit.cover
-                ),
+                    fit: BoxFit.cover),
                 const SizedBox(
                   width: 5,
                 ),
-                const Text('Google',style: TextStyle(color: Colors.black),),
+                const Text(
+                  'Google',
+                  style: TextStyle(color: Colors.black),
+                ),
               ],
             ),
           ),
@@ -250,46 +247,44 @@ class _PolicyState extends State<Policy> {
     return FittedBox(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Checkbox(
-                  value: Tick,
-                  onChanged: (bool ?value) {
-                      setState(() {
-                        Tick = value!;
-                      });
-                  },
-                  activeColor: Colors.purple,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Checkbox(
+              value: Tick,
+              onChanged: (bool? value) {
+                setState(() {
+                  Tick = value!;
+                });
+              },
+              activeColor: Colors.purple,
+            ),
+            RichText(
+              text: const TextSpan(children: [
+                TextSpan(
+                    text: "By registering, you are agreeing with our ",
+                    style: TextStyle(color: Colors.grey)),
+                TextSpan(
+                  text: "Terms of Use",
+                  style: TextStyle(
+                      color: Colors.purple,
+                      decoration: TextDecoration.underline),
                 ),
-                RichText(
-                  text: const TextSpan(children: [
-                    TextSpan(text:"By registering, you are agreeing with our ",
-                      style: TextStyle(color: Colors.grey)
-                    ),
-                    TextSpan(text: "Terms of Use",
-                      style: TextStyle(
-                        color: Colors.purple,
-                        decoration: TextDecoration.underline
-                      ), 
-                    ),
-                    TextSpan(text: " and ",
-                      style: TextStyle(
-                        color: Colors.grey
-                      ),
-                    ),
-                    TextSpan(text: "Privacy Policy",
-                      style: TextStyle(
-                        color: Colors.purple,
-                        decoration: TextDecoration.underline
-                      ), 
-                    )
-                  ]
+                TextSpan(
+                  text: " and ",
+                  style: TextStyle(color: Colors.grey),
                 ),
-              ),
-            ],
-          ),
+                TextSpan(
+                  text: "Privacy Policy",
+                  style: TextStyle(
+                      color: Colors.purple,
+                      decoration: TextDecoration.underline),
+                )
+              ]),
+            ),
+          ],
         ),
+      ),
     );
   }
 }
