@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tungtee/models/persona_model.dart';
+import 'package:tungtee/Models/persona_model.dart';
 
 class PersonaProvider with ChangeNotifier {
   List<PersonaModel> persona = [
