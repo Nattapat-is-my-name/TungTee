@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tungtee/Constants/colors.dart';
-import 'package:tungtee/models/persona_model.dart';
+import 'package:tungtee/Models/persona_model.dart';
 import 'package:tungtee/Provider/persona_provider.dart';
 
 class PersonaPage extends StatelessWidget {

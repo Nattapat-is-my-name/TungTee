@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tungtee/Pages/auth_control.dart';
-import 'package:tungtee/constants/colors.dart';
+import 'package:tungtee/Constants/colors.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
