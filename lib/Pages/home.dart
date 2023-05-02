@@ -48,8 +48,7 @@ class HomePage extends StatelessWidget {
                 child: const Text('get events')),
             FilledButton(
                 onPressed: () async {
-                  print(await EventProvider()
-                      .getEventById('jbHPalWjrNpbIn5ZLwJg'));
+                  print(await EventProvider().getEventById('eventId_test'));
                 },
                 child: const Text('get event by id'))
           ],
