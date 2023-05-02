@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "72373035853",
+    "firebase_url": "https://tungtee-9b10a-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "tungtee-9b10a",
     "storage_bucket": "tungtee-9b10a.appspot.com"
   },
@@ -14,7 +15,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "72373035853-kgl9dugcrlj1jk4fl9vdkn9646fgn5h6.apps.googleusercontent.com",
+          "client_id": "72373035853-j579ap24s2tu3r6qmnqogd5lvklgk206.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tungtee",
+            "certificate_hash": "7881b6710a11d010844b1194ab4cd069957c1bfe"
+          }
+        },
+        {
+          "client_id": "72373035853-enqba60h69qqhm6a0b8oo50qta3dtgjh.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -27,8 +36,15 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "72373035853-kgl9dugcrlj1jk4fl9vdkn9646fgn5h6.apps.googleusercontent.com",
+              "client_id": "72373035853-enqba60h69qqhm6a0b8oo50qta3dtgjh.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "72373035853-dhn5fl8co22fqp2n4i6lf8t4afhahsnj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.tungtee"
+              }
             }
           ]
         }

@@ -1,5 +1,5 @@
-import 'Widgets/dynamicchip.dart';
-import 'Widgets/cardevent.dart';
+import 'widgets/dynamicchip.dart';
+import 'widgets/cardevent.dart';
 import 'package:flutter/material.dart';
 import 'Widgets/navbar.dart';
 
