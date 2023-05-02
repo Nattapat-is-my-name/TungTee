@@ -13,10 +13,10 @@ class ChatRoomModel {
 
   Map<String, dynamic> toJSON() {
     return {
-      'event_id': eventId,
-      'maximum_people': maximumPeople,
-      'joined_users': joinedUsers,
-      'chat_messages': chatMessages.map((message) => message.toJSON()).toList(),
+      'eventId': eventId,
+      'maximumPeople': maximumPeople,
+      'joinedUsers': joinedUsers,
+      'chatMessages': chatMessages.map((message) => message.toJSON()).toList(),
     };
   }
 }
@@ -36,8 +36,8 @@ class ChatMessageModel {
 
   Map<String, dynamic> toJSON() {
     return {
-      'user_id': userId,
-      'date_send': dateSend.toIso8601String(),
+      'userId': userId,
+      'dateSend': dateSend.toIso8601String(),
       'message': message,
       'images': images,
     };

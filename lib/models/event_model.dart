@@ -29,36 +29,36 @@ class EventModel {
 
   Map<String, dynamic> toJSON() {
     return {
-      'event_id': eventId,
-      'owner_id': ownerId,
-      'event_title': eventTitle,
-      'event_description': eventDescription,
-      'maximum_people': maximumPeople,
+      'eventId': eventId,
+      'ownerId': ownerId,
+      'eventTitle': eventTitle,
+      'eventDescription': eventDescription,
+      'maximumPeople': maximumPeople,
       'tags': tags,
-      'age_restriction': ageRestriction.toJSON(),
-      'date_created': dateCreated.toIso8601String(),
-      'date_of_event': dateOfEvent.toJSON(),
+      'ageRestriction': ageRestriction.toJSON(),
+      'dateCreated': dateCreated.toIso8601String(),
+      'dateOfEvent': dateOfEvent.toJSON(),
       'location': location.toJSON(),
       'images': images,
-      'joined_users': joinedUsers,
+      'joinedUsers': joinedUsers,
     };
   }
 
   factory EventModel.fromJSON(Map<String, dynamic> json) {
-    final String eventId = json['event_id'];
-    final String ownerId = json['owner_id'];
-    final String eventTitle = json['event_title'];
-    final String eventDescription = json['event_description'];
-    final int maximumPeople = json['maximum_people'];
+    final String eventId = json['eventId'];
+    final String ownerId = json['ownerId'];
+    final String eventTitle = json['eventTitle'];
+    final String eventDescription = json['eventDescription'];
+    final int maximumPeople = json['maximumPeople'];
     final List<String> tags = List<String>.from(json['tags']);
     final AgeRestrictionModel ageRestriction =
-        AgeRestrictionModel.fromJSON(json['age_restriction']);
-    final DateTime dateCreated = DateTime.parse(json['date_created']);
+        AgeRestrictionModel.fromJSON(json['ageRestriction']);
+    final DateTime dateCreated = DateTime.parse(json['dateCreated']);
     final DateOfEventModel dateOfEvent =
-        DateOfEventModel.fromJSON(json['date_of_event']);
+        DateOfEventModel.fromJSON(json['dateOfEvent']);
     final LocationModel location = LocationModel.fromJSON(json['location']);
     final List<String> images = List<String>.from(json['images']);
-    final List<String> joinedUsers = List<String>.from(json['joined_users']);
+    final List<String> joinedUsers = List<String>.from(json['joinedUsers']);
 
     return EventModel(
       eventId: eventId,
@@ -93,15 +93,15 @@ class AgeRestrictionModel {
 
   Map<String, dynamic> toJSON() {
     return {
-      'minimum_age': minimumAge,
-      'maximum_age': maximumAge,
+      'minimumAge': minimumAge,
+      'maximumAge': maximumAge,
     };
   }
 
   factory AgeRestrictionModel.fromJSON(Map<String, dynamic> json) {
     return AgeRestrictionModel(
-      minimumAge: json['minimum_age'] ?? 0,
-      maximumAge: json['maximum_age'] ?? 0,
+      minimumAge: json['minimumAge'] ?? 0,
+      maximumAge: json['maximumAge'] ?? 0,
     );
   }
   @override
