@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tungtee/Constants/colors.dart';
+import 'package:tungtee/models/persona_model.dart';
+import 'package:tungtee/Provider/persona_provider.dart';
 
-class Persona extends StatelessWidget {
-  const Persona({super.key});
+class PersonaPage extends StatelessWidget {
+  const PersonaPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -11,12 +15,14 @@ class Persona extends StatelessWidget {
           margin: const EdgeInsets.all(25),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: const [
               Text(
                 "Interests",
                 style: TextStyle(fontSize: 47, fontWeight: FontWeight.w500),
               ),
               Myform(),
+              MyButton()
             ],
           ),
         ),
@@ -33,137 +39,96 @@ class Myform extends StatefulWidget {
 }
 
 class _MyformState extends State<Myform> {
-  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    return Form(
-        key: _formKey,
-        child: Column(
-          children: [
-            Container(
-                margin: const EdgeInsets.fromLTRB(0, 30, 0, 30),
-                child: Column(
-                  children: [
-                    TextFormField(
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: const Color.fromRGBO(103, 80, 164, 0.1),
-                        prefixIcon: const Icon(Icons.search),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter some text';
-                        }
-                        return null;
-                      },
+    return Column(
+      children: [
+        Container(
+            margin: const EdgeInsets.fromLTRB(0, 30, 0, 30),
+            child: Column(
+              children: [
+                Row(
+                  children: const [
+                    Interest(
+                      title: "🏈 Soccer",
                     ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    Row(
-                      children: const [
-                        Interest(title: "🏈 Soccer"),
-                        Interest(title: "🏀 Basketball"),
-                        Interest(title: "⚽️ Football")
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: const [
-                        Interest(title: "🏋🏻 Body weight"),
-                        Interest(title: "🏐 VolleyBall"),
-                        Interest(title: "🎾 Tennis")
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: const [
-                        Interest(title: "🎨 Painting"),
-                        Interest(title: "✏️ Drawing"),
-                        Interest(title: "✍🏻 Writing")
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: const [
-                        Interest(title: "🎤 Pop"),
-                        Interest(title: "🎸 Rock"),
-                        Interest(title: "👨🏻‍🎤 Hip-hop"),
-                        Interest(title: "🎵 Jazz")
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: const [
-                        Interest(title: "🏖️ Beaches"),
-                        Interest(title: "⛰️ Moutains"),
-                        Interest(title: "🌆 City sightseeing"),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: const [
-                        Interest(title: "🌍 International destination"),
-                        Interest(title: "🛣️ Road trips"),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: const [
-                        Interest(title: "🍿 Movies"),
-                        Interest(title: "📺 TV shows"),
-                        Interest(title: "🎮 Video games"),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: const [
-                        Interest(title: "🎭 Stand-up comedy"),
-                        Interest(title: "🎯 Board games"),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          // Validate returns true if the form is valid, or false otherwise.
-                          if (_formKey.currentState!.validate()) {
-                            // If the form is valid, display a snackbar. In the real world,
-                            // you'd often call a server or save the information in a database.
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Processing Data')),
-                            );
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.purple,
-                            fixedSize: const Size(1000, 50),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50))),
-                        child: const Text('Submit'),
-                      ),
-                    ),
+                    Interest(title: "🏀 Basketball"),
+                    Interest(title: "⚽️ Football")
                   ],
-                ))
-          ],
-        ));
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: const [
+                    Interest(title: "🏋🏻 Body weight"),
+                    Interest(title: "🏐 VolleyBall"),
+                    Interest(title: "🎾 Tennis")
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: const [
+                    Interest(title: "🎨 Painting"),
+                    Interest(title: "✏️ Drawing"),
+                    Interest(title: "✍🏻 Writing")
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: const [
+                    Interest(title: "🎤 Pop"),
+                    Interest(title: "🎸 Rock"),
+                    Interest(title: "👨🏻‍🎤 Hip-hop"),
+                    Interest(title: "🎵 Jazz")
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: const [
+                    Interest(title: "🏖️ Beaches"),
+                    Interest(title: "⛰️ Moutains"),
+                    Interest(title: "🌆 City sightseeing"),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: const [
+                    Interest(title: "🌍 International destination"),
+                    Interest(title: "🛣️ Road trips"),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: const [
+                    Interest(title: "🍿 Movies"),
+                    Interest(title: "📺 TV shows"),
+                    Interest(title: "🎮 Video games"),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: const [
+                    Interest(title: "🎭 Stand-up comedy"),
+                    Interest(title: "🎯 Board games"),
+                  ],
+                ),
+              ],
+            ))
+      ],
+    );
   }
 }
 
@@ -186,6 +151,11 @@ class _InterestState extends State<Interest> {
             setState(() {
               _selected = !_selected;
             });
+            PersonaModel result = PersonaModel(title: widget.title);
+
+            var provider = Provider.of<PersonaProvider>(context, listen: false);
+
+            provider.addPersona(result);
           },
           child: Container(
             decoration: BoxDecoration(
@@ -201,6 +171,63 @@ class _InterestState extends State<Interest> {
           ),
         )
       ],
+    );
+  }
+}
+
+class MyPersona extends StatelessWidget {
+  const MyPersona({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer(
+      builder: (context, PersonaProvider provider, child) {
+        return Container(
+          margin: const EdgeInsets.fromLTRB(0, 8, 0, 2),
+          child: Row(
+            children: [
+              for (var i in provider.persona)
+                Flexible(
+                  flex: 3,
+                  child: Container(
+                      decoration: BoxDecoration(
+                          color: primaryColor.shade900,
+                          borderRadius: BorderRadius.circular(20)),
+                      margin: const EdgeInsets.fromLTRB(0, 0, 8, 0),
+                      padding: const EdgeInsets.fromLTRB(8, 2, 8, 5),
+                      child: Text(i.title.toString())),
+                )
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+class MyButton extends StatelessWidget {
+  const MyButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
+      child: ElevatedButton(
+        onPressed: () {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Processing Data')),
+          );
+        },
+        style: ElevatedButton.styleFrom(
+            backgroundColor: primaryColor.shade900,
+            fixedSize: const Size(1000, 50),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(50))),
+        child: const Text(
+          'Submit',
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
     );
   }
 }
