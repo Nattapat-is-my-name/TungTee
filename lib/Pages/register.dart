@@ -16,33 +16,38 @@ class RegisterPage extends StatelessWidget {
               left: 20.0,
               right: 20.0,
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Text(
-                  "Create account!",
-                  style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+            child: ListView(
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    Text(
+                      "Create account!",
+                      style:
+                          TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 5.0),
+                      child: Text("Register to get started."),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    InputForm(),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Policy(),
+                    Button(),
+                    Center(
+                        child: Text("Or Connect Via",
+                            style: TextStyle(
+                              color: Colors.grey,
+                            ))),
+                    Google(),
+                  ],
                 ),
-                Padding(
-                  padding: EdgeInsets.only(left: 5.0),
-                  child: Text("Register to get started."),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                InputForm(),
-                SizedBox(
-                  height: 10,
-                ),
-                Policy(),
-                Button(),
-                Center(
-                    child: Text("Or Connect Via",
-                        style: TextStyle(
-                          color: Colors.grey,
-                        ))),
-                Google(),
               ],
             ),
           ),
@@ -59,7 +64,9 @@ class InputForm extends StatefulWidget {
 }
 
 class _InputFormState extends State<InputForm> {
-  final _formkey = GlobalKey();
+  bool hidePassword = true;
+  bool hidePasswordConfirm = true;
+  String? confirmPassword;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -76,21 +83,41 @@ class _InputFormState extends State<InputForm> {
           Padding(
             padding: const EdgeInsets.only(left: 8.0, right: 8.0),
             child: TextFormField(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               decoration: const InputDecoration(
-                  hintText: "Name", border: OutlineInputBorder()),
+                hintText: "Name",
+                border: OutlineInputBorder(),
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Please type your name";
+                }
+              },
             ),
           ),
 
           //2
           const Padding(
             padding: EdgeInsets.only(left: 8.0, top: 15),
-            child: Text("Email/Username"),
+            child: Text("Email"),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 8.0, right: 8.0),
             child: TextFormField(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               decoration: const InputDecoration(
                   hintText: "E-mail", border: OutlineInputBorder()),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Please type your email";
+                } else if (value != null) {
+                  if (!RegExp(
+                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                      .hasMatch(value)) {
+                    return "invalid e-mail!!";
+                  }
+                }
+              },
             ),
           ),
 
@@ -102,11 +129,29 @@ class _InputFormState extends State<InputForm> {
           Padding(
             padding: const EdgeInsets.only(left: 8.0, right: 8.0),
             child: TextFormField(
-              decoration: const InputDecoration(
-                hintText: "Password",
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              obscureText: hidePassword,
+              decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                suffixIcon: PassState(),
+                hintText: 'Password',
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    hidePassword ? Icons.visibility_off : Icons.visibility,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      hidePassword = !hidePassword;
+                    });
+                  },
+                ),
               ),
+              validator: (val) {
+                confirmPassword = val;
+                if (val != null) {
+                  if (val.length < 6) return 'Password must be 6 characters.';
+                } else
+                  return null;
+              },
             ),
           ),
 
@@ -118,11 +163,32 @@ class _InputFormState extends State<InputForm> {
           Padding(
             padding: const EdgeInsets.only(left: 8.0, right: 8.0),
             child: TextFormField(
-              decoration: const InputDecoration(
-                hintText: "Confirm Password",
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                suffixIcon: PassState(),
+                hintText: 'Confirm Password',
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    hidePasswordConfirm
+                        ? Icons.visibility_off
+                        : Icons.visibility,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      hidePasswordConfirm = !hidePasswordConfirm;
+                    });
+                  },
+                ),
               ),
+              validator: (val) {
+                if (val!.isEmpty) {
+                  return 'Enter the password first';
+                } else if (val != confirmPassword)
+                  return 'Password must be same.';
+                else
+                  return null;
+              },
+              obscureText: hidePasswordConfirm,
             ),
           ),
         ],
@@ -150,7 +216,6 @@ class _PassStateState extends State<PassState> {
     return IconButton(
       icon: Icon(
         _passwordVisible ? Icons.visibility : Icons.visibility_off,
-        color: Theme.of(context).primaryColorDark,
       ),
       onPressed: () {
         setState(() {
@@ -215,7 +280,7 @@ class Google extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.network(
-                    'http://pngimg.com/uploads/google/google_PNG19635.png',
+                    'http://pngimg.com/uploads/google/google_PNG19635.png', //รอเอารูปจากของ boss มาใช้เลย
                     fit: BoxFit.cover),
                 const SizedBox(
                   width: 5,
