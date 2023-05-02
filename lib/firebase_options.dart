@@ -49,6 +49,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '72373035853',
     projectId: 'tungtee-9b10a',
     authDomain: 'tungtee-9b10a.firebaseapp.com',
+    databaseURL: 'https://tungtee-9b10a-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'tungtee-9b10a.appspot.com',
     measurementId: 'G-V7LSR9DXBT',
   );
@@ -58,6 +59,7 @@ class DefaultFirebaseOptions {
     appId: '1:72373035853:android:13eba04cd661e370da8d04',
     messagingSenderId: '72373035853',
     projectId: 'tungtee-9b10a',
+    databaseURL: 'https://tungtee-9b10a-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'tungtee-9b10a.appspot.com',
   );
 
@@ -66,7 +68,9 @@ class DefaultFirebaseOptions {
     appId: '1:72373035853:ios:9d063ce1aac2568eda8d04',
     messagingSenderId: '72373035853',
     projectId: 'tungtee-9b10a',
+    databaseURL: 'https://tungtee-9b10a-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'tungtee-9b10a.appspot.com',
+    androidClientId: '72373035853-j579ap24s2tu3r6qmnqogd5lvklgk206.apps.googleusercontent.com',
     iosClientId: '72373035853-dhn5fl8co22fqp2n4i6lf8t4afhahsnj.apps.googleusercontent.com',
     iosBundleId: 'com.example.tungtee',
   );
@@ -76,7 +80,9 @@ class DefaultFirebaseOptions {
     appId: '1:72373035853:ios:9d063ce1aac2568eda8d04',
     messagingSenderId: '72373035853',
     projectId: 'tungtee-9b10a',
+    databaseURL: 'https://tungtee-9b10a-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'tungtee-9b10a.appspot.com',
+    androidClientId: '72373035853-j579ap24s2tu3r6qmnqogd5lvklgk206.apps.googleusercontent.com',
     iosClientId: '72373035853-dhn5fl8co22fqp2n4i6lf8t4afhahsnj.apps.googleusercontent.com',
     iosBundleId: 'com.example.tungtee',
   );

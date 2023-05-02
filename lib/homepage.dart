@@ -1,5 +1,5 @@
-import '../Components/dynamicchip.dart';
-import '../Components/cardevent.dart';
+import 'widgets/dynamicchip.dart';
+import 'widgets/cardevent.dart';
 import 'package:flutter/material.dart';
 // import 'CardT.dart';
 
