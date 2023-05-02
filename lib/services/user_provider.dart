@@ -28,8 +28,9 @@ class UserProvider {
   }
 
   Future<UserModel> getUserById(String userId) async {
-    final DocumentReference docRef = _userCollection.doc(userId);
-    final DocumentSnapshot docSnap = await docRef.get();
-    return UserModel.fromJSON(docSnap.data() as Map<String, dynamic>);
+    final QuerySnapshot querySnapshot =
+        await _userCollection.where('userId', isEqualTo: userId).get();
+    return UserModel.fromJSON(
+        querySnapshot.docs.first.data() as Map<String, dynamic>);
   }
 }
