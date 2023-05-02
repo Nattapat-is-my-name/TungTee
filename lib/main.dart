@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tungtee/Pages/persona.dart';
-import 'package:tungtee/Pages/welcome.dart';
+
 
 void main() {
   runApp(const MyApp());
