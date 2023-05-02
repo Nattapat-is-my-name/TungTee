@@ -1,18 +1,18 @@
-import '../Components/dynamicchip.dart';
-import '../Components/cardevent.dart';
+import '../Widgets/dynamicchip.dart';
+import '../Widgets/cardevent.dart';
 import 'package:flutter/material.dart';
 // import 'CardT.dart';
 
-class Myeventpage_user extends StatefulWidget {
-  const Myeventpage_user({
+class Myevent_user extends StatefulWidget {
+  const Myevent_user({
     super.key,
   });
 
   @override
-  State<Myeventpage_user> createState() => _Myeventpage_user();
+  State<Myevent_user> createState() => _Myevent_user_state();
 }
 
-class _Myeventpage_user extends State<Myeventpage_user> {
+class _Myevent_user_state extends State<Myevent_user> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -110,56 +110,6 @@ class _Myeventpage_user extends State<Myeventpage_user> {
               ),
             ],
           ),
-        ),
-      ),
-      bottomNavigationBar: _DemoBottomAppBar(),
-      floatingActionButton: FloatingActionButton(
-        tooltip: 'Add New Item',
-        onPressed: () {},
-        child: const Icon(Icons.add),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endContained,
-    );
-  }
-}
-
-class _DemoBottomAppBar extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 200),
-      height: 80.0,
-      child: BottomAppBar(
-        child: Row(
-          children: <Widget>[
-            IconButton(
-              tooltip: 'Open popup menu',
-              icon: const Icon(Icons.more_vert),
-              onPressed: () {
-                final SnackBar snackBar = SnackBar(
-                  content: const Text('Yay! A SnackBar!'),
-                  action: SnackBarAction(
-                    label: 'Undo',
-                    onPressed: () {},
-                  ),
-                );
-
-                // Find the ScaffoldMessenger in the widget tree
-                // and use it to show a SnackBar.
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
-              },
-            ),
-            IconButton(
-              tooltip: 'Search',
-              icon: const Icon(Icons.search),
-              onPressed: () {},
-            ),
-            IconButton(
-              tooltip: 'Favorite',
-              icon: const Icon(Icons.favorite),
-              onPressed: () {},
-            ),
-          ],
         ),
       ),
     );

@@ -1,5 +1,5 @@
-import '../Components/dynamicchip.dart';
-import '../Components/cardevent.dart';
+import '../Widgets/dynamicchip.dart';
+import '../Widgets/cardevent.dart';
 import 'package:flutter/material.dart';
 // import 'CardT.dart';
 
@@ -129,13 +129,7 @@ class _HomePagesState extends State<HomePages> {
           ),
         ),
       ),
-      bottomNavigationBar: _DemoBottomAppBar(),
-      floatingActionButton: FloatingActionButton(
-        tooltip: 'Add New Item',
-        onPressed: () {},
-        child: const Icon(Icons.add),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endContained,
+      
     );
   }
 }
