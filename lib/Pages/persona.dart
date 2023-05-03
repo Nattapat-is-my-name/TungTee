@@ -49,9 +49,7 @@ class _MyformState extends State<Myform> {
               children: [
                 Row(
                   children: const [
-                    Interest(
-                      title: "🏈 Soccer",
-                    ),
+                    Interest(title: "🎾 Tennis"),
                     Interest(title: "🏀 Basketball"),
                     Interest(title: "⚽️ Football")
                   ],
@@ -63,7 +61,6 @@ class _MyformState extends State<Myform> {
                   children: const [
                     Interest(title: "🏋🏻 Body weight"),
                     Interest(title: "🏐 VolleyBall"),
-                    Interest(title: "🎾 Tennis")
                   ],
                 ),
                 const SizedBox(
@@ -83,8 +80,7 @@ class _MyformState extends State<Myform> {
                   children: const [
                     Interest(title: "🎤 Pop"),
                     Interest(title: "🎸 Rock"),
-                    Interest(title: "👨🏻‍🎤 Hip-hop"),
-                    Interest(title: "🎵 Jazz")
+                    Interest(title: "🎵 Jazz"),
                   ],
                 ),
                 const SizedBox(
@@ -94,7 +90,6 @@ class _MyformState extends State<Myform> {
                   children: const [
                     Interest(title: "🏖️ Beaches"),
                     Interest(title: "⛰️ Moutains"),
-                    Interest(title: "🌆 City sightseeing"),
                   ],
                 ),
                 const SizedBox(
@@ -102,8 +97,8 @@ class _MyformState extends State<Myform> {
                 ),
                 Row(
                   children: const [
-                    Interest(title: "🌍 International destination"),
                     Interest(title: "🛣️ Road trips"),
+                    Interest(title: "🎮 Video games"),
                   ],
                 ),
                 const SizedBox(
@@ -113,7 +108,6 @@ class _MyformState extends State<Myform> {
                   children: const [
                     Interest(title: "🍿 Movies"),
                     Interest(title: "📺 TV shows"),
-                    Interest(title: "🎮 Video games"),
                   ],
                 ),
                 const SizedBox(
@@ -169,7 +163,7 @@ class _InterestState extends State<Interest> {
                         ? const Color.fromRGBO(103, 80, 164, 1)
                         : Colors.transparent)),
             padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-            margin: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+            margin: const EdgeInsets.fromLTRB(0, 0, 8, 0),
             child: Text(widget.title),
           ),
         )
