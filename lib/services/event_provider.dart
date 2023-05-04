@@ -198,4 +198,28 @@ class EventProvider {
   Future<void> deleteEventById(String eventId) async {
     _eventCollection.doc(eventId).delete();
   }
+
+  /// Get tags from event, take `eventId` as an argument
+  ///
+  /// return tags (type: `List<String>`) which is a list of tag strings
+  Future<List<String>> getEventTags(String eventId) async {
+    final EventModel event = await getEventById(eventId);
+    return event.tags;
+  }
+
+  /// Get images from event, take `eventId` as an argument
+  ///
+  /// return tags (type: `List<String>`, String is encoded in `Base64` form) which is a list of image strings
+  Future<List<String>> getEventImages(String eventId) async {
+    final EventModel event = await getEventById(eventId);
+    return event.images;
+  }
+
+  /// Get images from event, take `eventId` as an argument
+  ///
+  /// return tags (type: `List<String>`) which is a list of `userId` strings
+  Future<List<String>> getJoinedUserInEvent(String eventId) async {
+    final EventModel event = await getEventById(eventId);
+    return event.joinedUsers;
+  }
 }
