@@ -93,20 +93,35 @@ class EventProvider {
     return isUpdated;
   }
 
-  // more work here
-  bool addEventTag(String eventId, String tag) {
+  /// Add event's tags, it takes `eventId` and new `tag`
+  ///
+  /// return `true` if update succeed otherwise `false`
+  Future<bool> addEventTag(String eventId, String tag) async {
     final DocumentReference docRef = _eventCollection.doc(eventId);
     bool isUpdated = false;
-    docRef.set({'eventTitle': tag}, SetOptions(merge: true)).then(
-        (_) => isUpdated = true);
+
+    final List<String> tags = await getEventTags(eventId);
+    tags.add(tag);
+
+    docRef.set(
+        {'tags': tags}, SetOptions(merge: true)).then((_) => isUpdated = true);
+
     return isUpdated;
   }
 
-  bool removeEventTag(String eventId, String tag) {
+  /// Remove event's tags, it takes `eventId` and `index` of tag to remove
+  ///
+  /// return `true` if update succeed otherwise `false`
+  Future<bool> removeEventTagByIndex(String eventId, int index) async {
     final DocumentReference docRef = _eventCollection.doc(eventId);
     bool isUpdated = false;
-    docRef.set({'eventTitle': tag}, SetOptions(merge: true)).then(
-        (_) => isUpdated = true);
+
+    final List<String> tags = await getEventTags(eventId);
+    tags.removeAt(index);
+
+    docRef.set(
+        {'tags': tags}, SetOptions(merge: true)).then((_) => isUpdated = true);
+
     return isUpdated;
   }
 
