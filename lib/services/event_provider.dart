@@ -14,7 +14,7 @@ class EventProvider {
     return EventModel.fromJSON(docSnap.data() as Map<String, dynamic>);
   }
 
-  /// return `List<EventModel>` from Firestore database
+  /// return all events (type: `List<EventModel>`) from Firestore database
   Future<List<EventModel>> getEvents() async {
     final QuerySnapshot querySnapshot = await _eventCollection.get();
     final List<EventModel> events = querySnapshot.docs
@@ -26,7 +26,7 @@ class EventProvider {
 
   /// Get list of `EventModel` that its `tags` field contain any of `interests` (List<String>) argument
   ///
-  /// return `List<EventModel>` from Firestore database
+  /// return all events (type: `List<EventModel>`) from Firestore database that matched with interests
   Future<List<EventModel>> getEventsByInterests(List<String> interests) async {
     final QuerySnapshot querySnapshot =
         await _eventCollection.where('tags', arrayContainsAny: interests).get();
