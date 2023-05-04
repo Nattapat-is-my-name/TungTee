@@ -195,7 +195,7 @@ class EventProvider {
   }
 
   /// delete event by `eventId` (String)
-  Future<void> deleteEventById(String eventId) async {
+  void deleteEventById(String eventId) {
     _eventCollection.doc(eventId).delete();
   }
 
