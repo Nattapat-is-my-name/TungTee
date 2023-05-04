@@ -45,6 +45,155 @@ class EventProvider {
         querySnapshot.docs.first.data() as Map<String, dynamic>);
   }
 
+  /* Updatable field
+   * eventTitle
+   * eventDescription
+   * maximumPeople
+   * tags
+   * ageRestriction
+   * dateOfEvent
+   * location
+   * images
+   * joinedUsers
+   * 
+   * Q: Why updating each field by separate function?
+   * A: It is easier to manage.
+   */
+
+  /// Update event's title, it takes `eventId` and new `eventTitle`
+  ///
+  /// return `true` if update succeed otherwise `false`
+  bool updateEventTitle(String eventId, String eventTitle) {
+    final DocumentReference docRef = _eventCollection.doc(eventId);
+    bool isUpdated = false;
+    docRef.set({'eventTitle': eventTitle}, SetOptions(merge: true)).then(
+        (_) => isUpdated = true);
+    return isUpdated;
+  }
+
+  /// Update event's description, it takes `eventId` and new `eventDescription`
+  ///
+  /// return `true` if update succeed otherwise `false`
+  bool updateEventDescription(String eventId, String eventDesription) {
+    final DocumentReference docRef = _eventCollection.doc(eventId);
+    bool isUpdated = false;
+    docRef.set({'eventDescription': eventDesription},
+        SetOptions(merge: true)).then((_) => isUpdated = true);
+    return isUpdated;
+  }
+
+  /// Update event's maximum people , it takes `eventId` and new `maximumPeople`
+  ///
+  /// return `true` if update succeed otherwise `false`
+  bool updateEventMaximumPeople(String eventId, int maximumPeople) {
+    final DocumentReference docRef = _eventCollection.doc(eventId);
+    bool isUpdated = false;
+    docRef.set({'maximumPeople': maximumPeople}, SetOptions(merge: true)).then(
+        (_) => isUpdated = true);
+    return isUpdated;
+  }
+
+  // more work here
+  bool addEventTag(String eventId, String tag) {
+    final DocumentReference docRef = _eventCollection.doc(eventId);
+    bool isUpdated = false;
+    docRef.set({'eventTitle': tag}, SetOptions(merge: true)).then(
+        (_) => isUpdated = true);
+    return isUpdated;
+  }
+
+  bool removeEventTag(String eventId, String tag) {
+    final DocumentReference docRef = _eventCollection.doc(eventId);
+    bool isUpdated = false;
+    docRef.set({'eventTitle': tag}, SetOptions(merge: true)).then(
+        (_) => isUpdated = true);
+    return isUpdated;
+  }
+
+  /// Update event's minimum age, it takes `eventId` and new `minimumAge`
+  ///
+  /// return `true` if update succeed otherwise `false`
+  bool updateEventMinimumAge(String eventId, int minimumAge) {
+    final DocumentReference docRef = _eventCollection.doc(eventId);
+    bool isUpdated = false;
+    docRef.set({'ageRestriction.minimumAge': minimumAge},
+        SetOptions(merge: true)).then((_) => isUpdated = true);
+    return isUpdated;
+  }
+
+  /// Update event's maximum age, it takes `eventId` and new `maximumAge`
+  ///
+  /// return `true` if update succeed otherwise `false`
+  bool updateEventMaximumAge(String eventId, int maximumAge) {
+    final DocumentReference docRef = _eventCollection.doc(eventId);
+    bool isUpdated = false;
+    docRef.set({'ageRestriction.maximumAge': maximumAge},
+        SetOptions(merge: true)).then((_) => isUpdated = true);
+    return isUpdated;
+  }
+
+  /// Update event's start date, it takes `eventId` and new `startDate`
+  ///
+  /// return `true` if update succeed otherwise `false`
+  bool updateEventStartDate(String eventId, DateTime startDate) {
+    final DocumentReference docRef = _eventCollection.doc(eventId);
+    bool isUpdated = false;
+    docRef.set({'dateOfEvent.start': startDate}, SetOptions(merge: true)).then(
+        (_) => isUpdated = true);
+    return isUpdated;
+  }
+
+  /// Update event's end date, it takes `eventId` and new `endDate`
+  ///
+  /// return `true` if update succeed otherwise `false`
+  bool updateEventEndDate(String eventId, DateTime endDate) {
+    final DocumentReference docRef = _eventCollection.doc(eventId);
+    bool isUpdated = false;
+    docRef.set({'dateOfEvent.end': endDate}, SetOptions(merge: true)).then(
+        (_) => isUpdated = true);
+    return isUpdated;
+  }
+
+  /// Update event's location, it takes `eventId` and new `location`
+  ///
+  /// return `true` if update succeed otherwise `false`
+  bool updateEventLocation(String eventId, LocationModel location) {
+    final DocumentReference docRef = _eventCollection.doc(eventId);
+    bool isUpdated = false;
+    docRef.set({
+      'location.latitude': location.latitude,
+      'location.longitude': location.longitude
+    }, SetOptions(merge: true)).then((_) => isUpdated = true);
+    return isUpdated;
+  }
+
+  // need more work
+  bool updateEventImages(String eventId, String eventTitle) {
+    final DocumentReference docRef = _eventCollection.doc(eventId);
+    bool isUpdated = false;
+    docRef.set({'eventTitle': eventTitle}, SetOptions(merge: true)).then(
+        (_) => isUpdated = true);
+    return isUpdated;
+  }
+
+  // need more work here
+  bool updateEventJoining(String eventId, String userId) {
+    final DocumentReference docRef = _eventCollection.doc(eventId);
+    bool isUpdated = false;
+    docRef.set({'eventTitle': userId}, SetOptions(merge: true)).then(
+        (_) => isUpdated = true);
+    return isUpdated;
+  }
+
+  // need more work here
+  bool updateEventLeft(String eventId, String userId) {
+    final DocumentReference docRef = _eventCollection.doc(eventId);
+    bool isUpdated = false;
+    docRef.set({'eventTitle': userId}, SetOptions(merge: true)).then(
+        (_) => isUpdated = true);
+    return isUpdated;
+  }
+
   /// delete event by `eventId` (String)
   Future<void> deleteEventById(String eventId) async {
     _eventCollection.doc(eventId).delete();
