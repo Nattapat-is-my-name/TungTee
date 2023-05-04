@@ -182,21 +182,35 @@ class EventProvider {
     return isUpdated;
   }
 
-  // need more work
-  bool updateEventImages(String eventId, String eventTitle) {
+  /// Remove event's images, it takes `eventId` and `index` of image to remove
+  ///
+  /// return `true` if update succeed otherwise `false`
+  Future<bool> removeEventImageByIndex(String eventId, int index) async {
     final DocumentReference docRef = _eventCollection.doc(eventId);
     bool isUpdated = false;
-    docRef.set({'eventTitle': eventTitle}, SetOptions(merge: true)).then(
+
+    final List<String> images = await getEventImages(eventId);
+    images.removeAt(index);
+
+    docRef.set({'images': images}, SetOptions(merge: true)).then(
         (_) => isUpdated = true);
+
     return isUpdated;
   }
 
-  // need more work here
-  bool updateEventJoining(String eventId, String userId) {
+  /// Add event's images, it takes `eventId` and new `image` (type: `Base64` String)
+  ///
+  /// return `true` if update succeed otherwise `false`
+  Future<bool> addImageToEvent(String eventId, String image) async {
     final DocumentReference docRef = _eventCollection.doc(eventId);
     bool isUpdated = false;
-    docRef.set({'eventTitle': userId}, SetOptions(merge: true)).then(
+
+    final List<String> images = await getEventImages(eventId);
+    images.add(image);
+
+    docRef.set({'images': images}, SetOptions(merge: true)).then(
         (_) => isUpdated = true);
+
     return isUpdated;
   }
 
