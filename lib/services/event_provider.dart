@@ -214,12 +214,35 @@ class EventProvider {
     return isUpdated;
   }
 
-  // need more work here
-  bool updateEventLeft(String eventId, String userId) {
+  /// Add event's user, it takes `eventId` and new `userId`
+  ///
+  /// return `true` if update succeed otherwise `false`
+  Future<bool> addUserToEvent(String eventId, String userId) async {
     final DocumentReference docRef = _eventCollection.doc(eventId);
     bool isUpdated = false;
-    docRef.set({'eventTitle': userId}, SetOptions(merge: true)).then(
+
+    final List<String> joinedUsers = await getJoinedUserInEvent(eventId);
+    joinedUsers.add(userId);
+
+    docRef.set({'joinedUsers': joinedUsers}, SetOptions(merge: true)).then(
         (_) => isUpdated = true);
+
+    return isUpdated;
+  }
+
+  /// Remove event's user, it takes `eventId` and `index` of user to remove
+  ///
+  /// return `true` if update succeed otherwise `false`
+  Future<bool> removeUserFromEventByIndex(String eventId, int index) async {
+    final DocumentReference docRef = _eventCollection.doc(eventId);
+    bool isUpdated = false;
+
+    final List<String> joinedUsers = await getJoinedUserInEvent(eventId);
+    joinedUsers.removeAt(index);
+
+    docRef.set({'joinedUsers': joinedUsers}, SetOptions(merge: true)).then(
+        (_) => isUpdated = true);
+
     return isUpdated;
   }
 
