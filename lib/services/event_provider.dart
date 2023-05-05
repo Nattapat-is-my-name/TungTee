@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tungtee/Models/event_model.dart';
-import 'package:uuid/uuid.dart';
+import 'package:tungtee/Services/user_provider.dart';
 
 class EventProvider {
   final _eventCollection = FirebaseFirestore.instance
@@ -10,8 +10,7 @@ class EventProvider {
   ///
   /// return `EventModel` that successfully added to Firestore database
   Future<void> createEvent(EventModel event) async {
-    final String documentId = const Uuid().v4();
-    await _eventCollection.doc(documentId).set(event.toJSON());
+    await _eventCollection.doc(event.eventId).set(event.toJSON());
   }
 
   /// return all events (type: `List<EventModel>`) from Firestore database
@@ -119,13 +118,21 @@ class EventProvider {
     });
   }
 
-  /// Update event's image, it takes `eventId` and new `image` (type: `Base64` String)
-  void updateEventImage(String eventId, String image) {
+  /// Remove event's images, it takes `eventId` and `index` of image to remove
+  Future<void> removeImageFromEvent(String eventId, String image) async {
     final DocumentReference docRef = _eventCollection.doc(eventId);
-    docRef.update({'image': image});
+    await docRef.update({
+      'images': FieldValue.arrayRemove([image])
+    });
   }
 
   /// Add event's images, it takes `eventId` and new `image` (type: `Base64` String)
+  Future<void> addImageToEvent(String eventId, String image) async {
+    final DocumentReference docRef = _eventCollection.doc(eventId);
+    await docRef.update({
+      'images': FieldValue.arrayUnion([image])
+    });
+  }
 
   /// Add event's user, it takes `eventId` and new `userId`
   Future<void> addUserToEvent(String eventId, String userId) async {
@@ -150,8 +157,19 @@ class EventProvider {
   }
 
   /// delete event by `eventId` (String)
-  void deleteEventById(String eventId) {
-    _eventCollection.doc(eventId).delete();
+  Future<void> deleteEventById(String eventId) async {
+    await _eventCollection.doc(eventId).delete();
+  }
+
+  Future<bool> isJoinedEvent(String eventId, String userId) async {
+    final EventModel event = await getEventById(eventId);
+    int isFound = event.joinedUsers.indexOf(userId);
+    return isFound != -1;
+  }
+
+  Future<bool> isEventOwner(String eventId, String userId) async {
+    final EventModel event = await getEventById(eventId);
+    return userId == event.ownerId;
   }
 
   /// *NO LONGER USE BUT DON'T DELETE*
