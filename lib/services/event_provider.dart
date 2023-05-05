@@ -60,57 +60,60 @@ class EventProvider {
    */
 
   /// Update event's title, it takes `eventId` and new `eventTitle`
-  void updateEventTitle(String eventId, String eventTitle) {
+  Future<void> updateEventTitle(String eventId, String eventTitle) async {
     final DocumentReference docRef = _eventCollection.doc(eventId);
-    docRef.update({'eventTitle': eventTitle});
+    await docRef.update({'eventTitle': eventTitle});
   }
 
   /// Update event's description, it takes `eventId` and new `eventDescription`
-  void updateEventDescription(String eventId, String eventDesription) {
+  Future<void> updateEventDescription(
+      String eventId, String eventDesription) async {
     final DocumentReference docRef = _eventCollection.doc(eventId);
-    docRef.update({'eventDescription': eventDesription});
+    await docRef.update({'eventDescription': eventDesription});
   }
 
   /// Update event's maximum people , it takes `eventId` and new `maximumPeople`
-  void updateEventMaximumPeople(String eventId, int maximumPeople) {
+  Future<void> updateEventMaximumPeople(
+      String eventId, int maximumPeople) async {
     final DocumentReference docRef = _eventCollection.doc(eventId);
-    docRef.update({'maximumPeople': maximumPeople});
+    await docRef.update({'maximumPeople': maximumPeople});
   }
 
   /// Update event's tag, it takes `eventId` and new `tag`
-  void updateEventTag(String eventId, String tag) {
+  Future<void> updateEventTag(String eventId, String tag) async {
     final DocumentReference docRef = _eventCollection.doc(eventId);
-    docRef.update({'tag': tag});
+    await docRef.update({'tag': tag});
   }
 
   /// Update event's minimum age, it takes `eventId` and new `minimumAge`
-  void updateEventMinimumAge(String eventId, int minimumAge) {
+  Future<void> updateEventMinimumAge(String eventId, int minimumAge) async {
     final DocumentReference docRef = _eventCollection.doc(eventId);
-    docRef.update({'ageRestriction.minimumAge': minimumAge});
+    await docRef.update({'ageRestriction.minimumAge': minimumAge});
   }
 
   /// Update event's maximum age, it takes `eventId` and new `maximumAge`
-  void updateEventMaximumAge(String eventId, int maximumAge) {
+  Future<void> updateEventMaximumAge(String eventId, int maximumAge) async {
     final DocumentReference docRef = _eventCollection.doc(eventId);
-    docRef.update({'ageRestriction.maximumAge': maximumAge});
+    await docRef.update({'ageRestriction.maximumAge': maximumAge});
   }
 
   /// Update event's start date, it takes `eventId` and new `startDate`
-  void updateEventStartDate(String eventId, DateTime startDate) {
+  Future<void> updateEventStartDate(String eventId, DateTime startDate) async {
     final DocumentReference docRef = _eventCollection.doc(eventId);
-    docRef.update({'dateOfEvent.start': startDate.toIso8601String()});
+    await docRef.update({'dateOfEvent.start': startDate.toIso8601String()});
   }
 
   /// Update event's end date, it takes `eventId` and new `endDate`
-  void updateEventEndDate(String eventId, DateTime endDate) {
+  Future<void> updateEventEndDate(String eventId, DateTime endDate) async {
     final DocumentReference docRef = _eventCollection.doc(eventId);
-    docRef.update({'dateOfEvent.end': endDate.toIso8601String()});
+    await docRef.update({'dateOfEvent.end': endDate.toIso8601String()});
   }
 
   /// Update event's location, it takes `eventId` and new `location`
-  void updateEventLocation(String eventId, LocationModel location) {
+  Future<void> updateEventLocation(
+      String eventId, LocationModel location) async {
     final DocumentReference docRef = _eventCollection.doc(eventId);
-    docRef.update({
+    await docRef.update({
       'location.latitude': location.latitude,
       'location.longitude': location.longitude
     });
@@ -125,21 +128,25 @@ class EventProvider {
   /// Add event's images, it takes `eventId` and new `image` (type: `Base64` String)
 
   /// Add event's user, it takes `eventId` and new `userId`
-  void addUserToEvent(String eventId, String userId) {
+  Future<void> addUserToEvent(String eventId, String userId) async {
     final DocumentReference docRef = _eventCollection.doc(eventId);
 
-    docRef.update({
+    await docRef.update({
       'joinedUsers': FieldValue.arrayUnion([userId])
     });
+
+    await UserProvider().joinEvent(eventId, userId);
   }
 
   /// Remove event's user, it takes `eventId` and `index` of user to remove
-  void removeUserFromEvent(String eventId, String userId) {
+  Future<void> removeUserFromEvent(String eventId, String userId) async {
     final DocumentReference docRef = _eventCollection.doc(eventId);
 
-    docRef.update({
+    await docRef.update({
       'joinedUsers': FieldValue.arrayRemove([userId])
     });
+
+    await UserProvider().leftEvent(eventId, userId);
   }
 
   /// delete event by `eventId` (String)
