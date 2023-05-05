@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tungtee/Pages/register.dart';
 import 'package:tungtee/Constants/colors.dart';
@@ -13,6 +14,14 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  Future<void> handleSignInWithGoogle(BuildContext context) async {
+    try {
+      await AuthProvider().signInWithGoogle();
+    } on FirebaseAuthException catch (error) {
+      AuthProvider.handleSignInError(error.code);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,7 +78,7 @@ class _LoginPageState extends State<LoginPage> {
                         height: 45,
                         child: ElevatedButton.icon(
                           onPressed: () async {
-                            await AuthProvider().signInWithGoogle();
+                            await handleSignInWithGoogle(context);
                           },
                           style: ButtonStyle(
                               backgroundColor:
