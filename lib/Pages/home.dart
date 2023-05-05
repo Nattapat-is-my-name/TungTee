@@ -23,7 +23,7 @@ class HomePage extends StatelessWidget {
                 child: const Text('Sign out')),
             FilledButton(
                 onPressed: () async {
-                  final event = await EventProvider().createEvent(EventModel(
+                  await EventProvider().createEvent(EventModel(
                       eventId: "eventId_test",
                       ownerId: "ownerId_test",
                       eventTitle: "test event",
@@ -38,7 +38,6 @@ class HomePage extends StatelessWidget {
                       location: LocationModel(latitude: 20, longitude: 20),
                       images: [],
                       joinedUsers: []));
-                  print(event);
                 },
                 child: const Text('Create Event')),
             FilledButton(
