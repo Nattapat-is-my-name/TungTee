@@ -130,13 +130,13 @@ class CardLayout_owner extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
                   IconButton(
-                    tooltip: 'Home',
-                    icon: const Icon(Icons.bin),
+                    tooltip: 'delete',
+                    icon: const Icon(Icons.delete),
                     onPressed: () {},
                   ),
                   IconButton(
-                    tooltip: 'Home',
-                    icon: const Icon(Icons.home_outlined),
+                    tooltip: 'Edit',
+                    icon: const Icon(Icons.edit_note_outlined),
                     onPressed: () {},
                   ),
                 ],
