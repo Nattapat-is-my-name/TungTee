@@ -60,44 +60,28 @@ class EventProvider {
    */
 
   /// Update event's title, it takes `eventId` and new `eventTitle`
-  ///
-  /// return `true` if update succeed otherwise `false`
-  bool updateEventTitle(String eventId, String eventTitle) {
+  void updateEventTitle(String eventId, String eventTitle) {
     final DocumentReference docRef = _eventCollection.doc(eventId);
-    bool isUpdated = false;
-    docRef.set({'eventTitle': eventTitle}, SetOptions(merge: true)).then(
-        (_) => isUpdated = true);
-    return isUpdated;
+    docRef.update({'eventTitle': eventTitle});
   }
 
   /// Update event's description, it takes `eventId` and new `eventDescription`
-  ///
-  /// return `true` if update succeed otherwise `false`
-  bool updateEventDescription(String eventId, String eventDesription) {
+  void updateEventDescription(String eventId, String eventDesription) {
     final DocumentReference docRef = _eventCollection.doc(eventId);
-    bool isUpdated = false;
-    docRef.set({'eventDescription': eventDesription},
-        SetOptions(merge: true)).then((_) => isUpdated = true);
-    return isUpdated;
+    docRef.update({'eventDescription': eventDesription});
   }
 
   /// Update event's maximum people , it takes `eventId` and new `maximumPeople`
-  ///
-  /// return `true` if update succeed otherwise `false`
-  bool updateEventMaximumPeople(String eventId, int maximumPeople) {
+  void updateEventMaximumPeople(String eventId, int maximumPeople) {
     final DocumentReference docRef = _eventCollection.doc(eventId);
-    bool isUpdated = false;
-    docRef.set({'maximumPeople': maximumPeople}, SetOptions(merge: true)).then(
-        (_) => isUpdated = true);
-    return isUpdated;
+    docRef.update({'maximumPeople': maximumPeople});
   }
 
-  /// Add event's tags, it takes `eventId` and new `tag`
-  ///
-  /// return `true` if update succeed otherwise `false`
-  Future<bool> addEventTag(String eventId, String tag) async {
+  /// Update event's tag, it takes `eventId` and new `tag`
+  void updateEventTag(String eventId, String tag) {
     final DocumentReference docRef = _eventCollection.doc(eventId);
-    bool isUpdated = false;
+    docRef.update({'tag': tag});
+  }
 
     final List<String> tags = await getEventTags(eventId);
     tags.add(tag);
@@ -125,68 +109,43 @@ class EventProvider {
   }
 
   /// Update event's minimum age, it takes `eventId` and new `minimumAge`
-  ///
-  /// return `true` if update succeed otherwise `false`
-  bool updateEventMinimumAge(String eventId, int minimumAge) {
+  void updateEventMinimumAge(String eventId, int minimumAge) {
     final DocumentReference docRef = _eventCollection.doc(eventId);
-    bool isUpdated = false;
-    docRef.set({'ageRestriction.minimumAge': minimumAge},
-        SetOptions(merge: true)).then((_) => isUpdated = true);
-    return isUpdated;
+    docRef.update({'ageRestriction.minimumAge': minimumAge});
   }
 
   /// Update event's maximum age, it takes `eventId` and new `maximumAge`
-  ///
-  /// return `true` if update succeed otherwise `false`
-  bool updateEventMaximumAge(String eventId, int maximumAge) {
+  void updateEventMaximumAge(String eventId, int maximumAge) {
     final DocumentReference docRef = _eventCollection.doc(eventId);
-    bool isUpdated = false;
-    docRef.set({'ageRestriction.maximumAge': maximumAge},
-        SetOptions(merge: true)).then((_) => isUpdated = true);
-    return isUpdated;
+    docRef.update({'ageRestriction.maximumAge': maximumAge});
   }
 
   /// Update event's start date, it takes `eventId` and new `startDate`
-  ///
-  /// return `true` if update succeed otherwise `false`
-  bool updateEventStartDate(String eventId, DateTime startDate) {
+  void updateEventStartDate(String eventId, DateTime startDate) {
     final DocumentReference docRef = _eventCollection.doc(eventId);
-    bool isUpdated = false;
-    docRef.set({'dateOfEvent.start': startDate}, SetOptions(merge: true)).then(
-        (_) => isUpdated = true);
-    return isUpdated;
+    docRef.update({'dateOfEvent.start': startDate.toIso8601String()});
   }
 
   /// Update event's end date, it takes `eventId` and new `endDate`
-  ///
-  /// return `true` if update succeed otherwise `false`
-  bool updateEventEndDate(String eventId, DateTime endDate) {
+  void updateEventEndDate(String eventId, DateTime endDate) {
     final DocumentReference docRef = _eventCollection.doc(eventId);
-    bool isUpdated = false;
-    docRef.set({'dateOfEvent.end': endDate}, SetOptions(merge: true)).then(
-        (_) => isUpdated = true);
-    return isUpdated;
+    docRef.update({'dateOfEvent.end': endDate.toIso8601String()});
   }
 
   /// Update event's location, it takes `eventId` and new `location`
-  ///
-  /// return `true` if update succeed otherwise `false`
-  bool updateEventLocation(String eventId, LocationModel location) {
+  void updateEventLocation(String eventId, LocationModel location) {
     final DocumentReference docRef = _eventCollection.doc(eventId);
-    bool isUpdated = false;
-    docRef.set({
+    docRef.update({
       'location.latitude': location.latitude,
       'location.longitude': location.longitude
-    }, SetOptions(merge: true)).then((_) => isUpdated = true);
-    return isUpdated;
+    });
   }
 
-  /// Remove event's images, it takes `eventId` and `index` of image to remove
-  ///
-  /// return `true` if update succeed otherwise `false`
-  Future<bool> removeEventImageByIndex(String eventId, int index) async {
+  /// Update event's image, it takes `eventId` and new `image` (type: `Base64` String)
+  void updateEventImage(String eventId, String image) {
     final DocumentReference docRef = _eventCollection.doc(eventId);
-    bool isUpdated = false;
+    docRef.update({'image': image});
+  }
 
     final List<String> images = await getEventImages(eventId);
     images.removeAt(index);
@@ -214,35 +173,21 @@ class EventProvider {
   }
 
   /// Add event's user, it takes `eventId` and new `userId`
-  ///
-  /// return `true` if update succeed otherwise `false`
-  Future<bool> addUserToEvent(String eventId, String userId) async {
+  void addUserToEvent(String eventId, String userId) {
     final DocumentReference docRef = _eventCollection.doc(eventId);
-    bool isUpdated = false;
 
-    final List<String> joinedUsers = await getJoinedUserInEvent(eventId);
-    joinedUsers.add(userId);
-
-    docRef.set({'joinedUsers': joinedUsers}, SetOptions(merge: true)).then(
-        (_) => isUpdated = true);
-
-    return isUpdated;
+    docRef.update({
+      'joinedUsers': FieldValue.arrayUnion([userId])
+    });
   }
 
   /// Remove event's user, it takes `eventId` and `index` of user to remove
-  ///
-  /// return `true` if update succeed otherwise `false`
-  Future<bool> removeUserFromEventByIndex(String eventId, int index) async {
+  void removeUserFromEvent(String eventId, String userId) {
     final DocumentReference docRef = _eventCollection.doc(eventId);
-    bool isUpdated = false;
 
-    final List<String> joinedUsers = await getJoinedUserInEvent(eventId);
-    joinedUsers.removeAt(index);
-
-    docRef.set({'joinedUsers': joinedUsers}, SetOptions(merge: true)).then(
-        (_) => isUpdated = true);
-
-    return isUpdated;
+    docRef.update({
+      'joinedUsers': FieldValue.arrayRemove([userId])
+    });
   }
 
   /// delete event by `eventId` (String)
