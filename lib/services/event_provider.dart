@@ -39,10 +39,9 @@ class EventProvider {
 
   /// return `EventModel` that match its `eventId` field with `eventId` (String) argument
   Future<EventModel> getEventById(String eventId) async {
-    final QuerySnapshot querySnapshot =
-        await _eventCollection.where('eventId', isEqualTo: eventId).get();
-    return EventModel.fromJSON(
-        querySnapshot.docs.first.data() as Map<String, dynamic>);
+    final DocumentReference docRef = _eventCollection.doc(eventId);
+    final DocumentSnapshot docSnap = await docRef.get();
+    return EventModel.fromJSON(docSnap.data() as Map<String, dynamic>);
   }
 
   /* Updatable field
