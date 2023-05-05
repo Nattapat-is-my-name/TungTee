@@ -26,5 +26,15 @@ class UserProvider {
     return joinedEvents;
   }
 
+  Future<List<EventModel>> getCreatedEvents(String userId) async {
+    final UserModel user = await getUserById(userId);
+    final List<Future<EventModel>> futures =
+        user.createdEvents.map((String eventId) async {
+      return await EventProvider().getEventById(eventId);
+    }).toList();
+    final List<EventModel> createdEvents = await Future.wait(futures);
+    return createdEvents;
+  }
+
   }
 }
