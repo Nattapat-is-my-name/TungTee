@@ -61,4 +61,9 @@ class UserModel {
       profileImage: json['profileImage'],
     );
   }
+
+  @override
+  String toString() {
+    return 'UserModel{userId: $userId, fullname: $fullname, nickname: $nickname, email: $email, phone: $phone, gender: $gender, birthDate: $birthDate, interests: $interests, createdEvents: $createdEvents, joinedEvents: $joinedEvents, behaviorPoint: $behaviorPoint, profileImage: $profileImage}';
+  }
 }
