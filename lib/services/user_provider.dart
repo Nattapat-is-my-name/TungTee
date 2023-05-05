@@ -1,28 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tungtee/Models/event_model.dart';
 import 'package:tungtee/Models/user_model.dart';
+import 'package:tungtee/Services/event_provider.dart';
 
 class UserProvider {
   final _userCollection = FirebaseFirestore.instance.collection('Users');
-  final _eventCollection = FirebaseFirestore.instance.collection('Events');
 
-  Future<UserModel> createUser(User user) async {
-    final UserModel newUser = UserModel(
-      userId: user.uid,
-      fullname: user.displayName!,
-      nickname: '',
-      email: user.email!,
-      phone: user.phoneNumber!,
-      gender: '',
-      birthDate: DateTime.now(),
-      interests: [],
-      createdEvents: [],
-      joinedEvents: [],
-      behaviorPoint: 3,
-    );
-    final DocumentReference docRef =
-        await _userCollection.add(newUser.toJSON());
+  Future<void> createUser(UserModel user) async {
+    await _userCollection.doc(user.userId).set(user.toJSON());
+  }
+
     final DocumentSnapshot docSnap = await docRef.get();
     return UserModel.fromJSON(docSnap.data() as Map<String, dynamic>);
   }
