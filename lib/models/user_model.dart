@@ -11,6 +11,7 @@ class UserModel {
   final List<String> createdEvents;
   final List<String> joinedEvents;
   final int behaviorPoint;
+  final String profileImage;
 
   UserModel({
     required this.userId,
@@ -24,6 +25,7 @@ class UserModel {
     required this.createdEvents,
     required this.joinedEvents,
     required this.behaviorPoint,
+    required this.profileImage,
   });
 
   Map<String, dynamic> toJSON() {
@@ -39,6 +41,7 @@ class UserModel {
       'createdEvents': createdEvents,
       'joinedEvents': joinedEvents,
       'behaviorPoint': behaviorPoint,
+      'profileImage': profileImage,
     };
   }
 
@@ -55,6 +58,7 @@ class UserModel {
       createdEvents: List<String>.from(json['createdEvents']),
       joinedEvents: List<String>.from(json['joinedEvents']),
       behaviorPoint: json['behaviorPoint'],
+      profileImage: json['profileImage'],
     );
   }
 }
