@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tungtee/Pages/auth_control.dart';
+import 'package:tungtee/Constants/colors.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
@@ -15,7 +17,7 @@ class WelcomePage extends StatelessWidget {
             style: TextStyle(fontSize: 47),
           ),
           SizedBox(
-            height: 40,
+            height: 80,
           ),
           MyButton()
         ],
@@ -30,12 +32,21 @@ class MyButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {},
-      style: ElevatedButton.styleFrom(shape: const StadiumBorder()),
+      onPressed: () {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const AuthPageController()));
+      },
+      style: ElevatedButton.styleFrom(
+          shape: const StadiumBorder(), backgroundColor: primaryColor.shade900),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: const [
-          Text('Get Start'),
+          Text(
+            'Get Start',
+            style: TextStyle(color: Colors.white),
+          ),
           SizedBox(
             width: 5,
           ),
@@ -43,6 +54,7 @@ class MyButton extends StatelessWidget {
             // <-- Icon
             Icons.arrow_forward_ios_rounded,
             size: 15.0,
+            color: Colors.white,
           ), // <-- Text
         ],
       ),
