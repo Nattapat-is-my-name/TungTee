@@ -10,30 +10,39 @@ class UserProvider {
     await _userCollection.doc(user.userId).set(user.toJSON());
   }
 
-  Future<UserModel> getUserById(String userId) async {
+  Future<UserModel?> getUserById(String userId) async {
     final DocumentReference docRef = _userCollection.doc(userId);
     final DocumentSnapshot docSnap = await docRef.get();
-    return UserModel.fromJSON(docSnap.data() as Map<String, dynamic>);
+    if (docSnap.data() != null) {
+      return UserModel.fromJSON(docSnap.data() as Map<String, dynamic>);
+    }
+    return null;
   }
 
-  Future<List<EventModel>> getJoinedEvents(String userId) async {
-    final UserModel user = await getUserById(userId);
-    final List<Future<EventModel>> futures =
-        user.joinedEvents.map((String eventId) async {
-      return await EventProvider().getEventById(eventId);
-    }).toList();
-    final List<EventModel> joinedEvents = await Future.wait(futures);
-    return joinedEvents;
+  Future<List<EventModel>?> getJoinedEvents(String userId) async {
+    final UserModel? user = await getUserById(userId);
+    if (user != null) {
+      final List<Future<EventModel>> futures =
+          user.joinedEvents.map((String eventId) async {
+        return await EventProvider().getEventById(eventId);
+      }).toList();
+      final List<EventModel> joinedEvents = await Future.wait(futures);
+      return joinedEvents;
+    }
+    return null;
   }
 
-  Future<List<EventModel>> getCreatedEvents(String userId) async {
-    final UserModel user = await getUserById(userId);
-    final List<Future<EventModel>> futures =
-        user.createdEvents.map((String eventId) async {
-      return await EventProvider().getEventById(eventId);
-    }).toList();
-    final List<EventModel> createdEvents = await Future.wait(futures);
-    return createdEvents;
+  Future<List<EventModel>?> getCreatedEvents(String userId) async {
+    final UserModel? user = await getUserById(userId);
+    if (user != null) {
+      final List<Future<EventModel>> futures =
+          user.createdEvents.map((String eventId) async {
+        return await EventProvider().getEventById(eventId);
+      }).toList();
+      final List<EventModel> createdEvents = await Future.wait(futures);
+      return createdEvents;
+    }
+    return null;
   }
 
   /* Updatable field
@@ -120,9 +129,12 @@ class UserProvider {
     await docRef.update({'behaviorPoint': FieldValue.increment(1)});
   }
 
-  Future<bool> isOnPenalty(String userId) async {
-    final UserModel user = await getUserById(userId);
-    return user.behaviorPoint <= 0;
+  Future<bool?> isOnPenalty(String userId) async {
+    final UserModel? user = await getUserById(userId);
+    if (user != null) {
+      return user.behaviorPoint <= 0;
+    }
+    return null;
   }
 
   Future<void> updateUserProfileImage(String userId, String image) async {
