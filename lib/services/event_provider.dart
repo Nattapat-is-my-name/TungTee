@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tungtee/Models/event_model.dart';
+import 'package:uuid/uuid.dart';
 
 class EventProvider {
   final _eventCollection = FirebaseFirestore.instance
@@ -8,10 +9,9 @@ class EventProvider {
   /// Take `EventModel` as argument to add to Firestore database
   ///
   /// return `EventModel` that successfully added to Firestore database
-  Future<EventModel> createEvent(EventModel event) async {
-    final DocumentReference docRef = await _eventCollection.add(event.toJSON());
-    final DocumentSnapshot docSnap = await docRef.get();
-    return EventModel.fromJSON(docSnap.data() as Map<String, dynamic>);
+  Future<void> createEvent(EventModel event) async {
+    final String documentId = const Uuid().v4();
+    await _eventCollection.doc(documentId).set(event.toJSON());
   }
 
   /// return all events (type: `List<EventModel>`) from Firestore database
