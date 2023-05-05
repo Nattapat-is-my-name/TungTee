@@ -83,30 +83,29 @@ class EventProvider {
     docRef.update({'tag': tag});
   }
 
-    final List<String> tags = await getEventTags(eventId);
-    tags.add(tag);
+  /// *USE updateEventTag() instead*
+  /// *NO LONGER USE BUT DON'T DELETE*
+  /// Add event's tags, it takes `eventId` and new `tag`
+  // Future<void> addEventTag(String eventId, String tag) async {
+  //   final DocumentReference docRef = _eventCollection.doc(eventId);
 
-    docRef.set(
-        {'tags': tags}, SetOptions(merge: true)).then((_) => isUpdated = true);
+  //   final List<String> tags = await getEventTags(eventId);
+  //   tags.add(tag);
 
-    return isUpdated;
-  }
+  //   docRef.set({'tags': tags}, SetOptions(merge: true));
+  // }
 
+  /// *USE updateEventTag() instead*
+  /// *NO LONGER USE BUT DON'T DELETE*
   /// Remove event's tags, it takes `eventId` and `index` of tag to remove
-  ///
-  /// return `true` if update succeed otherwise `false`
-  Future<bool> removeEventTagByIndex(String eventId, int index) async {
-    final DocumentReference docRef = _eventCollection.doc(eventId);
-    bool isUpdated = false;
+  // Future<void> removeEventTagByIndex(String eventId, int index) async {
+  //   final DocumentReference docRef = _eventCollection.doc(eventId);
 
-    final List<String> tags = await getEventTags(eventId);
-    tags.removeAt(index);
+  //   final List<String> tags = await getEventTags(eventId);
+  //   tags.removeAt(index);
 
-    docRef.set(
-        {'tags': tags}, SetOptions(merge: true)).then((_) => isUpdated = true);
-
-    return isUpdated;
-  }
+  //   docRef.set({'tags': tags}, SetOptions(merge: true));
+  // }
 
   /// Update event's minimum age, it takes `eventId` and new `minimumAge`
   void updateEventMinimumAge(String eventId, int minimumAge) {
@@ -147,30 +146,29 @@ class EventProvider {
     docRef.update({'image': image});
   }
 
-    final List<String> images = await getEventImages(eventId);
-    images.removeAt(index);
+  /// *USE updateEventImage() instead*
+  /// *NO LONGER USE BUT DON'T DELETE*
+  /// Remove event's images, it takes `eventId` and `index` of image to remove
+  // Future<void> removeEventImageByIndex(String eventId, int index) async {
+  //   final DocumentReference docRef = _eventCollection.doc(eventId);
 
-    docRef.set({'images': images}, SetOptions(merge: true)).then(
-        (_) => isUpdated = true);
+  //   final List<String> images = await getEventImages(eventId);
+  //   images.removeAt(index);
 
-    return isUpdated;
-  }
+  //   docRef.update({'images': images});
+  // }
 
+  /// *USE updateEventImage() instead*
+  /// *NO LONGER USE BUT DON'T DELETE*
   /// Add event's images, it takes `eventId` and new `image` (type: `Base64` String)
-  ///
-  /// return `true` if update succeed otherwise `false`
-  Future<bool> addImageToEvent(String eventId, String image) async {
-    final DocumentReference docRef = _eventCollection.doc(eventId);
-    bool isUpdated = false;
+  // Future<void> addImageToEvent(String eventId, String image) async {
+  //   final DocumentReference docRef = _eventCollection.doc(eventId);
 
-    final List<String> images = await getEventImages(eventId);
-    images.add(image);
+  //   final List<String> images = await getEventImages(eventId);
+  //   images.add(image);
 
-    docRef.set({'images': images}, SetOptions(merge: true)).then(
-        (_) => isUpdated = true);
-
-    return isUpdated;
-  }
+  //   docRef.update({'images': images});
+  // }
 
   /// Add event's user, it takes `eventId` and new `userId`
   void addUserToEvent(String eventId, String userId) {
@@ -195,27 +193,30 @@ class EventProvider {
     _eventCollection.doc(eventId).delete();
   }
 
+  /// *NO LONGER USE BUT DON'T DELETE*
   /// Get tags from event, take `eventId` as an argument
   ///
   /// return tags (type: `List<String>`) which is a list of tag strings
-  Future<List<String>> getEventTags(String eventId) async {
-    final EventModel event = await getEventById(eventId);
-    return event.tags;
-  }
+  // Future<List<String>> getEventTags(String eventId) async {
+  //   final EventModel event = await getEventById(eventId);
+  //   return event.tags;
+  // }
 
+  /// *NO LONGER USE BUT DON'T DELETE*
   /// Get images from event, take `eventId` as an argument
   ///
   /// return tags (type: `List<String>`, String is encoded in `Base64` form) which is a list of image strings
-  Future<List<String>> getEventImages(String eventId) async {
-    final EventModel event = await getEventById(eventId);
-    return event.images;
-  }
+  // Future<List<String>> getEventImages(String eventId) async {
+  //   final EventModel event = await getEventById(eventId);
+  //   return event.images;
+  // }
 
+  /// *NO LONGER USE BUT DON'T DELETE*
   /// Get images from event, take `eventId` as an argument
   ///
   /// return tags (type: `List<String>`) which is a list of `userId` strings
-  Future<List<String>> getJoinedUserInEvent(String eventId) async {
-    final EventModel event = await getEventById(eventId);
-    return event.joinedUsers;
-  }
+  // Future<List<String>> getJoinedUserInEvent(String eventId) async {
+  //   final EventModel event = await getEventById(eventId);
+  //   return event.joinedUsers;
+  // }
 }
