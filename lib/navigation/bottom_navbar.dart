@@ -15,7 +15,7 @@ class Bottomnavbar extends StatefulWidget {
 
 class _TabbarState extends State<Bottomnavbar> {
   int currentTap = 0;
-
+  int _selectedIndex = 0;
   final List<Widget> screens = [
     const HomePages(),
     const Myevent(),
@@ -26,15 +26,25 @@ class _TabbarState extends State<Bottomnavbar> {
   final PageStorageBucket bucket = PageStorageBucket();
   Widget currentScreen = const HomePages();
 
+  void onTabTapped(int currentTap) {
+    setState(() {
+      _selectedIndex = currentTap;
+
+      ///call your PageController.jumpToPage(index) here too, if needed
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
+        elevation: 1,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             IconButton(
-              icon: const Icon(Icons.home_rounded),
+              icon: Icon(Icons.home_rounded,
+                  color: currentTap == 0 ? Colors.deepPurple : Colors.black),
               onPressed: () {
                 setState(() {
                   currentScreen = const HomePages();
@@ -43,7 +53,8 @@ class _TabbarState extends State<Bottomnavbar> {
               },
             ),
             IconButton(
-              icon: const Icon(Icons.event_note_rounded),
+              icon: Icon(Icons.event_note_rounded,
+                  color: currentTap == 1 ? Colors.deepPurple : Colors.black),
               onPressed: () {
                 setState(() {
                   currentScreen = const Myevent();
@@ -52,7 +63,8 @@ class _TabbarState extends State<Bottomnavbar> {
               },
             ),
             FloatingActionButton(
-              child: const Icon(Icons.add_rounded),
+              child: Icon(Icons.add_rounded,
+                  color: currentTap == 2 ? Colors.deepPurple : Colors.black),
               onPressed: () {
                 setState(() {
                   currentScreen = const Createevent();
@@ -62,7 +74,8 @@ class _TabbarState extends State<Bottomnavbar> {
             ),
             IconButton(
               tooltip: 'Favorite',
-              icon: const Icon(Icons.mark_email_unread_outlined),
+              icon: Icon(Icons.mark_email_unread_outlined,
+                  color: currentTap == 3 ? Colors.deepPurple : Colors.black),
               onPressed: () {
                 setState(() {
                   currentScreen = const Groupchat();
@@ -72,7 +85,8 @@ class _TabbarState extends State<Bottomnavbar> {
             ),
             IconButton(
               tooltip: 'Favorite',
-              icon: const Icon(Icons.account_circle_rounded),
+              icon: Icon(Icons.account_circle_rounded,
+                  color: currentTap == 4 ? Colors.deepPurple : Colors.black),
               onPressed: () {
                 setState(() {
                   currentScreen = const Profile();
@@ -83,7 +97,10 @@ class _TabbarState extends State<Bottomnavbar> {
           ],
         ),
       ),
-      body: PageStorage(bucket: bucket, child: currentScreen),
+      body: PageStorage(
+        bucket: bucket,
+        child: currentScreen,
+      ),
     );
   }
 }
