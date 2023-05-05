@@ -129,4 +129,9 @@ class UserProvider {
     final DocumentReference docRef = _userCollection.doc(userId);
     await docRef.update({'profileImage': image});
   }
+
+  Future<bool> isUserRegistered(String userId) async {
+    final DocumentSnapshot docSnap = await _userCollection.doc(userId).get();
+    return docSnap.exists;
+  }
 }
