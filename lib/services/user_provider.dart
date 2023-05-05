@@ -16,5 +16,15 @@ class UserProvider {
     return UserModel.fromJSON(docSnap.data() as Map<String, dynamic>);
   }
 
+  Future<List<EventModel>> getJoinedEvents(String userId) async {
+    final UserModel user = await getUserById(userId);
+    final List<Future<EventModel>> futures =
+        user.joinedEvents.map((String eventId) async {
+      return await EventProvider().getEventById(eventId);
+    }).toList();
+    final List<EventModel> joinedEvents = await Future.wait(futures);
+    return joinedEvents;
+  }
+
   }
 }
