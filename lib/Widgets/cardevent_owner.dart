@@ -92,10 +92,9 @@ class CardDetail extends StatelessWidget {
   }
 }
 
-class CardLayout extends StatelessWidget {
-  const CardLayout({
+class CardLayout_owner extends StatelessWidget {
+  const CardLayout_owner({
     super.key,
-    required this.thumbnail,
     required this.title,
     required this.subtitle,
     required this.toptitle,
@@ -103,7 +102,6 @@ class CardLayout extends StatelessWidget {
     required this.maxPerson,
   });
 
-  final Widget thumbnail;
   final String title;
   final String subtitle;
   final String toptitle;
@@ -128,7 +126,21 @@ class CardLayout extends StatelessWidget {
               ),
             ),
             Center(
-              child: thumbnail,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  IconButton(
+                    tooltip: 'Home',
+                    icon: const Icon(Icons.bin),
+                    onPressed: () {},
+                  ),
+                  IconButton(
+                    tooltip: 'Home',
+                    icon: const Icon(Icons.home_outlined),
+                    onPressed: () {},
+                  ),
+                ],
+              ),
             ),
           ],
         ),

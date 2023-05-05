@@ -9,7 +9,7 @@ import 'package:tungtee/Pages/welcome.dart';
 import 'package:tungtee/navigation/tabbar.dart';
 import 'package:tungtee/Provider/persona_provider.dart';
 import 'firebase_options.dart';
-
+import 'package:tungtee/Pages/myevent_owner.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Tung Tee',
           theme: ThemeData.light(useMaterial3: true),
-          home: const WelcomePage()),
+          home: const Myevent_owner()),
     );
   }
 }

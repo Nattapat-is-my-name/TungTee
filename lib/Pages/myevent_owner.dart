@@ -1,5 +1,5 @@
 import '../Widgets/dynamicchip.dart';
-import '../Widgets/cardevent.dart';
+import '../Widgets/cardevent_owner.dart';
 import 'package:flutter/material.dart';
 
 // import 'CardT.dart';
@@ -67,7 +67,7 @@ class _Myevent_owner_state extends State<Myevent_owner> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
-                            children: const [
+                            children: [
                               Text(
                                 'Joined Event',
                                 style: TextStyle(
@@ -77,20 +77,21 @@ class _Myevent_owner_state extends State<Myevent_owner> {
                                   color: Color(0xff000000),
                                 ),
                               ),
-                              const DropdownButtonExample(),
+                              Expanded(
+                                child: Flex(
+                                  direction: Axis.horizontal,
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    DropdownButtonExample(),
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                         ],
                       ),
                     ),
-                    const CardLayout(
-                      thumbnail: Image(
-                        image: NetworkImage(
-                            'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
-                        fit: BoxFit.cover,
-                        height: 100,
-                        width: 80,
-                      ),
+                    const CardLayout_owner(
                       title: 'หมู',
                       subtitle:
                           'Flutter continues to improve and expand its horizons. '
@@ -99,14 +100,7 @@ class _Myevent_owner_state extends State<Myevent_owner> {
                       amountPerson: '5',
                       maxPerson: '10',
                     ),
-                    const CardLayout(
-                      thumbnail: Image(
-                        image: NetworkImage(
-                            'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
-                        fit: BoxFit.cover,
-                        height: 100,
-                        width: 80,
-                      ),
+                    const CardLayout_owner(
                       title: 'หมู',
                       subtitle:
                           'Flutter continues to improve and expand its horizons. '
@@ -115,14 +109,7 @@ class _Myevent_owner_state extends State<Myevent_owner> {
                       amountPerson: '5',
                       maxPerson: '10',
                     ),
-                    const CardLayout(
-                      thumbnail: Image(
-                        image: NetworkImage(
-                            'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
-                        fit: BoxFit.cover,
-                        height: 100,
-                        width: 80,
-                      ),
+                    const CardLayout_owner(
                       title: 'หมู',
                       subtitle:
                           'Flutter continues to improve and expand its horizons. '
@@ -131,14 +118,7 @@ class _Myevent_owner_state extends State<Myevent_owner> {
                       amountPerson: '5',
                       maxPerson: '10',
                     ),
-                    const CardLayout(
-                      thumbnail: Image(
-                        image: NetworkImage(
-                            'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
-                        fit: BoxFit.cover,
-                        height: 100,
-                        width: 80,
-                      ),
+                    const CardLayout_owner(
                       title: 'หมู',
                       subtitle:
                           'Flutter continues to improve and expand its horizons. '
