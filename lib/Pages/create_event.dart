@@ -8,7 +8,12 @@ class Createevent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Text("CREATE EVENTS!!!"),
+      appBar: AppBar(
+        title: const Text('Create Event'),
+      ),
+      body: Column(
+        children: [TextFormField()],
+      ),
     );
   }
 }

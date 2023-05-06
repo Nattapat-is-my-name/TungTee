@@ -1,6 +1,7 @@
-import '../Widgets/dynamicchip.dart';
 import '../Widgets/cardevent.dart';
 import 'package:flutter/material.dart';
+
+import '../widgets/dynamicchip.dart';
 // import 'CardT.dart';
 
 class HomePages extends StatefulWidget {
@@ -23,7 +24,7 @@ class _HomePagesState extends State<HomePages> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                padding: const EdgeInsets.fromLTRB(20, 50, 20, 10),
+                padding: const EdgeInsets.fromLTRB(20, 25, 20, 10),
                 child: Column(children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -65,6 +66,8 @@ class _HomePagesState extends State<HomePages> {
                           horizontal: 0, vertical: 16),
                       child: TextField(
                           decoration: InputDecoration(
+                        contentPadding:
+                            const EdgeInsets.symmetric(vertical: 15),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(50.0),
                         ),

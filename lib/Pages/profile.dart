@@ -8,7 +8,13 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Text("PROFILE!!!"),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Text("PROFILE!!!"),
+          ],
+        ),
+      ),
     );
   }
 }

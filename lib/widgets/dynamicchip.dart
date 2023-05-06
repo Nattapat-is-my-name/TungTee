@@ -25,12 +25,16 @@ class _dynamicChipState extends State<dynamicChip> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
       child: Wrap(
-        spacing: 5.0,
+        spacing: 8.0,
         children: _Hobby.values.map((_Hobby hobby) {
           return FilterChip(
-            avatar: Icon(Icons.abc),
+            avatar: const Icon(Icons.abc),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             label: Text(hobby.name),
             selected: _filters.contains(hobby.name),
+            selectedColor: Colors.deepPurple[100],
+            showCheckmark: false,
             onSelected: (bool value) {
               setState(() {
                 if (value) {
