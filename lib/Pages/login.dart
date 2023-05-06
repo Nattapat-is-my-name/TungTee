@@ -44,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
                 'Please enter your detail',
                 style: TextStyle(fontWeight: FontWeight.w400, fontSize: 16),
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: 16),
               Container(
                   margin:
                       const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
@@ -53,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Column(
                     children: [
                       const LoginForm(),
-                      const SizedBox(height: 45),
+                      const SizedBox(height: 35),
                       Row(
                         children: [
                           const Expanded(
@@ -95,7 +95,7 @@ class _LoginPageState extends State<LoginPage> {
                               style: TextStyle(color: Colors.black)),
                         ),
                       ),
-                      const SizedBox(height: 85),
+                      const SizedBox(height: 35),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
