@@ -29,13 +29,6 @@ class _LoginFormState extends State<LoginForm> {
     });
   }
 
-  void handleClearEmail() {
-    setState(() {
-      emailController.clear();
-      isShowClearIcon = false;
-    });
-  }
-
   void handleEmailFieldChange(value) {
     setState(() {
       isShowClearIcon = value.isNotEmpty;
