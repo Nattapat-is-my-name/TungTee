@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tungtee/Constants/colors.dart';
 import 'package:tungtee/Models/event_model.dart';
+import 'package:tungtee/Pages/member_list.dart';
 import 'package:tungtee/Widgets/message.dart';
 
 class ChatEvent extends StatelessWidget {
@@ -27,7 +28,13 @@ class ChatEvent extends StatelessWidget {
       appBar: AppBar(
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              // TODO: check if user is event owner
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => MemberList(event: event)));
+            },
             icon: const Icon(Icons.info_outline),
           )
         ],
