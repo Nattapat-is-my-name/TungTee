@@ -12,10 +12,7 @@ class RegisterPage extends StatelessWidget {
         ),
         body: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.only(
-              left: 20.0,
-              right: 20.0,
-            ),
+            padding: const EdgeInsets.only(left: 20.0, right: 20.0),
             child: ListView(
               children: [
                 Column(
@@ -31,13 +28,9 @@ class RegisterPage extends StatelessWidget {
                       padding: EdgeInsets.only(left: 5.0),
                       child: Text("Register to get started."),
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
+                    SizedBox(height: 10),
                     InputForm(),
-                    SizedBox(
-                      height: 10,
-                    ),
+                    SizedBox(height: 10),
                     Policy(),
                     Button(),
                     Center(
