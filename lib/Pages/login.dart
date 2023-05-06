@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:tungtee/Pages/register.dart';
 import 'package:tungtee/Constants/colors.dart';
 import 'package:tungtee/Services/auth_provider.dart';
-import 'package:tungtee/Widgets/custom_appbar.dart';
 import 'package:tungtee/Widgets/login_form.dart';
 
 class LoginPage extends StatefulWidget {
@@ -25,7 +24,9 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
         child: GestureDetector(
@@ -95,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                               style: TextStyle(color: Colors.black)),
                         ),
                       ),
-                      const SizedBox(height: 35),
+                      const SizedBox(height: 55),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
