@@ -14,7 +14,7 @@ class RegisterPage extends StatelessWidget {
         ),
         body: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+            padding: const EdgeInsets.only(left: 24.0, right: 24.0),
             child: GestureDetector(
               onTap: () {
                 FocusScope.of(context).unfocus();
@@ -34,7 +34,7 @@ class RegisterPage extends StatelessWidget {
                         padding: EdgeInsets.only(left: 5.0),
                         child: Text("Register to get started."),
                       ),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 20),
                       const InputForm(),
                       const SizedBox(height: 10),
                       Row(
