@@ -101,6 +101,7 @@ class _LoginFormState extends State<LoginForm> {
         const Text('Email/Username'),
         const SizedBox(height: 8),
         TextFormField(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           controller: emailController,
           validator: (value) {
             if (value == null || value.isEmpty) {
@@ -131,6 +132,7 @@ class _LoginFormState extends State<LoginForm> {
         const Text('Password'),
         const SizedBox(height: 8),
         TextFormField(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           controller: passwordController,
           validator: (value) {
             if (value == null || value.isEmpty) {
