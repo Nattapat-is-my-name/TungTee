@@ -177,12 +177,20 @@ class _LoginFormState extends State<LoginForm> {
         ),
         const SizedBox(height: 40),
         SizedBox(
-          width: double.infinity,
-          height: 45,
-          child: FilledButton(
-              onPressed: handleSignInWithEmailAndPassword,
-              child: const Text('Login')),
-        ),
+            width: double.infinity,
+            height: 45,
+            child: FilledButton(
+                onPressed: handleSignInWithEmailAndPassword,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Text('Login'),
+                    SizedBox(width: 16),
+                    Icon(Icons.arrow_forward_ios, size: 14)
+                  ],
+                )
+                // child: const Text('Login')),
+                )),
       ]),
     );
   }
