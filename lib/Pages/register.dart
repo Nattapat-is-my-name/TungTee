@@ -36,8 +36,6 @@ class RegisterPage extends StatelessWidget {
                       SizedBox(height: 10),
                       InputForm(),
                       SizedBox(height: 10),
-                      Policy(),
-                      Button(),
                       Center(
                           child: Text("Or Connect Via",
                               style: TextStyle(
@@ -51,72 +49,6 @@ class RegisterPage extends StatelessWidget {
             ),
           ),
         ));
-  }
-}
-
-//Icon see password
-class PassState extends StatefulWidget {
-  const PassState({super.key});
-
-  @override
-  State<PassState> createState() => _PassStateState();
-}
-
-class _PassStateState extends State<PassState> {
-  bool _passwordVisible = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _passwordVisible = false;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      icon: Icon(
-        _passwordVisible ? Icons.visibility : Icons.visibility_off,
-      ),
-      onPressed: () {
-        setState(() {
-          _passwordVisible = !_passwordVisible;
-        });
-      },
-    );
-  }
-}
-
-//register button
-class Button extends StatelessWidget {
-  const Button({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(28.0),
-        child: SizedBox(
-          height: 35,
-          child: ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(shape: const StadiumBorder()),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Text('Register'),
-                SizedBox(
-                  width: 5,
-                ),
-                Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  size: 15.0,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
   }
 }
 
@@ -152,62 +84,6 @@ class Google extends StatelessWidget {
               ],
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class Policy extends StatefulWidget {
-  const Policy({super.key});
-
-  @override
-  State<Policy> createState() => _PolicyState();
-}
-
-class _PolicyState extends State<Policy> {
-  bool isChecked = false;
-  @override
-  Widget build(BuildContext context) {
-    return FittedBox(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Checkbox(
-              value: isChecked,
-              onChanged: (value) {
-                setState(() {
-                  isChecked = value!;
-                });
-              },
-              activeColor: Colors.purple,
-            ),
-            RichText(
-              text: const TextSpan(children: [
-                TextSpan(
-                    text: "By registering, you are agreeing with our ",
-                    style: TextStyle(color: Colors.grey)),
-                TextSpan(
-                  text: "Terms of Use",
-                  style: TextStyle(
-                      color: Colors.purple,
-                      decoration: TextDecoration.underline),
-                ),
-                TextSpan(
-                  text: " and ",
-                  style: TextStyle(color: Colors.grey),
-                ),
-                TextSpan(
-                  text: "Privacy Policy",
-                  style: TextStyle(
-                      color: Colors.purple,
-                      decoration: TextDecoration.underline),
-                )
-              ]),
-            ),
-          ],
         ),
       ),
     );
