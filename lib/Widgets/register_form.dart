@@ -28,9 +28,12 @@ class _InputFormState extends State<InputForm> {
             padding: const EdgeInsets.only(left: 8.0, right: 8.0),
             child: TextFormField(
               autovalidateMode: AutovalidateMode.onUserInteraction,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.all(16),
                 hintText: "Name",
-                border: OutlineInputBorder(),
+                border: OutlineInputBorder(
+                    borderSide: const BorderSide(width: 1, color: Colors.grey),
+                    borderRadius: BorderRadius.circular(8)),
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -50,8 +53,14 @@ class _InputFormState extends State<InputForm> {
             padding: const EdgeInsets.only(left: 8.0, right: 8.0),
             child: TextFormField(
                 autovalidateMode: AutovalidateMode.onUserInteraction,
-                decoration: const InputDecoration(
-                    hintText: "E-mail", border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.all(16),
+                  hintText: "E-mail",
+                  border: OutlineInputBorder(
+                      borderSide:
+                          const BorderSide(width: 1, color: Colors.grey),
+                      borderRadius: BorderRadius.circular(8)),
+                ),
                 validator: (value) {
                   if (value == null ||
                       value.isEmpty ||
@@ -74,11 +83,15 @@ class _InputFormState extends State<InputForm> {
               autovalidateMode: AutovalidateMode.onUserInteraction,
               obscureText: hidePassword,
               decoration: InputDecoration(
-                border: OutlineInputBorder(),
+                border: OutlineInputBorder(
+                    borderSide: const BorderSide(width: 1, color: Colors.grey),
+                    borderRadius: BorderRadius.circular(8)),
+                contentPadding: const EdgeInsets.all(16),
                 hintText: 'Password',
                 suffixIcon: IconButton(
                   icon: Icon(
                     hidePassword ? Icons.visibility_off : Icons.visibility,
+                    size: 18,
                   ),
                   onPressed: () {
                     setState(() {
@@ -109,13 +122,17 @@ class _InputFormState extends State<InputForm> {
             child: TextFormField(
               autovalidateMode: AutovalidateMode.onUserInteraction,
               decoration: InputDecoration(
-                border: OutlineInputBorder(),
+                border: OutlineInputBorder(
+                    borderSide: const BorderSide(width: 1, color: Colors.grey),
+                    borderRadius: BorderRadius.circular(8)),
+                contentPadding: const EdgeInsets.all(16),
                 hintText: 'Confirm Password',
                 suffixIcon: IconButton(
                   icon: Icon(
                     hidePasswordConfirm
                         ? Icons.visibility_off
                         : Icons.visibility,
+                    size: 18,
                   ),
                   onPressed: () {
                     setState(() {
