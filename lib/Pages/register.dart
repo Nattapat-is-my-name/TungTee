@@ -85,6 +85,7 @@ class _InputFormState extends State<InputForm> {
                 if (value == null || value.isEmpty) {
                   return "Please type your name";
                 }
+                return null;
               },
             ),
           ),
@@ -97,21 +98,18 @@ class _InputFormState extends State<InputForm> {
           Padding(
             padding: const EdgeInsets.only(left: 8.0, right: 8.0),
             child: TextFormField(
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              decoration: const InputDecoration(
-                  hintText: "E-mail", border: OutlineInputBorder()),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "Please type your email";
-                } else if (value != null) {
-                  if (!RegExp(
-                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                      .hasMatch(value)) {
-                    return "invalid e-mail!!";
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                decoration: const InputDecoration(
+                    hintText: "E-mail", border: OutlineInputBorder()),
+                validator: (value) {
+                  if (value == null ||
+                      value.isEmpty ||
+                      !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                          .hasMatch(value)) {
+                    return "Please type your email";
                   }
-                }
-              },
-            ),
+                  return null;
+                }),
           ),
 
           //3
@@ -138,12 +136,14 @@ class _InputFormState extends State<InputForm> {
                   },
                 ),
               ),
-              validator: (val) {
-                confirmPassword = val;
-                if (val != null) {
-                  if (val.length < 6) return 'Password must be 6 characters.';
-                } else
-                  return null;
+              validator: (value) {
+                confirmPassword = value;
+                if (value == null || value.isEmpty) {
+                  return 'Please enter password';
+                } else if (value.length < 6) {
+                  return 'Password must be 6 characters.';
+                }
+                return null;
               },
             ),
           ),
@@ -173,13 +173,13 @@ class _InputFormState extends State<InputForm> {
                   },
                 ),
               ),
-              validator: (val) {
-                if (val!.isEmpty) {
-                  return 'Enter the password first';
-                } else if (val != confirmPassword)
-                  return 'Password must be same.';
-                else
-                  return null;
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter the password';
+                } else if (value != confirmPassword) {
+                  return 'Password does not match with each other';
+                }
+                return null;
               },
               obscureText: hidePasswordConfirm,
             ),
@@ -200,7 +200,10 @@ class PassState extends StatefulWidget {
 
 class _PassStateState extends State<PassState> {
   bool _passwordVisible = true;
+
+  @override
   void initState() {
+    super.initState();
     _passwordVisible = false;
   }
 
@@ -299,7 +302,7 @@ class Policy extends StatefulWidget {
 }
 
 class _PolicyState extends State<Policy> {
-  bool Tick = false;
+  bool isChecked = false;
   @override
   Widget build(BuildContext context) {
     return FittedBox(
@@ -309,10 +312,10 @@ class _PolicyState extends State<Policy> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Checkbox(
-              value: Tick,
-              onChanged: (bool? value) {
+              value: isChecked,
+              onChanged: (value) {
                 setState(() {
-                  Tick = value!;
+                  isChecked = value!;
                 });
               },
               activeColor: Colors.purple,
