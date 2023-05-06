@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tungtee/Constants/colors.dart';
 import 'package:tungtee/Widgets/register_form.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -23,25 +24,58 @@ class RegisterPage extends StatelessWidget {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text(
+                    children: [
+                      const Text(
                         "Create account!",
                         style: TextStyle(
                             fontSize: 35, fontWeight: FontWeight.bold),
                       ),
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.only(left: 5.0),
                         child: Text("Register to get started."),
                       ),
-                      SizedBox(height: 10),
-                      InputForm(),
-                      SizedBox(height: 10),
-                      Center(
-                          child: Text("Or Connect Via",
-                              style: TextStyle(
-                                color: Colors.grey,
-                              ))),
-                      Google(),
+                      const SizedBox(height: 10),
+                      const InputForm(),
+                      const SizedBox(height: 10),
+                      Row(
+                        children: [
+                          const Expanded(
+                              child: Divider(
+                            height: 1.2,
+                            thickness: 2,
+                          )),
+                          Container(
+                              margin: const EdgeInsets.symmetric(
+                                  vertical: 0, horizontal: 8),
+                              child: const Text('Or Connect Via')),
+                          const Expanded(
+                              child: Divider(
+                            height: 1.2,
+                            thickness: 2,
+                          )),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      SizedBox(
+                        width: double.infinity,
+                        height: 45,
+                        child: ElevatedButton.icon(
+                          onPressed: () async {},
+                          style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.transparent),
+                              shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(100),
+                                      side: const BorderSide(
+                                          color: rawPrimaryColor))),
+                              elevation: MaterialStateProperty.all(0)),
+                          icon: Image.asset('assets/images/google.png',
+                              height: 21, width: 21),
+                          label: const Text('Google',
+                              style: TextStyle(color: Colors.black)),
+                        ),
+                      ),
                     ],
                   ),
                 ],
@@ -49,43 +83,5 @@ class RegisterPage extends StatelessWidget {
             ),
           ),
         ));
-  }
-}
-
-class Google extends StatelessWidget {
-  const Google({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(28.0),
-        child: SizedBox(
-          height: 35,
-          child: ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-                shape: const StadiumBorder(),
-                backgroundColor: Colors.white,
-                side: const BorderSide(color: Colors.purple)),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.network(
-                    'http://pngimg.com/uploads/google/google_PNG19635.png', //รอเอารูปจากของ boss มาใช้เลย
-                    fit: BoxFit.cover),
-                const SizedBox(
-                  width: 5,
-                ),
-                const Text(
-                  'Google',
-                  style: TextStyle(color: Colors.black),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
   }
 }
