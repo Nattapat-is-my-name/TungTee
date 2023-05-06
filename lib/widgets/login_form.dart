@@ -49,6 +49,17 @@ class _LoginFormState extends State<LoginForm> {
             emailController.text, passwordController.text);
       }
     } on FirebaseAuthException catch (error) {
+      if (error.code == SignInError.userNotFound && context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              backgroundColor: rawPrimaryColor,
+              showCloseIcon: true,
+              closeIconColor: Colors.white,
+              padding: EdgeInsets.all(8),
+              content: Text('User not found, Please register',
+                  style: TextStyle(fontSize: 16))),
+        );
+      }
       if (error.code == SignInError.invalidEmail && context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -106,6 +117,7 @@ class _LoginFormState extends State<LoginForm> {
           },
           onChanged: handleEmailFieldChange,
           decoration: InputDecoration(
+              contentPadding: const EdgeInsets.all(16),
               hintText: 'your_email@mail.com',
               suffixIcon: isShowClearIcon
                   ? GestureDetector(
@@ -136,6 +148,7 @@ class _LoginFormState extends State<LoginForm> {
           autocorrect: false,
           obscureText: !isShowPassword,
           decoration: InputDecoration(
+              contentPadding: const EdgeInsets.all(16),
               suffixIcon: GestureDetector(
                   onTap: handleShowPassword,
                   child: isShowPassword
