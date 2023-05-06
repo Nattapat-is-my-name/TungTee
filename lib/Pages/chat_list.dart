@@ -95,7 +95,10 @@ class ChatListPage extends StatelessWidget {
                     );
                   },
                   separatorBuilder: (context, index) {
-                    return const Divider();
+                    return const Divider(
+                      indent: 16,
+                      endIndent: 16,
+                    );
                   },
                 ),
               ),
