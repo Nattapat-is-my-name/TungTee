@@ -2,9 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:tungtee/Constants/colors.dart';
 import 'package:tungtee/Pages/chat_event.dart';
 
-class ChatListPage extends StatelessWidget {
-  ChatListPage({super.key});
+class ChatListPage extends StatefulWidget {
+  const ChatListPage({super.key});
 
+  @override
+  State<ChatListPage> createState() => _ChatListPageState();
+}
+
+class _ChatListPageState extends State<ChatListPage> {
   final chatData = [
     {
       'title': 'หมูกระทะ',
