@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tungtee/Pages/homepage.dart';
+import 'package:tungtee/Pages/persona.dart';
 
 import '../Pages/create_event.dart';
 import '../Pages/group_chat.dart';
@@ -14,86 +15,68 @@ class Bottomnavbar extends StatefulWidget {
 }
 
 class _TabbarState extends State<Bottomnavbar> {
-  int currentTap = 0;
-
+  int _selectedIndex = 0;
   final List<Widget> screens = [
     const HomePages(),
     const Myevent(),
     const Createevent(),
     const Groupchat(),
-    const Profile()
+    const Profile(),
   ];
-  final PageStorageBucket bucket = PageStorageBucket();
-  Widget currentScreen = const HomePages();
+
+  void _onItemTapped(int index) {
+    if (index != 2) {
+      setState(() {
+        _selectedIndex = index;
+      });
+    } else {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const Createevent()));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: SafeArea(
-        child: BottomAppBar(
-          elevation: 1,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              IconButton(
-                icon: Icon(Icons.home_rounded,
-                    color: currentTap == 0 ? Colors.deepPurple : Colors.black),
-                onPressed: () {
-                  setState(() {
-                    currentScreen = const HomePages();
-                    currentTap = 0;
-                  });
-                },
-              ),
-              IconButton(
-                icon: Icon(Icons.event_note_rounded,
-                    color: currentTap == 1 ? Colors.deepPurple : Colors.black),
-                onPressed: () {
-                  setState(() {
-                    currentScreen = const Myevent();
-                    currentTap = 1;
-                  });
-                },
-              ),
-              FloatingActionButton(
-                child: Icon(Icons.add_rounded,
-                    color: currentTap == 2 ? Colors.deepPurple : Colors.black),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const Createevent()));
-                },
-              ),
-              IconButton(
-                tooltip: 'Favorite',
-                icon: Icon(Icons.mark_email_unread_outlined,
-                    color: currentTap == 3 ? Colors.deepPurple : Colors.black),
-                onPressed: () {
-                  setState(() {
-                    currentScreen = const Groupchat();
-                    currentTap = 3;
-                  });
-                },
-              ),
-              IconButton(
-                tooltip: 'Favorite',
-                icon: Icon(Icons.account_circle_rounded,
-                    color: currentTap == 4 ? Colors.deepPurple : Colors.black),
-                onPressed: () {
-                  setState(() {
-                    currentScreen = const Profile();
-                    currentTap = 4;
-                  });
-                },
-              ),
-            ],
+      bottomNavigationBar: BottomNavigationBar(
+        items: <BottomNavigationBarItem>[
+          const BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
           ),
-        ),
+          const BottomNavigationBarItem(
+            icon: Icon(Icons.event),
+            label: 'My Event',
+          ),
+          BottomNavigationBarItem(
+            icon: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: const SizedBox(
+                width: 50,
+                height: 50,
+                child: Center(child: Icon(Icons.add)),
+              ),
+            ),
+            label: 'Create Event',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.email_outlined),
+            label: 'Chat',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_circle_rounded),
+            label: 'Profile',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        unselectedItemColor: Theme.of(context).colorScheme.primary,
+        selectedItemColor: Theme.of(context).colorScheme.primary,
+        onTap: _onItemTapped,
       ),
-      body: PageStorage(
-        bucket: bucket,
-        child: currentScreen,
+      body: Center(
+        child: screens.elementAt(_selectedIndex),
       ),
     );
   }
