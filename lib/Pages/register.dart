@@ -36,7 +36,7 @@ class RegisterPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       const InputForm(),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 32),
                       Row(
                         children: [
                           const Expanded(
@@ -55,7 +55,7 @@ class RegisterPage extends StatelessWidget {
                           )),
                         ],
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 32),
                       SizedBox(
                         width: double.infinity,
                         height: 45,
