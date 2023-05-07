@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tungtee/Constants/colors.dart';
+import 'package:tungtee/Models/user_model.dart';
+import 'package:tungtee/Pages/register_information.dart';
 
 class InputForm extends StatefulWidget {
   const InputForm({super.key});
@@ -11,10 +14,70 @@ class _InputFormState extends State<InputForm> {
   bool hidePassword = true;
   bool hidePasswordConfirm = true;
   String? confirmPassword;
+  bool isChecked = false;
+  bool isShowClearName = false;
+  bool isShowClearEmail = false;
+
+  final _registerFormKey = GlobalKey<FormState>();
+
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmPassController = TextEditingController();
+
+  void handleEmailFieldChange(value) {
+    setState(() {
+      isShowClearEmail = value.isNotEmpty;
+    });
+  }
+
+  void handleNameFieldChange(value) {
+    setState(() {
+      isShowClearName = value.isNotEmpty;
+    });
+  }
+
+  void handleSignUp() {
+    try {
+      if (_registerFormKey.currentState!.validate() && isChecked) {
+        if (context.mounted) {
+          final email = emailController.text;
+          final password = passwordController.text;
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => RegisterInformation(
+                        email: email,
+                        password: password,
+                      )));
+        }
+      } else if (_registerFormKey.currentState!.validate() && !isChecked) {
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+                backgroundColor: rawPrimaryColor,
+                showCloseIcon: true,
+                closeIconColor: Colors.white,
+                padding: EdgeInsets.all(8),
+                content: Text('You have to agree on our Term and Policy',
+                    style: TextStyle(fontSize: 16))),
+          );
+        }
+      }
+    } catch (error) {}
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPassController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(8.0),
+    return Form(
+      key: _registerFormKey,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -27,21 +90,36 @@ class _InputFormState extends State<InputForm> {
           Padding(
             padding: const EdgeInsets.only(left: 8.0, right: 8.0),
             child: TextFormField(
+                onChanged: handleEmailFieldChange,
+                controller: emailController,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 decoration: InputDecoration(
+                  suffixIcon: isShowClearEmail
+                      ? GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              emailController.clear();
+                              isShowClearEmail = false;
+                            });
+                          },
+                          child: const Icon(Icons.clear, size: 18),
+                        )
+                      : null,
                   contentPadding: const EdgeInsets.all(16),
-                  hintText: "E-mail",
+                  hintText: "your_email@mail.com",
                   border: OutlineInputBorder(
                       borderSide:
                           const BorderSide(width: 1, color: Colors.grey),
                       borderRadius: BorderRadius.circular(8)),
                 ),
                 validator: (value) {
-                  if (value == null ||
-                      value.isEmpty ||
-                      !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                          .hasMatch(value)) {
-                    return "Please type your email";
+                  if (value == null || value.isEmpty) {
+                    return "Please enter your email";
+                  }
+                  if (!RegExp(
+                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                      .hasMatch(value)) {
+                    return 'Please enter email in correct format';
                   }
                   return null;
                 }),
@@ -55,6 +133,7 @@ class _InputFormState extends State<InputForm> {
           Padding(
             padding: const EdgeInsets.only(left: 8.0, right: 8.0),
             child: TextFormField(
+              controller: passwordController,
               autovalidateMode: AutovalidateMode.onUserInteraction,
               obscureText: hidePassword,
               decoration: InputDecoration(
@@ -76,9 +155,8 @@ class _InputFormState extends State<InputForm> {
                 ),
               ),
               validator: (value) {
-                confirmPassword = value;
                 if (value == null || value.isEmpty) {
-                  return 'Please enter password';
+                  return 'Please enter the password';
                 } else if (value.length < 6) {
                   return 'Password must be 6 characters.';
                 }
@@ -95,6 +173,7 @@ class _InputFormState extends State<InputForm> {
           Padding(
             padding: const EdgeInsets.only(left: 8.0, right: 8.0),
             child: TextFormField(
+              controller: confirmPassController,
               autovalidateMode: AutovalidateMode.onUserInteraction,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
@@ -119,7 +198,7 @@ class _InputFormState extends State<InputForm> {
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter the password';
-                } else if (value != confirmPassword) {
+                } else if (value != passwordController.text) {
                   return 'Password does not match with each other';
                 }
                 return null;
@@ -127,6 +206,65 @@ class _InputFormState extends State<InputForm> {
               obscureText: hidePasswordConfirm,
             ),
           ),
+          const SizedBox(height: 16),
+          FittedBox(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Checkbox(
+                    value: isChecked,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        isChecked = value!;
+                      });
+                    },
+                    activeColor: primaryColor.shade900,
+                  ),
+                  RichText(
+                    text: TextSpan(children: [
+                      const TextSpan(
+                          text: "By registering, you are agreeing with our ",
+                          style: TextStyle(color: Colors.grey)),
+                      TextSpan(
+                        text: "Terms of Use",
+                        style: TextStyle(
+                            color: primaryColor.shade900,
+                            decoration: TextDecoration.underline),
+                      ),
+                      const TextSpan(
+                        text: " and ",
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                      TextSpan(
+                        text: "Privacy Policy",
+                        style: TextStyle(
+                            color: primaryColor.shade900,
+                            decoration: TextDecoration.underline),
+                      )
+                    ]),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 32),
+          SizedBox(
+              width: double.infinity,
+              height: 45,
+              child: FilledButton(
+                  onPressed: handleSignUp,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Text('Register'),
+                      SizedBox(width: 16),
+                      Icon(Icons.arrow_forward_ios, size: 14)
+                    ],
+                  )
+                  // child: const Text('Login')),
+                  )),
         ],
       ),
     );
