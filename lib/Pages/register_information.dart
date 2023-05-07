@@ -106,6 +106,7 @@ class _RegisterInformationState extends State<RegisterInformation> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 8),
+                    // NAME FIELD
                     TextFormField(
                       keyboardType: TextInputType.name,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -133,6 +134,7 @@ class _RegisterInformationState extends State<RegisterInformation> {
                               borderRadius: BorderRadius.circular(8))),
                     ),
                     const SizedBox(height: 24),
+                    // NICKNAME FIELD
                     TextFormField(
                       keyboardType: TextInputType.name,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -160,6 +162,7 @@ class _RegisterInformationState extends State<RegisterInformation> {
                               borderRadius: BorderRadius.circular(8))),
                     ),
                     const SizedBox(height: 24),
+                    // PHONE FIELD
                     TextFormField(
                       keyboardType: TextInputType.phone,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -190,6 +193,7 @@ class _RegisterInformationState extends State<RegisterInformation> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        // GENDER FIELD
                         Flexible(
                           flex: 1,
                           child: Container(
@@ -218,6 +222,7 @@ class _RegisterInformationState extends State<RegisterInformation> {
                           ),
                         ),
                         const SizedBox(width: 32),
+                        // DATE FIELD
                         Flexible(
                           flex: 2,
                           child: TextFormField(
