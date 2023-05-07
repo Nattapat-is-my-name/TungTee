@@ -19,31 +19,6 @@ class _InputFormState extends State<InputForm> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          //1
-          const Padding(
-            padding: EdgeInsets.only(left: 8.0),
-            child: Text("Name"),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-            child: TextFormField(
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              decoration: InputDecoration(
-                contentPadding: const EdgeInsets.all(16),
-                hintText: "Name",
-                border: OutlineInputBorder(
-                    borderSide: const BorderSide(width: 1, color: Colors.grey),
-                    borderRadius: BorderRadius.circular(8)),
-              ),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "Please type your name";
-                }
-                return null;
-              },
-            ),
-          ),
-
           //2
           const Padding(
             padding: EdgeInsets.only(left: 8.0, top: 15),
