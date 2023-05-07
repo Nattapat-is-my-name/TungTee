@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tungtee/Constants/colors.dart';
-import 'package:tungtee/Models/user_model.dart';
 import 'package:tungtee/Pages/register_information.dart';
 
 class InputForm extends StatefulWidget {
