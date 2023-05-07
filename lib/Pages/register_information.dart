@@ -319,7 +319,42 @@ class _RegisterInformationState extends State<RegisterInformation> {
                           ),
                         ),
                       ],
-                    )
+                    ),
+                    const SizedBox(height: 80),
+                    SizedBox(
+                        width: double.infinity,
+                        height: 45,
+                        child: FilledButton(
+                            onPressed: () {
+                              if (_registerInfoFormKey.currentState!
+                                  .validate()) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => PersonaPage(
+                                              email: widget.email,
+                                              password: widget.password,
+                                              fullname: fullnameController.text,
+                                              nickname: nicknameController.text,
+                                              phone: phoneController.text,
+                                              gender: genderController.text,
+                                              birthDate:
+                                                  birthDateController.text,
+                                            )));
+                              } else {
+                                setState(() {
+                                  isClickedValidate = true;
+                                });
+                              }
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                Text('Next'),
+                                SizedBox(width: 16),
+                                Icon(Icons.arrow_forward_ios, size: 14)
+                              ],
+                            ))),
                   ],
                 ),
               ),
