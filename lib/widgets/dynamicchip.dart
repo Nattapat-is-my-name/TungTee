@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 
-enum _Hobby {
-  walking,
-  running,
-  cycling,
-  hiking,
-  food,
-  sport,
-  eSport,
-}
+final List<String> _Hobby = [
+  '⚽️ Sport',
+  '🎵Music',
+  '✏️ Drawing',
+  '🛒 Shopping',
+  '🎯 Board games',
+  '🍲 Cooking',
+  '📚 Reading',
+  '🎤 Singing',
+  '🌱 Gardening',
+  '🍿 Movies',
+  '🎮 Video games',
+  '✈️ Traveling',
+  '🎣 Fishing',
+  '📸 Photography',
+];
 
 class dynamicChip extends StatefulWidget {
   const dynamicChip({super.key});
@@ -20,30 +27,30 @@ class dynamicChip extends StatefulWidget {
 class _dynamicChipState extends State<dynamicChip> {
   bool favorite = false;
   final List<String> _filters = <String>[];
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
       child: Wrap(
         spacing: 8.0,
-        children: _Hobby.values.map((_Hobby hobby) {
+        children: _Hobby.map((_Hobby) {
           return FilterChip(
-            avatar: const Icon(Icons.abc),
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            label: Text(hobby.name),
-            selected: _filters.contains(hobby.name),
+            label: Text(_Hobby),
+            selected: _filters.contains(_Hobby),
             selectedColor: Colors.deepPurple[100],
             showCheckmark: false,
             onSelected: (bool value) {
               setState(() {
                 if (value) {
-                  if (!_filters.contains(hobby.name)) {
-                    _filters.add(hobby.name);
+                  if (!_filters.contains(_Hobby)) {
+                    _filters.add(_Hobby);
                   }
                 } else {
                   _filters.removeWhere((String name) {
-                    return name == hobby.name;
+                    return name == _Hobby;
                   });
                 }
               });

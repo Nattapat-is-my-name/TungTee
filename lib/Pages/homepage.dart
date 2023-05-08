@@ -1,3 +1,6 @@
+import 'package:tungtee/Models/user_model.dart';
+import 'package:tungtee/services/user_provider.dart';
+
 import '../Widgets/cardevent.dart';
 import 'package:flutter/material.dart';
 
