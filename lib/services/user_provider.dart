@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tungtee/Models/event_model.dart';
 import 'package:tungtee/Models/user_model.dart';
 import 'package:tungtee/Services/event_provider.dart';
+import 'package:collection/collection.dart';
 
 class UserProvider {
   final _userCollection = FirebaseFirestore.instance.collection('Users');
@@ -145,5 +146,15 @@ class UserProvider {
   Future<bool> isUserRegistered(String userId) async {
     final DocumentSnapshot docSnap = await _userCollection.doc(userId).get();
     return docSnap.exists;
+  }
+
+  Future<UserModel?> getUserByEmail(String email) async {
+    final QuerySnapshot querySnapshot =
+        await _userCollection.where('email', isEqualTo: email).get();
+    final user = querySnapshot.docs.firstWhereOrNull((user) => true);
+    if (user != null) {
+      return UserModel.fromJSON(user as Map<String, dynamic>);
+    }
+    return null;
   }
 }
