@@ -98,14 +98,20 @@ class _LoginFormState extends State<LoginForm> {
     return Form(
       key: _loginFormKey,
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        const Text('Email/Username'),
+        const Text('Email'),
         const SizedBox(height: 8),
         TextFormField(
+          keyboardType: TextInputType.emailAddress,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           controller: emailController,
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'Please enter your email/username';
+              return 'Please enter your email';
+            }
+            if (!RegExp(
+                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                .hasMatch(value)) {
+              return 'Please enter email in correct format';
             }
             return null;
           },
@@ -132,6 +138,7 @@ class _LoginFormState extends State<LoginForm> {
         const Text('Password'),
         const SizedBox(height: 8),
         TextFormField(
+          keyboardType: TextInputType.visiblePassword,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           controller: passwordController,
           validator: (value) {
