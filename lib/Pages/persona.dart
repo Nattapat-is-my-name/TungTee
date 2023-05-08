@@ -75,7 +75,7 @@ class _PersonaPageState extends State<PersonaPage> {
                       setState(() {
                         if (selectedInterests.contains(interest)) {
                           selectedInterests.remove(interest);
-                        } else if (selectedInterests.length < 5) {
+                        } else {
                           selectedInterests.add(interest);
                         }
                       });
