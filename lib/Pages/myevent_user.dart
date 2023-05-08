@@ -3,7 +3,7 @@ import '../Widgets/cardevent.dart';
 import 'package:flutter/material.dart';
 
 // import 'CardT.dart';
-const List<String> list = <String>['All', 'or', 'nothing', 'at', 'all'];
+const List<String> list = <String>['Joined', 'Created'];
 
 class Myevent_user extends StatefulWidget {
   const Myevent_user({
@@ -183,11 +183,6 @@ class _DropdownButtonExampleState extends State<DropdownButtonExample> {
       icon: const Icon(Icons.arrow_downward),
       alignment: Alignment.centerLeft,
       elevation: 16,
-      style: const TextStyle(color: Colors.deepPurple),
-      underline: Container(
-        height: 2,
-        color: Colors.deepPurpleAccent,
-      ),
       onChanged: (String? value) {
         // This is called when the user selects an item.
         setState(() {

@@ -3,7 +3,7 @@ import '../Widgets/cardevent_owner.dart';
 import 'package:flutter/material.dart';
 
 // import 'CardT.dart';
-const List<String> list = <String>['All', 'or', 'nothing', 'at', 'all'];
+const List<String> list = <String>['Created', 'Joined'];
 
 class Myevent_owner extends StatefulWidget {
   const Myevent_owner({
@@ -97,8 +97,7 @@ class _Myevent_owner_state extends State<Myevent_owner> {
                           'Flutter continues to improve and expand its horizons. '
                           'This text should max out at two lines and clip',
                       toptitle: 'Fri 17 Mar 08:09',
-                      amountPerson: '5',
-                      maxPerson: '10',
+                  
                     ),
                     const CardLayout_owner(
                       title: 'หมู',
@@ -106,8 +105,7 @@ class _Myevent_owner_state extends State<Myevent_owner> {
                           'Flutter continues to improve and expand its horizons. '
                           'This text should max out at two lines and clip',
                       toptitle: 'Fri 17 Mar 08:09',
-                      amountPerson: '5',
-                      maxPerson: '10',
+                
                     ),
                     const CardLayout_owner(
                       title: 'หมู',
@@ -115,8 +113,7 @@ class _Myevent_owner_state extends State<Myevent_owner> {
                           'Flutter continues to improve and expand its horizons. '
                           'This text should max out at two lines and clip',
                       toptitle: 'Fri 17 Mar 08:09',
-                      amountPerson: '5',
-                      maxPerson: '10',
+          
                     ),
                     const CardLayout_owner(
                       title: 'หมู',
@@ -124,8 +121,7 @@ class _Myevent_owner_state extends State<Myevent_owner> {
                           'Flutter continues to improve and expand its horizons. '
                           'This text should max out at two lines and clip',
                       toptitle: 'Fri 17 Mar 08:09',
-                      amountPerson: '5',
-                      maxPerson: '10',
+            
                     ),
                   ],
                 ),
@@ -154,11 +150,6 @@ class _DropdownButtonExampleState extends State<DropdownButtonExample> {
       value: dropdownValue,
       icon: const Icon(Icons.arrow_downward),
       elevation: 16,
-      style: const TextStyle(color: Colors.deepPurple),
-      underline: Container(
-        height: 2,
-        color: Colors.deepPurpleAccent,
-      ),
       onChanged: (String? value) {
         // This is called when the user selects an item.
         setState(() {

@@ -10,6 +10,11 @@ import 'package:tungtee/navigation/tabbar.dart';
 import 'package:tungtee/Provider/persona_provider.dart';
 import 'firebase_options.dart';
 import 'package:tungtee/Pages/myevent_owner.dart';
+import 'package:tungtee/Pages/register.dart';
+import 'package:tungtee/Pages/create_event.dart';
+import 'package:tungtee/Pages/profile.dart';
+import 'package:tungtee/Pages/eventdetail.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -33,7 +38,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Tung Tee',
           theme: ThemeData.light(useMaterial3: true),
-          home: const Myevent_owner()),
+          home: const eventdetail()),
     );
   }
 }

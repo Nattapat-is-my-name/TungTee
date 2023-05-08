@@ -6,15 +6,11 @@ class CardDetail extends StatelessWidget {
     required this.title,
     required this.subtitle,
     required this.toptitle,
-    required this.amountPerson,
-    required this.maxPerson,
   });
 
   final String title;
   final String subtitle;
   final String toptitle;
-  final String amountPerson;
-  final String maxPerson;
 
   @override
   Widget build(BuildContext context) {
@@ -42,22 +38,6 @@ class CardDetail extends StatelessWidget {
                             fontSize: 12.0,
                             color: Colors.black54),
                       ),
-                      Wrap(children: [
-                        const Icon(
-                          Icons.person,
-                          size: 15,
-                          color: Colors.black54,
-                        ),
-                        Text(
-                          maxLines: 2,
-                          "$amountPerson" "/" "$maxPerson",
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 10,
-                              color: Colors.black54),
-                        ),
-                      ]),
                     ],
                   ),
                 ),
@@ -98,15 +78,11 @@ class CardLayout_owner extends StatelessWidget {
     required this.title,
     required this.subtitle,
     required this.toptitle,
-    required this.amountPerson,
-    required this.maxPerson,
   });
 
   final String title;
   final String subtitle;
   final String toptitle;
-  final String amountPerson;
-  final String maxPerson;
 
   @override
   Widget build(BuildContext context) {
@@ -121,8 +97,6 @@ class CardLayout_owner extends StatelessWidget {
                 toptitle: toptitle,
                 title: title,
                 subtitle: subtitle,
-                amountPerson: amountPerson,
-                maxPerson: maxPerson,
               ),
             ),
             Center(
