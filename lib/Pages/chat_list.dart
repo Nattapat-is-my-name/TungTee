@@ -88,7 +88,7 @@ class _ChatListPageState extends State<ChatListPage> {
                         style: const TextStyle(fontWeight: FontWeight.w700),
                       ),
                       subtitle: Text(chatData[index]['lastMessage']!),
-                      splashColor: primaryColor.shade50,
+                      splashColor: primaryColor.shade600,
                       onTap: () {
                         Navigator.push(
                             context,
