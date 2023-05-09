@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Tung Tee',
           theme: ThemeData.light(useMaterial3: true),
-          home: const eventdetail()),
+          home: const WelcomePage()),
     );
   }
 }

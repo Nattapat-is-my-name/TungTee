@@ -5,16 +5,16 @@ import 'package:flutter/material.dart';
 // import 'CardT.dart';
 const List<String> list = <String>['Joined', 'Created'];
 
-class Myevent_user extends StatefulWidget {
-  const Myevent_user({
+class Myevent extends StatefulWidget {
+  const Myevent({
     super.key,
   });
 
   @override
-  State<Myevent_user> createState() => _Myevent_user_state();
+  State<Myevent> createState() => _Myevent_user_state();
 }
 
-class _Myevent_user_state extends State<Myevent_user> {
+class _Myevent_user_state extends State<Myevent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

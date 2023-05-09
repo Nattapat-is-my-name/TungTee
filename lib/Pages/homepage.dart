@@ -116,7 +116,7 @@ class _HomePagesState extends State<HomePages> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const eventdetail()));
+                                builder: (context) => const EventDetail()));
                       },
                       child: const CardLayout(
                         thumbnail: Image(
