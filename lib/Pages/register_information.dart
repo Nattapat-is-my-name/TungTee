@@ -1,13 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tungtee/Pages/persona.dart';
 
 class RegisterInformation extends StatefulWidget {
-  const RegisterInformation(
-      {super.key, required this.email, required this.password});
+  const RegisterInformation({super.key, this.email, this.password});
 
-  final String email;
-  final String password;
+  final String? email;
+  final String? password;
 
   @override
   State<RegisterInformation> createState() => _RegisterInformationState();
@@ -28,6 +28,7 @@ class _RegisterInformationState extends State<RegisterInformation> {
   bool isBirthDateEmpty = true;
   bool isClickedValidate = false;
   bool isGenderEmpty = true;
+  DateTime birthDate = DateTime.now();
   String? gender;
 
   void handleGenderFieldChange(String? value) {
@@ -83,9 +84,10 @@ class _RegisterInformationState extends State<RegisterInformation> {
       lastDate: DateTime(2101),
     );
     if (pickedDate != null) {
-      String formattedDate = DateFormat('dd-MM-yyyy').format(pickedDate);
+      String formattedDate = DateFormat('dd/MM/yyyy').format(pickedDate);
 
       setState(() {
+        birthDate = pickedDate;
         birthDateController.text = formattedDate;
         isBirthDateEmpty = false;
       });
@@ -141,6 +143,10 @@ class _RegisterInformationState extends State<RegisterInformation> {
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your name';
+                        } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value)) {
+                          return 'Name could only be letters, no special character or number';
+                        } else if (value.length < 3 || value.length > 70) {
+                          return 'Your name length should be between 3-70 characters';
                         }
                         return null;
                       },
@@ -169,6 +175,10 @@ class _RegisterInformationState extends State<RegisterInformation> {
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your nickname';
+                        } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value)) {
+                          return 'Name could only be letters, no special character or number';
+                        } else if (value.length < 3 || value.length > 20) {
+                          return 'Your name length should be between 3-20 characters';
                         }
                         return null;
                       },
@@ -197,6 +207,9 @@ class _RegisterInformationState extends State<RegisterInformation> {
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your phone number';
+                        } else if (!RegExp(r'^0(?!0)\d{1,2}\d{7,8}$')
+                            .hasMatch(value)) {
+                          return 'Please enter a valid phone number';
                         }
                         return null;
                       },
@@ -297,6 +310,9 @@ class _RegisterInformationState extends State<RegisterInformation> {
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter your Birthdate';
+                              } else if (DateTime.now().year - birthDate.year <
+                                  16) {
+                                return 'Valid age is 16';
                               }
                               return null;
                             },
@@ -328,19 +344,38 @@ class _RegisterInformationState extends State<RegisterInformation> {
                             onPressed: () {
                               if (_registerInfoFormKey.currentState!
                                   .validate()) {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => PersonaPage(
-                                              email: widget.email,
-                                              password: widget.password,
-                                              fullname: fullnameController.text,
-                                              nickname: nicknameController.text,
-                                              phone: phoneController.text,
-                                              gender: genderController.text,
-                                              birthDate:
-                                                  birthDateController.text,
-                                            )));
+                                // NOT GOOGLE USER
+                                if (FirebaseAuth.instance.currentUser == null) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => PersonaPage(
+                                                email: widget.email,
+                                                password: widget.password,
+                                                fullname:
+                                                    fullnameController.text,
+                                                nickname:
+                                                    nicknameController.text,
+                                                phone: phoneController.text,
+                                                gender: gender!,
+                                                birthDate: birthDate,
+                                              )));
+                                  // GOOGLE USER
+                                } else {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => PersonaPage(
+                                                email: widget.email,
+                                                fullname:
+                                                    fullnameController.text,
+                                                nickname:
+                                                    nicknameController.text,
+                                                phone: phoneController.text,
+                                                gender: gender!,
+                                                birthDate: birthDate,
+                                              )));
+                                }
                               } else {
                                 setState(() {
                                   isClickedValidate = true;
