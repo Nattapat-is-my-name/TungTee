@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tungtee/Pages/home.dart';
 import 'package:tungtee/Pages/login.dart';
 import 'package:tungtee/Pages/register.dart';
+import 'package:tungtee/Pages/register_information.dart';
 import 'package:tungtee/Services/user_provider.dart';
 
 class AuthPageController extends StatelessWidget {
@@ -20,7 +21,10 @@ class AuthPageController extends StatelessWidget {
                   if (snapshot.data!) {
                     return const HomePage();
                   } else {
-                    return const RegisterPage();
+                    // if no user in database then go to information register page (skip register email/password page)
+                    // this case handle google user
+                    return RegisterInformation(
+                        email: FirebaseAuth.instance.currentUser?.email);
                   }
                 } else {
                   return const Center(child: CircularProgressIndicator());
