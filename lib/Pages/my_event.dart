@@ -1,6 +1,7 @@
 import '../Widgets/dynamicchip.dart';
 import '../Widgets/cardevent.dart';
 import 'package:flutter/material.dart';
+import 'package:tungtee/Pages/eventdetail.dart';
 
 // import 'CardT.dart';
 const List<String> list = <String>['Joined', 'Created'];
@@ -91,69 +92,81 @@ class _Myevent_user_state extends State<Myevent> {
                         ],
                       ),
                     ),
-                    const CardLayout(
-                      thumbnail: Image(
-                        image: NetworkImage(
-                            'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
-                        fit: BoxFit.cover,
-                        height: 100,
-                        width: 80,
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const EventDetail()));
+                      },
+                      child: Column(
+                        children: [
+                          CardLayout(
+                            thumbnail: Image(
+                              image: NetworkImage(
+                                  'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
+                              fit: BoxFit.cover,
+                              height: 100,
+                              width: 80,
+                            ),
+                            title: 'หมู',
+                            subtitle:
+                                'Flutter continues to improve and expand its horizons. '
+                                'This text should max out at two lines and clip',
+                            toptitle: 'Fri 17 Mar 08:09',
+                            amountPerson: '5',
+                            maxPerson: '10',
+                          ),
+                          const CardLayout(
+                            thumbnail: Image(
+                              image: NetworkImage(
+                                  'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
+                              fit: BoxFit.cover,
+                              height: 100,
+                              width: 80,
+                            ),
+                            title: 'หมู',
+                            subtitle:
+                                'Flutter continues to improve and expand its horizons. '
+                                'This text should max out at two lines and clip',
+                            toptitle: 'Fri 17 Mar 08:09',
+                            amountPerson: '5',
+                            maxPerson: '10',
+                          ),
+                          const CardLayout(
+                            thumbnail: Image(
+                              image: NetworkImage(
+                                  'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
+                              fit: BoxFit.cover,
+                              height: 100,
+                              width: 80,
+                            ),
+                            title: 'หมู',
+                            subtitle:
+                                'Flutter continues to improve and expand its horizons. '
+                                'This text should max out at two lines and clip',
+                            toptitle: 'Fri 17 Mar 08:09',
+                            amountPerson: '5',
+                            maxPerson: '10',
+                          ),
+                          const CardLayout(
+                            thumbnail: Image(
+                              image: NetworkImage(
+                                  'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
+                              fit: BoxFit.cover,
+                              height: 100,
+                              width: 80,
+                            ),
+                            title: 'หมู',
+                            subtitle:
+                                'Flutter continues to improve and expand its horizons. '
+                                'This text should max out at two lines and clip',
+                            toptitle: 'Fri 17 Mar 08:09',
+                            amountPerson: '5',
+                            maxPerson: '10',
+                          ),
+                        ],
                       ),
-                      title: 'หมู',
-                      subtitle:
-                          'Flutter continues to improve and expand its horizons. '
-                          'This text should max out at two lines and clip',
-                      toptitle: 'Fri 17 Mar 08:09',
-                      amountPerson: '5',
-                      maxPerson: '10',
-                    ),
-                    const CardLayout(
-                      thumbnail: Image(
-                        image: NetworkImage(
-                            'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
-                        fit: BoxFit.cover,
-                        height: 100,
-                        width: 80,
-                      ),
-                      title: 'หมู',
-                      subtitle:
-                          'Flutter continues to improve and expand its horizons. '
-                          'This text should max out at two lines and clip',
-                      toptitle: 'Fri 17 Mar 08:09',
-                      amountPerson: '5',
-                      maxPerson: '10',
-                    ),
-                    const CardLayout(
-                      thumbnail: Image(
-                        image: NetworkImage(
-                            'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
-                        fit: BoxFit.cover,
-                        height: 100,
-                        width: 80,
-                      ),
-                      title: 'หมู',
-                      subtitle:
-                          'Flutter continues to improve and expand its horizons. '
-                          'This text should max out at two lines and clip',
-                      toptitle: 'Fri 17 Mar 08:09',
-                      amountPerson: '5',
-                      maxPerson: '10',
-                    ),
-                    const CardLayout(
-                      thumbnail: Image(
-                        image: NetworkImage(
-                            'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
-                        fit: BoxFit.cover,
-                        height: 100,
-                        width: 80,
-                      ),
-                      title: 'หมู',
-                      subtitle:
-                          'Flutter continues to improve and expand its horizons. '
-                          'This text should max out at two lines and clip',
-                      toptitle: 'Fri 17 Mar 08:09',
-                      amountPerson: '5',
-                      maxPerson: '10',
                     ),
                   ],
                 ),

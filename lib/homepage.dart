@@ -1,7 +1,7 @@
 import 'Widgets/dynamicchip.dart';
 import 'Widgets/cardevent.dart';
 import 'package:flutter/material.dart';
-import 'Widgets/navbar.dart';
+import 'package:tungtee/navigation/bottom_navbar.dart';
 
 class HomePages extends StatefulWidget {
   const HomePages({
@@ -129,7 +129,7 @@ class _HomePagesState extends State<HomePages> {
           ),
         ),
       ),
-      bottomNavigationBar: const MyWidget(),
+      bottomNavigationBar: const Bottomnavbar(),
     );
   }
 }
