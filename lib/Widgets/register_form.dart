@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tungtee/Constants/colors.dart';
 import 'package:tungtee/Pages/register_information.dart';
+import 'package:tungtee/Services/user_provider.dart';
 
 class InputForm extends StatefulWidget {
   const InputForm({super.key});
@@ -35,12 +36,14 @@ class _InputFormState extends State<InputForm> {
     });
   }
 
-  void handleSignUp() {
-    try {
-      if (_registerFormKey.currentState!.validate() && isChecked) {
+  void handleSignUp() async {
+    if (_registerFormKey.currentState!.validate() && isChecked) {
+      final email = emailController.text;
+      final password = passwordController.text;
+      final user = await UserProvider().getUserByEmail(email);
+      // NO USER EXIST IN DATABASE (NORMAL CASE)
+      if (user == null) {
         if (context.mounted) {
-          final email = emailController.text;
-          final password = passwordController.text;
           Navigator.push(
               context,
               MaterialPageRoute(
@@ -49,20 +52,31 @@ class _InputFormState extends State<InputForm> {
                         password: password,
                       )));
         }
-      } else if (_registerFormKey.currentState!.validate() && !isChecked) {
+        // USER ALREADY EXIST (ERROR CASE)
+      } else {
         if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-                backgroundColor: rawPrimaryColor,
-                showCloseIcon: true,
-                closeIconColor: Colors.white,
-                padding: EdgeInsets.all(8),
-                content: Text('You have to agree on our Term and Policy',
-                    style: TextStyle(fontSize: 16))),
-          );
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              backgroundColor: Colors.red,
+              showCloseIcon: true,
+              closeIconColor: Colors.white,
+              padding: EdgeInsets.all(8),
+              content:
+                  Text('User already exist', style: TextStyle(fontSize: 16))));
         }
       }
-    } catch (error) {}
+    } else if (_registerFormKey.currentState!.validate() && !isChecked) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              backgroundColor: rawPrimaryColor,
+              showCloseIcon: true,
+              closeIconColor: Colors.white,
+              padding: EdgeInsets.all(8),
+              content: Text('You have to agree on our Term and Policy',
+                  style: TextStyle(fontSize: 16))),
+        );
+      }
+    }
   }
 
   @override
