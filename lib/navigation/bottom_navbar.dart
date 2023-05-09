@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tungtee/Pages/homepage.dart';
-import 'package:tungtee/Pages/persona.dart';
 
 import '../Pages/create_event.dart';
 import '../Pages/group_chat.dart';
@@ -61,11 +60,11 @@ class _TabbarState extends State<Bottomnavbar> {
             ),
             label: 'Create Event',
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.email_outlined),
             label: 'Chat',
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.account_circle_rounded),
             label: 'Profile',
           ),

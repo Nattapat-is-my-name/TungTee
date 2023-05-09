@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tungtee/Pages/auth_control.dart';
 import 'package:tungtee/Constants/colors.dart';
-import 'package:tungtee/Pages/eventdetail.dart';
 import 'package:tungtee/Pages/homepage.dart';
 
-import 'package:tungtee/navigation/bottom_navbar.dart';
+import '../navigation/bottom_navbar.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
@@ -37,8 +36,10 @@ class MyButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const Bottomnavbar()));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const AuthPageController()));
       },
       style: ElevatedButton.styleFrom(
           shape: const StadiumBorder(), backgroundColor: primaryColor.shade900),
