@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tungtee/Constants/colors.dart';
 import 'package:tungtee/Services/notification_service.dart';
 
 class NotificationWidget extends StatefulWidget {
