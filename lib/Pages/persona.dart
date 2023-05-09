@@ -1,12 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:tungtee/Models/user_model.dart';
 import 'package:tungtee/Pages/home.dart';
+import 'package:tungtee/Services/auth_provider.dart';
+import 'package:tungtee/Services/user_provider.dart';
 import 'package:tungtee/homepage.dart';
 
 class PersonaPage extends StatefulWidget {
   const PersonaPage({
     super.key,
-    required this.email,
-    required this.password,
+    this.email,
+    this.password,
     required this.fullname,
     required this.nickname,
     required this.phone,
@@ -14,13 +18,13 @@ class PersonaPage extends StatefulWidget {
     required this.birthDate,
   });
 
-  final String email;
-  final String password;
+  final String? email;
+  final String? password;
   final String fullname;
   final String nickname;
   final String phone;
   final String gender;
-  final String birthDate;
+  final DateTime birthDate;
 
   @override
   State<PersonaPage> createState() => _PersonaPageState();
@@ -94,11 +98,61 @@ class _PersonaPageState extends State<PersonaPage> {
                   width: double.infinity,
                   height: 45,
                   child: FilledButton(
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const HomePages()));
+                      onPressed: () async {
+                        // EMAIL AND PASSWORD USER
+                        if (widget.email != null && widget.password != null) {
+                          final userCredential = await AuthProvider()
+                              .registerWithEmailAndPassword(
+                                  widget.email!, widget.password!);
+                          final user = userCredential.user;
+                          if (user != null) {
+                            await UserProvider().createUser(UserModel(
+                              userId: user.uid,
+                              fullname: widget.fullname,
+                              nickname: widget.nickname,
+                              email: widget.email!,
+                              phone: widget.phone,
+                              gender: widget.gender,
+                              birthDate: widget.birthDate,
+                              interests: selectedInterests,
+                              createdEvents: [],
+                              joinedEvents: [],
+                              behaviorPoint: 3,
+                              profileImage: "",
+                            ));
+                            if (context.mounted) {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const HomePage()));
+                            }
+                          }
+                          // GOOGLE USER
+                        } else if (widget.email != null) {
+                          final user = FirebaseAuth.instance.currentUser;
+                          if (user != null) {
+                            await UserProvider().createUser(UserModel(
+                              userId: user.uid,
+                              fullname: widget.fullname,
+                              nickname: widget.nickname,
+                              email: widget.email!,
+                              phone: widget.phone,
+                              gender: widget.gender,
+                              birthDate: widget.birthDate,
+                              interests: selectedInterests,
+                              createdEvents: [],
+                              joinedEvents: [],
+                              behaviorPoint: 3,
+                              profileImage: '',
+                            ));
+                            if (context.mounted) {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const HomePage()));
+                            }
+                          }
+                        }
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
