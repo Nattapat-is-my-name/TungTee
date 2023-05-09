@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:tungtee/Models/event_model.dart';
 import 'package:tungtee/services/event_provider.dart';
 import 'package:uuid/uuid.dart';
-
+import '../widgets/cardevent.dart';
 import '../widgets/dynamicchip.dart';
 import '../widgets/pick.dart';
 
@@ -16,10 +16,12 @@ class Createevent extends StatefulWidget {
 }
 
 class _CreateeventState extends State<Createevent> {
-  TextEditingController dateController = TextEditingController();
+  TextEditingController dateStart = TextEditingController();
+  TextEditingController dateEnd = TextEditingController();
   TextEditingController detail = TextEditingController();
   TextEditingController location = TextEditingController();
-  TextEditingController age = TextEditingController();
+  TextEditingController ageM = TextEditingController();
+  TextEditingController ageN = TextEditingController();
   TextEditingController title = TextEditingController();
   EventModel event = EventModel(
       eventId: Uuid().v4(),
@@ -37,10 +39,12 @@ class _CreateeventState extends State<Createevent> {
 
   @override
   void initState() {
-    dateController.text = "";
+    dateStart.text = "";
     detail.text = '';
     location.text = '';
-    age.text = '';
+    dateEnd.text = '';
+    ageM.text = '';
+    ageN.text = '';
     title.text = '';
 
     super.initState();
@@ -103,12 +107,12 @@ class _CreateeventState extends State<Createevent> {
                             return null;
                           },
                           controller:
-                              dateController, //editing controller of this TextField
+                              dateStart, //editing controller of this TextField
                           decoration: const InputDecoration(
                               border: OutlineInputBorder(),
 
                               //icon of text field
-                              hintText: "Enter Date" //label text of field
+                              hintText: "Start Date" //label text of field
                               ),
                           readOnly: true, // when true user cannot edit text
                           onTap: () async {
@@ -124,7 +128,7 @@ class _CreateeventState extends State<Createevent> {
                                   DateFormat('yyyy-MM-dd').format(pickedDate);
 
                               setState(() {
-                                dateController.text = formattedDate;
+                                dateStart.text = formattedDate;
                               });
                             } else {
                               print("Date is not selected");
@@ -146,12 +150,12 @@ class _CreateeventState extends State<Createevent> {
                             return null;
                           },
                           controller:
-                              dateController, //editing controller of this TextField
+                              dateEnd, //editing controller of this TextField
                           decoration: const InputDecoration(
                               border: OutlineInputBorder(),
 
                               //icon of text field
-                              hintText: "Enter Date" //label text of field
+                              hintText: "End Date" //label text of field
                               ),
                           readOnly: true, // when true user cannot edit text
                           onTap: () async {
@@ -167,7 +171,7 @@ class _CreateeventState extends State<Createevent> {
                                   DateFormat('yyyy-MM-dd').format(pickedDate);
 
                               setState(() {
-                                dateController.text = formattedDate;
+                                dateEnd.text = formattedDate;
                               });
                             } else {
                               print("Date is not selected");
@@ -215,19 +219,37 @@ class _CreateeventState extends State<Createevent> {
                     showWidget
                         ? Padding(
                             padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                            child: TextFormField(
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter some text';
-                                }
-                                return null;
-                              },
-                              controller: age,
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                hintText: 'Minimum Age',
-                                labelText: 'Set Age',
-                              ),
+                            child: Column(
+                              children: [
+                                TextFormField(
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter some text';
+                                    }
+                                    return null;
+                                  },
+                                  controller: ageN,
+                                  decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    hintText: 'Minimum Age',
+                                    labelText: 'Set Minimum Age',
+                                  ),
+                                ),
+                                TextFormField(
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter some text';
+                                    }
+                                    return null;
+                                  },
+                                  controller: ageM,
+                                  decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    hintText: 'Max Age',
+                                    labelText: 'Set Max Age',
+                                  ),
+                                ),
+                              ],
                             ),
                           )
                         : Container(),
@@ -292,7 +314,7 @@ class _CreateeventState extends State<Createevent> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Choice Hobbys"),
+                    const Text("Choice Hobbys"),
                     const SizedBox(
                       height: 15,
                     ),
@@ -311,7 +333,7 @@ class _CreateeventState extends State<Createevent> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Choice Photo"),
+                    const Text("Choice Photo"),
                     const SizedBox(
                       height: 15,
                     ),
@@ -342,19 +364,25 @@ class _CreateeventState extends State<Createevent> {
                           EventModel(
                               eventId: Uuid().v4(),
                               ownerId: Uuid().v4(),
-                              eventTitle: "eventTitle",
-                              eventDescription: "eventDescription",
-                              maximumPeople: 5,
-                              tags: ['1', '2'],
+                              eventTitle: title.text,
+                              eventDescription: detail.text,
+                              maximumPeople: _endValue.toInt(),
+                              tags: [],
                               ageRestriction: AgeRestrictionModel(
-                                  minimumAge: 18, maximumAge: 25),
+                                  minimumAge: int.parse(ageN.text),
+                                  maximumAge: int.parse(ageM.text)),
                               dateCreated: DateTime.now(),
                               dateOfEvent: DateOfEventModel(
-                                  end: DateTime.now(), start: DateTime.now()),
+                                  end: DateTime.parse(dateStart.text),
+                                  start: DateTime.parse(dateEnd.text)),
                               location: LocationModel(
                                   latitude: 23.212323, longitude: 12.334442),
                               images: [],
                               joinedUsers: []));
+
+                      if (context.mounted) {
+                        Navigator.pop(context);
+                      }
                     }
                   },
                   child: const Text('Submit'),

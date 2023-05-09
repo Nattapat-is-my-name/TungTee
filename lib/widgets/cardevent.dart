@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import '../Pages/create_event.dart';
 
 class CardDetail extends StatelessWidget {
   const CardDetail({
