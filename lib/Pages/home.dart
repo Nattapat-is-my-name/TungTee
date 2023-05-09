@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:tungtee/Services/event_provider.dart';
 import 'package:tungtee/Models/event_model.dart';
@@ -18,13 +19,17 @@ class HomePage extends StatelessWidget {
           children: [
             Text('${user.email}'),
             FilledButton(
-                onPressed: () {
-                  FirebaseAuth.instance.signOut();
+                onPressed: () async {
+                  print('Signing out!!!');
+                  await FirebaseAuth.instance.signOut();
+                  print(FirebaseAuth.instance.currentUser!.email ??
+                      'already logout');
+                  // FirebaseAuth.instance.signOut();
                 },
                 child: const Text('Sign out')),
             FilledButton(
                 onPressed: () async {
-                  final event = await EventProvider().createEvent(EventModel(
+                  await EventProvider().createEvent(EventModel(
                       eventId: "eventId_test",
                       ownerId: "ownerId_test",
                       eventTitle: "test event",
@@ -39,7 +44,6 @@ class HomePage extends StatelessWidget {
                       location: LocationModel(latitude: 20, longitude: 20),
                       images: [],
                       joinedUsers: []));
-                  print(event);
                 },
                 child: const Text('Create Event')),
             FilledButton(

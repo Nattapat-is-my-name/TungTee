@@ -1,8 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tungtee/Pages/register.dart';
 import 'package:tungtee/Constants/colors.dart';
 import 'package:tungtee/Services/auth_provider.dart';
-import 'package:tungtee/Widgets/custom_appbar.dart';
 import 'package:tungtee/Widgets/login_form.dart';
 
 class LoginPage extends StatefulWidget {
@@ -13,10 +13,20 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  Future<void> handleSignInWithGoogle(BuildContext context) async {
+    try {
+      await AuthProvider().signInWithGoogle();
+    } on FirebaseAuthException catch (error) {
+      AuthProvider.handleSignInError(error.code);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
         child: GestureDetector(
@@ -35,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
                 'Please enter your detail',
                 style: TextStyle(fontWeight: FontWeight.w400, fontSize: 16),
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: 16),
               Container(
                   margin:
                       const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
@@ -44,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Column(
                     children: [
                       const LoginForm(),
-                      const SizedBox(height: 45),
+                      const SizedBox(height: 35),
                       Row(
                         children: [
                           const Expanded(
@@ -69,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
                         height: 45,
                         child: ElevatedButton.icon(
                           onPressed: () async {
-                            await AuthProvider().signInWithGoogle();
+                            await handleSignInWithGoogle(context);
                           },
                           style: ButtonStyle(
                               backgroundColor:
@@ -86,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                               style: TextStyle(color: Colors.black)),
                         ),
                       ),
-                      const SizedBox(height: 85),
+                      const SizedBox(height: 55),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
