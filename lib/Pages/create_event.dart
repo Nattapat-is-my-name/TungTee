@@ -409,28 +409,25 @@ class _CreateeventState extends State<Createevent> {
                     if (_formKey.currentState!.validate()) {
                       // If the form is valid, display a snackbar. In the real world,
                       // you'd often call a server or save the information in a database.
-                      List<int> imageBytes = await image!.readAsBytes();
-                      final imageBase64 = base64.encode(imageBytes);
 
-                      EventModel events = await EventProvider().createEvent(
-                          EventModel(
-                              eventId: Uuid().v4(),
-                              ownerId: user.uid,
-                              eventTitle: title.text,
-                              eventDescription: detail.text,
-                              maximumPeople: _endValue.toInt(),
-                              tags: [],
-                              ageRestriction: AgeRestrictionModel(
-                                  minimumAge: int.parse(ageN.text),
-                                  maximumAge: int.parse(ageM.text)),
-                              dateCreated: DateTime.now(),
-                              dateOfEvent: DateOfEventModel(
-                                  end: DateTime.parse(dateStart.text),
-                                  start: DateTime.parse(dateEnd.text)),
-                              location: LocationModel(
-                                  latitude: 23.212323, longitude: 12.334442),
-                              images: [imageBase64],
-                              joinedUsers: [user.uid]));
+                      await EventProvider().createEvent(EventModel(
+                          eventId: Uuid().v4(),
+                          ownerId: user.uid,
+                          eventTitle: title.text,
+                          eventDescription: detail.text,
+                          maximumPeople: _endValue.toInt(),
+                          tags: [],
+                          ageRestriction: AgeRestrictionModel(
+                              minimumAge: int.parse(ageN.text),
+                              maximumAge: int.parse(ageM.text)),
+                          dateCreated: DateTime.now(),
+                          dateOfEvent: DateOfEventModel(
+                              end: DateTime.parse(dateStart.text),
+                              start: DateTime.parse(dateEnd.text)),
+                          location: LocationModel(
+                              latitude: 23.212323, longitude: 12.334442),
+                          images: [],
+                          joinedUsers: [user.uid]));
 
                       if (context.mounted) {
                         Navigator.pop(context);

@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:tungtee/Pages/profile.dart';
 
 import '../Widgets/cardevent.dart';
 import 'package:flutter/material.dart';
@@ -60,8 +61,16 @@ class _HomePagesState extends State<HomePages> {
                           const SizedBox(
                             width: 5,
                           ),
-                          CircleAvatar(
-                            backgroundImage: NetworkImage(user.photoURL!),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const Profile()));
+                            },
+                            child: CircleAvatar(
+                              backgroundImage: NetworkImage(user.photoURL!),
+                            ),
                           ),
                         ],
                       ),

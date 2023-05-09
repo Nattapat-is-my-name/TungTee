@@ -22,7 +22,7 @@ class AuthPageController extends StatelessWidget {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   if (snapshot.data!) {
-                    return const HomePage();
+                    return const Bottomnavbar();
                   } else {
                     // if no user in database then go to information register page (skip register email/password page)
                     // this case handle google user
