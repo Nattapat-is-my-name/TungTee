@@ -153,7 +153,7 @@ class UserProvider {
         await _userCollection.where('email', isEqualTo: email).get();
     final user = querySnapshot.docs.firstWhereOrNull((user) => true);
     if (user != null) {
-      return UserModel.fromJSON(user as Map<String, dynamic>);
+      return UserModel.fromJSON(user.data() as Map<String, dynamic>);
     }
     return null;
   }
