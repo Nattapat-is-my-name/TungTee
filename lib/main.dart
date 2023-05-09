@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tungtee/Pages/notification.dart';
 import 'package:tungtee/Pages/persona.dart';
 import 'package:tungtee/Pages/welcome.dart';
 import 'package:tungtee/Provider/persona_provider.dart';
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Tung Tee',
           theme: ThemeData.light(useMaterial3: true),
-          home: const WelcomePage()),
+          home: const NotificationPage()),
     );
   }
 }
