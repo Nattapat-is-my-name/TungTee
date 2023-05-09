@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthProvider {
@@ -16,16 +17,28 @@ class AuthProvider {
         email: email, password: password);
   }
 
-  Future<UserCredential> signInWithGoogle() async {
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-    final GoogleSignInAuthentication googleAuthentication =
-        await googleUser!.authentication;
-
-    final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuthentication.accessToken,
-        idToken: googleAuthentication.idToken);
-
-    return await _auth.signInWithCredential(credential);
+  Future<UserCredential?> signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      if (googleUser == null) {
+        // User canceled sign-in.
+        return null;
+      }
+      final GoogleSignInAuthentication googleAuthentication =
+          await googleUser.authentication;
+      final credential = GoogleAuthProvider.credential(
+          accessToken: googleAuthentication.accessToken,
+          idToken: googleAuthentication.idToken);
+      return await _auth.signInWithCredential(credential);
+    } on PlatformException catch (e) {
+      if (e.code == 'sign_in_canceled') {
+        // User canceled sign-in.
+        return null;
+      }
+      // Handle other platform exceptions.
+      // You can throw the exception or return an error message.
+      return null;
+    }
   }
 
   static void handleSignInError(String errorCode) {
