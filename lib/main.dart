@@ -5,10 +5,12 @@ import 'package:tungtee/Pages/notification.dart';
 import 'package:tungtee/Pages/persona.dart';
 import 'package:tungtee/Pages/welcome.dart';
 import 'package:tungtee/Provider/persona_provider.dart';
+import 'Services/notification_service.dart';
 import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  NotificationService().initNotification();
   await Firebase.initializeApp(
       name: "TungTee", options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
