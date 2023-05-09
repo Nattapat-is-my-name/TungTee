@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tungtee/Services/notification_service.dart';
+import 'package:tungtee/Services/notificationLocal_service.dart';
 
 class NotificationWidget extends StatefulWidget {
   const NotificationWidget({super.key});

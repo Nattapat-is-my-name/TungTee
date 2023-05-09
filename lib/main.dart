@@ -5,7 +5,7 @@ import 'package:tungtee/Pages/notification.dart';
 import 'package:tungtee/Pages/persona.dart';
 import 'package:tungtee/Pages/welcome.dart';
 import 'package:tungtee/Provider/persona_provider.dart';
-import 'Services/notification_service.dart';
+import 'Services/notificationLocal_service.dart';
 import 'firebase_options.dart';
 
 void main() async {
