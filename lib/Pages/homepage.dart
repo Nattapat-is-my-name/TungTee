@@ -1,7 +1,10 @@
-import 'Widgets/dynamicchip.dart';
-import 'Widgets/cardevent.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:tungtee/Pages/profile.dart';
+
+import '../Widgets/cardevent.dart';
 import 'package:flutter/material.dart';
-// import 'CardT.dart';
+
+import '../widgets/dynamicchip.dart';
 
 class HomePages extends StatefulWidget {
   const HomePages({
@@ -15,6 +18,8 @@ class HomePages extends StatefulWidget {
 class _HomePagesState extends State<HomePages> {
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser!;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
@@ -23,7 +28,7 @@ class _HomePagesState extends State<HomePages> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                padding: const EdgeInsets.fromLTRB(20, 50, 20, 10),
+                padding: const EdgeInsets.fromLTRB(20, 25, 20, 10),
                 child: Column(children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -51,9 +56,22 @@ class _HomePagesState extends State<HomePages> {
                       ),
                       const Spacer(),
                       Row(
-                        children: const [
-                          Icon(Icons.notifications_outlined),
-                          Icon(Icons.account_circle),
+                        children: [
+                          const Icon(Icons.notifications_outlined),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const Profile()));
+                            },
+                            child: CircleAvatar(
+                              backgroundImage: NetworkImage(user.photoURL!),
+                            ),
+                          ),
                         ],
                       ),
                     ],
@@ -65,6 +83,8 @@ class _HomePagesState extends State<HomePages> {
                           horizontal: 0, vertical: 16),
                       child: TextField(
                           decoration: InputDecoration(
+                        contentPadding:
+                            const EdgeInsets.symmetric(vertical: 15),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(50.0),
                         ),
@@ -127,56 +147,6 @@ class _HomePagesState extends State<HomePages> {
               ),
             ],
           ),
-        ),
-      ),
-      bottomNavigationBar: _DemoBottomAppBar(),
-      floatingActionButton: FloatingActionButton(
-        tooltip: 'Add New Item',
-        onPressed: () {},
-        child: const Icon(Icons.add),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endContained,
-    );
-  }
-}
-
-class _DemoBottomAppBar extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 200),
-      height: 80.0,
-      child: BottomAppBar(
-        child: Row(
-          children: <Widget>[
-            IconButton(
-              tooltip: 'Open popup menu',
-              icon: const Icon(Icons.more_vert),
-              onPressed: () {
-                final SnackBar snackBar = SnackBar(
-                  content: const Text('Yay! A SnackBar!'),
-                  action: SnackBarAction(
-                    label: 'Undo',
-                    onPressed: () {},
-                  ),
-                );
-
-                // Find the ScaffoldMessenger in the widget tree
-                // and use it to show a SnackBar.
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
-              },
-            ),
-            IconButton(
-              tooltip: 'Search',
-              icon: const Icon(Icons.search),
-              onPressed: () {},
-            ),
-            IconButton(
-              tooltip: 'Favorite',
-              icon: const Icon(Icons.favorite),
-              onPressed: () {},
-            ),
-          ],
         ),
       ),
     );

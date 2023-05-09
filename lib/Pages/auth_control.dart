@@ -1,10 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tungtee/Pages/home.dart';
+import 'package:tungtee/Pages/homepage.dart';
 import 'package:tungtee/Pages/login.dart';
 import 'package:tungtee/Pages/register.dart';
 import 'package:tungtee/Pages/register_information.dart';
 import 'package:tungtee/Services/user_provider.dart';
+
+import '../navigation/bottom_navbar.dart';
 
 class AuthPageController extends StatelessWidget {
   const AuthPageController({super.key});
@@ -19,7 +22,7 @@ class AuthPageController extends StatelessWidget {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   if (snapshot.data!) {
-                    return const HomePage();
+                    return const Bottomnavbar();
                   } else {
                     // if no user in database then go to information register page (skip register email/password page)
                     // this case handle google user

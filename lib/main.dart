@@ -34,8 +34,8 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Tung Tee',
-          theme: ThemeData.light(useMaterial3: true),
-          home: const NotificationPage()),
+          theme: ThemeData(useMaterial3: true),
+          home: const WelcomePage()),
     );
   }
 }
