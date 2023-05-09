@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tungtee/Widgets/notification.dart';
 
 import '../Widgets/dropdownwidget.dart';
 
@@ -8,20 +9,14 @@ class NotificationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Notification"),
+      ),
       body: SafeArea(
         child: Container(
           margin: const EdgeInsets.all(10),
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Text(
-                    "Notification",
-                    style: TextStyle(fontSize: 32),
-                  ),
-                ],
-              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -37,7 +32,8 @@ class NotificationPage extends StatelessWidget {
                   TextButton(
                       onPressed: () {}, child: const Text("Mark all as read"))
                 ],
-              )
+              ),
+              const Expanded(child: NotificationWidget())
             ],
           ),
         ),
