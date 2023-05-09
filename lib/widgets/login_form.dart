@@ -29,13 +29,6 @@ class _LoginFormState extends State<LoginForm> {
     });
   }
 
-  void handleClearEmail() {
-    setState(() {
-      emailController.clear();
-      isShowClearIcon = false;
-    });
-  }
-
   void handleEmailFieldChange(value) {
     setState(() {
       isShowClearIcon = value.isNotEmpty;
@@ -49,6 +42,17 @@ class _LoginFormState extends State<LoginForm> {
             emailController.text, passwordController.text);
       }
     } on FirebaseAuthException catch (error) {
+      if (error.code == SignInError.userNotFound && context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              backgroundColor: rawPrimaryColor,
+              showCloseIcon: true,
+              closeIconColor: Colors.white,
+              padding: EdgeInsets.all(8),
+              content: Text('User not found, Please register',
+                  style: TextStyle(fontSize: 16))),
+        );
+      }
       if (error.code == SignInError.invalidEmail && context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -94,18 +98,26 @@ class _LoginFormState extends State<LoginForm> {
     return Form(
       key: _loginFormKey,
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        const Text('Email/Username'),
+        const Text('Email'),
         const SizedBox(height: 8),
         TextFormField(
+          keyboardType: TextInputType.emailAddress,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           controller: emailController,
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'Please enter your email/username';
+              return 'Please enter your email';
+            }
+            if (!RegExp(
+                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                .hasMatch(value)) {
+              return 'Please enter email in correct format';
             }
             return null;
           },
           onChanged: handleEmailFieldChange,
           decoration: InputDecoration(
+              contentPadding: const EdgeInsets.all(16),
               hintText: 'your_email@mail.com',
               suffixIcon: isShowClearIcon
                   ? GestureDetector(
@@ -126,6 +138,8 @@ class _LoginFormState extends State<LoginForm> {
         const Text('Password'),
         const SizedBox(height: 8),
         TextFormField(
+          keyboardType: TextInputType.visiblePassword,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           controller: passwordController,
           validator: (value) {
             if (value == null || value.isEmpty) {
@@ -136,6 +150,7 @@ class _LoginFormState extends State<LoginForm> {
           autocorrect: false,
           obscureText: !isShowPassword,
           decoration: InputDecoration(
+              contentPadding: const EdgeInsets.all(16),
               suffixIcon: GestureDetector(
                   onTap: handleShowPassword,
                   child: isShowPassword
@@ -164,12 +179,20 @@ class _LoginFormState extends State<LoginForm> {
         ),
         const SizedBox(height: 40),
         SizedBox(
-          width: double.infinity,
-          height: 45,
-          child: FilledButton(
-              onPressed: handleSignInWithEmailAndPassword,
-              child: const Text('Login')),
-        ),
+            width: double.infinity,
+            height: 45,
+            child: FilledButton(
+                onPressed: handleSignInWithEmailAndPassword,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Text('Login'),
+                    SizedBox(width: 16),
+                    Icon(Icons.arrow_forward_ios, size: 14)
+                  ],
+                )
+                // child: const Text('Login')),
+                )),
       ]),
     );
   }

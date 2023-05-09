@@ -2,6 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tungtee/Pages/home.dart';
 import 'package:tungtee/Pages/login.dart';
+import 'package:tungtee/Pages/register.dart';
+import 'package:tungtee/Pages/register_information.dart';
+import 'package:tungtee/Services/user_provider.dart';
 
 class AuthPageController extends StatelessWidget {
   const AuthPageController({super.key});
@@ -12,9 +15,26 @@ class AuthPageController extends StatelessWidget {
       body: StreamBuilder<User?>(
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return const HomePage();
+            return FutureBuilder<bool>(
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  if (snapshot.data!) {
+                    return const HomePage();
+                  } else {
+                    // if no user in database then go to information register page (skip register email/password page)
+                    // this case handle google user
+                    return RegisterInformation(
+                        email: FirebaseAuth.instance.currentUser?.email);
+                  }
+                } else {
+                  return const Center(child: CircularProgressIndicator());
+                }
+              },
+              future: UserProvider().isUserRegistered(snapshot.data!.uid),
+            );
+          } else {
+            return const LoginPage();
           }
-          return const LoginPage();
         },
         stream: FirebaseAuth.instance.authStateChanges(),
       ),
