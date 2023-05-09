@@ -36,8 +36,10 @@ class MyButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const Bottomnavbar()));
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const AuthPageController()));
       },
       style: ElevatedButton.styleFrom(
           shape: const StadiumBorder(), backgroundColor: primaryColor.shade900),

@@ -20,7 +20,7 @@ class _TabbarState extends State<Bottomnavbar> {
     const Myevent(),
     const Createevent(),
     const Groupchat(),
-    const Profile(),
+    Profile(),
   ];
 
   void _onItemTapped(int index) {

@@ -1,11 +1,9 @@
-import 'package:tungtee/Models/user_model.dart';
-import 'package:tungtee/services/user_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../Widgets/cardevent.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/dynamicchip.dart';
-// import 'CardT.dart';
 
 class HomePages extends StatefulWidget {
   const HomePages({
@@ -19,6 +17,8 @@ class HomePages extends StatefulWidget {
 class _HomePagesState extends State<HomePages> {
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser!;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
@@ -55,9 +55,14 @@ class _HomePagesState extends State<HomePages> {
                       ),
                       const Spacer(),
                       Row(
-                        children: const [
-                          Icon(Icons.notifications_outlined),
-                          Icon(Icons.account_circle),
+                        children: [
+                          const Icon(Icons.notifications_outlined),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          CircleAvatar(
+                            backgroundImage: NetworkImage(user.photoURL!),
+                          ),
                         ],
                       ),
                     ],

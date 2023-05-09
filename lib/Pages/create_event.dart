@@ -1,4 +1,10 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'package:intl/intl.dart';
 import 'package:tungtee/Models/event_model.dart';
@@ -37,6 +43,18 @@ class _CreateeventState extends State<Createevent> {
       images: [],
       joinedUsers: []);
 
+  File? image;
+  Future pickImage() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+      final imageTemp = File(image.path);
+      setState(() => this.image = imageTemp);
+    } on PlatformException catch (e) {
+      print('Failed to pick image: $e');
+    }
+  }
+
   @override
   void initState() {
     dateStart.text = "";
@@ -50,6 +68,7 @@ class _CreateeventState extends State<Createevent> {
     super.initState();
   }
 
+  final user = FirebaseAuth.instance.currentUser!;
   @override
   void dispose() {
     detail.dispose();
@@ -347,10 +366,40 @@ class _CreateeventState extends State<Createevent> {
                         borderRadius:
                             const BorderRadius.all(Radius.circular(12)),
                       ),
-                      child: const SizedBox(
+                      child: SizedBox(
                           width: double.infinity,
                           height: 200,
-                          child: Imgpicker()),
+                          child: image == null
+                              ? GestureDetector(
+                                  onTap: () {
+                                    pickImage();
+                                  },
+                                  child: const Card(
+                                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                                    child: Center(
+                                      child: Text('Upload Images'),
+                                    ),
+                                  ),
+                                )
+                              : GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      image = null;
+                                    });
+                                  },
+                                  child: Card(
+                                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(
+                                          20.0), //<-- SEE HERE
+                                    ),
+                                    margin: const EdgeInsets.all(0),
+                                    child: Image.file(
+                                      image!,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                )),
                     ),
                   ],
                 ),
@@ -360,10 +409,13 @@ class _CreateeventState extends State<Createevent> {
                     if (_formKey.currentState!.validate()) {
                       // If the form is valid, display a snackbar. In the real world,
                       // you'd often call a server or save the information in a database.
+                      List<int> imageBytes = await image!.readAsBytes();
+                      final imageBase64 = base64.encode(imageBytes);
+
                       EventModel events = await EventProvider().createEvent(
                           EventModel(
                               eventId: Uuid().v4(),
-                              ownerId: Uuid().v4(),
+                              ownerId: user.uid,
                               eventTitle: title.text,
                               eventDescription: detail.text,
                               maximumPeople: _endValue.toInt(),
@@ -377,8 +429,8 @@ class _CreateeventState extends State<Createevent> {
                                   start: DateTime.parse(dateEnd.text)),
                               location: LocationModel(
                                   latitude: 23.212323, longitude: 12.334442),
-                              images: [],
-                              joinedUsers: []));
+                              images: [imageBase64],
+                              joinedUsers: [user.uid]));
 
                       if (context.mounted) {
                         Navigator.pop(context);
