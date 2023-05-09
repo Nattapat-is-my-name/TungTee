@@ -1,8 +1,6 @@
 import 'package:tungtee/Pages/eventdetail.dart';
-
 import '../Widgets/cardevent.dart';
 import 'package:flutter/material.dart';
-
 import '../widgets/dynamicchip.dart';
 // import 'CardT.dart';
 

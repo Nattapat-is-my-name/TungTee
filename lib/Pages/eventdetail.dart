@@ -26,19 +26,19 @@ class _EventDetail extends State<EventDetail> {
       bottomNavigationBar: MyBottomAppBar(),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            // Image(
-            //       image: NetworkImage(
-            //           'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
-            //       fit: BoxFit.cover,
-            //       height: 20,
-            //       width: 80,
-            //     ),
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+        child: Column(
+          children: [
+            Image(
+              image: NetworkImage(
+                  'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
+              fit: BoxFit.fill,
+              height: 200,
+              width: double.infinity,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Chip(
                     label: const Text(
@@ -50,77 +50,78 @@ class _EventDetail extends State<EventDetail> {
                     side: BorderSide.none,
                     backgroundColor: rawPrimaryColor,
                   ),
+                  const SizedBox(width: 10),
                   const Text(
                     '25 Jul 18 at 12:00 am - 2:00 pm',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
-              Container(
-                padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: const [
-                              Text(
-                                'หมูกะทะ',
-                                style: TextStyle(
-                                  fontSize: 30,
-                                ),
+            ),
+            Container(
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: const [
+                            Text(
+                              'หมูกะทะ',
+                              style: TextStyle(
+                                fontSize: 30,
                               ),
-                            ],
-                          ),
-                          Row(
-                            children: const [
-                              Icon(Icons.pin),
-                              Text('Susco ,Thanon Puttabucha Bang Mod')
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                            child: Row(
-                              children: const [
-                                Expanded(
-                                    child: Text(
-                                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.')),
-                              ],
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Column(
+                          ],
+                        ),
+                        Row(
+                          children: const [
+                            Icon(Icons.location_on),
+                            Text('Susco ,Thanon Puttabucha Bang Mod')
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+                          child: Row(
                             children: const [
-                              Icon(Icons.cake_outlined),
-                              Text('14-18'),
+                              Expanded(
+                                  child: Text(
+                                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.')),
                             ],
                           ),
-                          Column(
-                            children: const [
-                              Text('2/5'),
-                              Text('person'),
-                            ],
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Column(
+                          children: const [
+                            Icon(Icons.cake_outlined),
+                            Text('14-18'),
+                          ],
+                        ),
+                        Column(
+                          children: const [
+                            Text('2/5'),
+                            Text('person'),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
