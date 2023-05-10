@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tungtee/Models/event_model.dart';
+import 'package:tungtee/Pages/eventdetail.dart';
 import 'package:tungtee/Pages/profile.dart';
 import 'package:tungtee/Services/event_provider.dart';
 import 'package:tungtee/Widgets/dynamicchip.dart';
@@ -160,32 +161,42 @@ class _HomePagesState extends State<HomePages> {
                               itemBuilder: (context, index) {
                                 return Column(
                                   children: [
-                                    CardLayout(
-                                      thumbnail: const Image(
-                                        image: NetworkImage(
-                                            'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
-                                        fit: BoxFit.cover,
-                                        height: 100,
-                                        width: 80,
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const EventDetail()));
+                                      },
+                                      child: CardLayout(
+                                        thumbnail: const Image(
+                                          image: NetworkImage(
+                                              'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
+                                          fit: BoxFit.cover,
+                                          height: 100,
+                                          width: 80,
+                                        ),
+                                        title: eventList
+                                            .elementAt(index)
+                                            .eventTitle,
+                                        subtitle:
+                                            eventList.elementAt(index).location,
+                                        toptitle: eventList
+                                            .elementAt(index)
+                                            .dateOfEvent
+                                            .start
+                                            .toString(),
+                                        amountPerson: eventList
+                                            .elementAt(index)
+                                            .joinedUsers
+                                            .length
+                                            .toString(),
+                                        maxPerson: eventList
+                                            .elementAt(index)
+                                            .maximumPeople
+                                            .toString(),
                                       ),
-                                      title:
-                                          eventList.elementAt(index).eventTitle,
-                                      subtitle:
-                                          eventList.elementAt(index).location,
-                                      toptitle: eventList
-                                          .elementAt(index)
-                                          .dateOfEvent
-                                          .start
-                                          .toString(),
-                                      amountPerson: eventList
-                                          .elementAt(index)
-                                          .joinedUsers
-                                          .length
-                                          .toString(),
-                                      maxPerson: eventList
-                                          .elementAt(index)
-                                          .maximumPeople
-                                          .toString(),
                                     ),
                                     const SizedBox(
                                       height: 10,
