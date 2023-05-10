@@ -33,7 +33,8 @@ class _ProfileState extends State<Profile> {
                       width: 150,
                       height: 150,
                       child: CircleAvatar(
-                        backgroundImage: NetworkImage(user.photoURL!),
+                        backgroundImage: NetworkImage(
+                            (user.photoURL == null) ? "" : user.photoURL!),
                       ),
                     ),
                     const SizedBox(height: 20),
