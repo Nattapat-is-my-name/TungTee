@@ -153,6 +153,9 @@ class EventProvider {
   }
 
   /// delete event by `eventId` (String)
+  ///
+  /// in case of deleting event you have to update joined event list
+  /// in user provider
   Future<void> deleteEventById(String eventId) async {
     await _eventCollection.doc(eventId).delete();
   }
