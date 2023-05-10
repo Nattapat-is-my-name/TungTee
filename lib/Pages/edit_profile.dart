@@ -14,12 +14,15 @@ class Editprofile extends StatefulWidget {
 class _EditprofileState extends State<Editprofile> {
   bool isEditable = false;
   final user = FirebaseAuth.instance.currentUser!;
-  final myController = TextEditingController();
+
+  TextEditingController fullnameController = TextEditingController();
+  TextEditingController nicknameController = TextEditingController();
 
   @override
   void dispose() {
+    fullnameController.dispose();
+    nicknameController.dispose();
     // Clean up the controller when the widget is disposed.
-    myController.dispose();
     super.dispose();
   }
 
@@ -53,97 +56,106 @@ class _EditprofileState extends State<Editprofile> {
           if (snapshot.connectionState == ConnectionState.done &&
               snapshot.hasData) {
             final UserModel? usermodel = snapshot.data;
+            fullnameController.text = usermodel!.fullname;
+            nicknameController.text = usermodel.nickname;
             return SafeArea(
-                child: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      width: 150,
-                      height: 150,
-                      child: CircleAvatar(
-                        backgroundImage: NetworkImage(
-                            (user.photoURL == null) ? "" : user.photoURL!),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    Column(
-                      children: [
-                        TextFormField(
-                          enabled: isEditable,
-                          decoration: const InputDecoration(
-                              filled: true,
-                              border: UnderlineInputBorder(),
-                              labelText: "Edit your fullname"),
-                          initialValue: usermodel!.fullname,
+                child: Form(
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        width: 150,
+                        height: 150,
+                        child: CircleAvatar(
+                          backgroundImage: NetworkImage(
+                              (user.photoURL == null) ? "" : user.photoURL!),
                         ),
-                        const SizedBox(height: 20),
-                        TextFormField(
+                      ),
+                      const SizedBox(height: 20),
+                      Column(
+                        children: [
+                          TextFormField(
+                            controller: fullnameController,
+                            enabled: isEditable,
+                            decoration: const InputDecoration(
+                                filled: true,
+                                border: UnderlineInputBorder(),
+                                labelText: "Edit your fullname"),
+                            // initialValue: usermodel!.fullname,
+                          ),
+                          const SizedBox(height: 20),
+                          TextFormField(
+                            controller: nicknameController,
+                            // onChanged: handleNickNameFieldChange,
                             enabled: isEditable,
                             decoration: const InputDecoration(
                               filled: true,
                               border: UnderlineInputBorder(),
                               labelText: 'Edit your nickname',
                             ),
-                            initialValue: usermodel.nickname),
-                        const SizedBox(height: 20),
-                        TextFormField(
-                          enabled: false,
-                          decoration: const InputDecoration(
-                            filled: true,
-                            border: UnderlineInputBorder(),
-                            labelText: 'Edit Email',
                           ),
-                          initialValue: usermodel.email,
-                        ),
-                        const SizedBox(height: 20),
-                        TextFormField(
-                          enabled: false,
-                          decoration: const InputDecoration(
-                            filled: true,
-                            border: UnderlineInputBorder(),
-                            labelText: 'Edit gender',
+                          const SizedBox(height: 20),
+                          TextFormField(
+                            enabled: false,
+                            decoration: const InputDecoration(
+                              filled: true,
+                              border: UnderlineInputBorder(),
+                              labelText: 'Edit Email',
+                            ),
+                            initialValue: usermodel.email,
                           ),
-                          initialValue: usermodel.gender,
-                        ),
-                        const SizedBox(height: 20)
-                      ],
-                    ),
-                    Visibility(
-                      visible: isEditable,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: 100,
-                            height: 45,
-                            child: FilledButton(
-                                onPressed: () {
-                                  setState(() {
-                                    isEditable = !isEditable;
-                                  });
-                                },
-                                child: const Text('save')),
+                          const SizedBox(height: 20),
+                          TextFormField(
+                            enabled: false,
+                            decoration: const InputDecoration(
+                              filled: true,
+                              border: UnderlineInputBorder(),
+                              labelText: 'Edit gender',
+                            ),
+                            initialValue: usermodel.gender,
                           ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          SizedBox(
-                            width: 100,
-                            height: 45,
-                            child: OutlinedButton(
-                                onPressed: () {
-                                  setState(() {
-                                    isEditable = !isEditable;
-                                  });
-                                },
-                                child: const Text('cancel')),
-                          ),
+                          const SizedBox(height: 20)
                         ],
                       ),
-                    ),
-                  ],
+                      Visibility(
+                        visible: isEditable,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: 100,
+                              height: 45,
+                              child: FilledButton(
+                                  onPressed: () {
+                                    // setState(() {
+                                    //   isEditable = !isEditable;
+                                    // });
+                                    print(fullnameController.text +
+                                        nicknameController.text);
+                                  },
+                                  child: const Text('save')),
+                            ),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            SizedBox(
+                              width: 100,
+                              height: 45,
+                              child: OutlinedButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      isEditable = !isEditable;
+                                    });
+                                  },
+                                  child: const Text('cancel')),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ));
