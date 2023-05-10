@@ -4,6 +4,7 @@ import 'package:tungtee/Models/user_model.dart';
 import 'package:tungtee/Pages/home.dart';
 import 'package:tungtee/Services/auth_provider.dart';
 import 'package:tungtee/Services/user_provider.dart';
+import 'package:tungtee/navigation/bottom_navbar.dart';
 
 class PersonaPage extends StatefulWidget {
   const PersonaPage({
@@ -123,7 +124,8 @@ class _PersonaPageState extends State<PersonaPage> {
                               Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const HomePage()));
+                                      builder: (context) =>
+                                          const Bottomnavbar()));
                             }
                           }
                           // GOOGLE USER
@@ -148,7 +150,8 @@ class _PersonaPageState extends State<PersonaPage> {
                               Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const HomePage()));
+                                      builder: (context) =>
+                                          const Bottomnavbar()));
                             }
                           }
                         }
