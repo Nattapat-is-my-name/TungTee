@@ -12,7 +12,7 @@ import 'package:tungtee/services/event_provider.dart';
 import 'package:uuid/uuid.dart';
 import '../widgets/cardevent.dart';
 import '../widgets/dynamicchip.dart';
-import '../widgets/pick.dart';
+// import '../widgets/pick.dart';
 
 class Createevent extends StatefulWidget {
   const Createevent({super.key});
