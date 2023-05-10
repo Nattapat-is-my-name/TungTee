@@ -62,7 +62,7 @@ class EventModel {
     final DateOfEventModel dateOfEvent =
         DateOfEventModel.fromJSON(json['dateOfEvent']);
     final String location = json['location'];
-    final image = json['image'];
+    final List<int> image = List<int>.from(json['image']);
     final List<String> joinedUsers = List<String>.from(json['joinedUsers']);
 
     return EventModel(
