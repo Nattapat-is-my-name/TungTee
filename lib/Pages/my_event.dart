@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-
 import '../Widgets/dynamicchip.dart';
 import '../Widgets/cardevent.dart';
 import 'package:flutter/material.dart';
