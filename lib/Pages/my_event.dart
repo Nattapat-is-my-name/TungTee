@@ -16,27 +16,6 @@ class MyEvent extends StatefulWidget {
 }
 
 class _MyEventState extends State<MyEvent> {
-  late Future<List<EventModel>?> joinedEvents;
-  late Future<List<EventModel>?> createdEvents;
-
-  Future<void> getUserEvents() async {
-    print('this is auth user ${FirebaseAuth.instance.currentUser!}');
-    final join =
-        UserProvider().getJoinedEvents(FirebaseAuth.instance.currentUser!.uid);
-    final create =
-        UserProvider().getCreatedEvents(FirebaseAuth.instance.currentUser!.uid);
-    setState(() {
-      joinedEvents = join;
-      createdEvents = create;
-    });
-  }
-
-  @override
-  void initState() {
-    getUserEvents();
-    super.initState();
-  }
-
   String? _selectedValue = 'Joined';
 
   void onChanged(String? value) {
