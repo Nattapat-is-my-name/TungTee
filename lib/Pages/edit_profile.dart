@@ -132,8 +132,14 @@ class _EditprofileState extends State<Editprofile> {
                                     // setState(() {
                                     //   isEditable = !isEditable;
                                     // });
-                                    print(fullnameController.text +
-                                        nicknameController.text);
+                                    UserProvider().updateUserFullName(
+                                        user.uid, fullnameController.text);
+                                    UserProvider().updateUserNickName(
+                                        user.uid, nicknameController.text);
+
+                                    setState(() {
+                                      isEditable = !isEditable;
+                                    });
                                   },
                                   child: const Text('save')),
                             ),
