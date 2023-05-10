@@ -144,31 +144,3 @@ class DateOfEventModel {
     return 'DateOfEventModel{start: $start, end: $end}';
   }
 }
-
-class LocationModel {
-  final double latitude;
-  final double longitude;
-
-  LocationModel({
-    required this.latitude,
-    required this.longitude,
-  });
-
-  Map<String, dynamic> toJSON() {
-    return {
-      'latitude': latitude,
-      'longitude': longitude,
-    };
-  }
-
-  factory LocationModel.fromJSON(Map<String, dynamic> json) {
-    return LocationModel(
-      latitude: json['latitude'] ?? 0.0,
-      longitude: json['longitude'] ?? 0.0,
-    );
-  }
-  @override
-  String toString() {
-    return 'LocationModel{latitude: $latitude, longitude: $longitude}';
-  }
-}
