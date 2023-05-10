@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tungtee/Models/user_model.dart';
 import 'package:tungtee/Pages/home.dart';
+import 'package:tungtee/Pages/homepage.dart';
 import 'package:tungtee/Services/auth_provider.dart';
 import 'package:tungtee/Services/user_provider.dart';
 
@@ -148,7 +149,7 @@ class _PersonaPageState extends State<PersonaPage> {
                               Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const HomePage()));
+                                      builder: (context) => const HomePages()));
                             }
                           }
                         }
