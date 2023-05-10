@@ -152,8 +152,7 @@ class _HomePagesState extends State<HomePages> {
                       future: getdataEvents(),
                       builder: (context, AsyncSnapshot snapshot) {
                         // getdataEvents();
-                        if (snapshot.connectionState == ConnectionState.done &&
-                            snapshot.hasData) {
+                        if (snapshot.connectionState == ConnectionState.done) {
                           final List<EventModel> eventList = snapshot.data;
                           // print(eventList);
                           return ListView.builder(
@@ -197,7 +196,8 @@ class _HomePagesState extends State<HomePages> {
                         } else {
                           print('mee error: ${snapshot.hasError}');
                           print(snapshot.error);
-                          return const CircularProgressIndicator();
+                          return const Center(
+                              child: CircularProgressIndicator());
                         }
                       }),
                 ),
