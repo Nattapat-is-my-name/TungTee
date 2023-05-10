@@ -8,8 +8,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:tungtee/Constants/event_interests.dart';
 import 'package:tungtee/Models/event_model.dart';
+import 'package:tungtee/Pages/homepage.dart';
 import 'package:tungtee/Widgets/dynamicchip.dart';
+import 'package:tungtee/navigation/bottom_navbar.dart';
 import 'package:tungtee/services/event_provider.dart';
+import 'package:tungtee/services/user_provider.dart';
 import 'package:uuid/uuid.dart';
 // import '../widgets/pick.dart';
 
@@ -420,6 +423,7 @@ class _CreateeventState extends State<Createevent> {
                     children: [
                       OutlinedButton(
                           onPressed: () {
+                            // setState(() {});
                             Navigator.pop(context);
                           },
                           child: const Text('Cancel')),
@@ -427,9 +431,10 @@ class _CreateeventState extends State<Createevent> {
                       FilledButton(
                         onPressed: () async {
                           if (_createEventFormKey.currentState!.validate()) {
+                            final newEventId = const Uuid().v4();
                             await EventProvider().createEvent(
                               EventModel(
-                                  eventId: const Uuid().v4(),
+                                  eventId: newEventId,
                                   ownerId: user.uid,
                                   eventTitle: title.text,
                                   eventDescription: detail.text,
@@ -448,8 +453,14 @@ class _CreateeventState extends State<Createevent> {
                                   joinedUsers: [user.uid]),
                             );
 
+                            UserProvider().joinEvent(newEventId, user.uid);
+
                             if (context.mounted) {
-                              Navigator.pop(context);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const Bottomnavbar()));
                             }
                           }
                         },
