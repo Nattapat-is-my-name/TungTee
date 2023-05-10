@@ -1,7 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
+
 import '../Widgets/dynamicchip.dart';
 import '../Widgets/cardevent.dart';
 import 'package:flutter/material.dart';
 import 'package:tungtee/Pages/eventdetail.dart';
+
+import 'notification.dart';
 
 // import 'CardT.dart';
 const List<String> list = <String>['Joined', 'Created'];
@@ -16,6 +20,7 @@ class Myevent extends StatefulWidget {
 }
 
 class _Myevent_user_state extends State<Myevent> {
+  final user = FirebaseAuth.instance.currentUser!;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +34,7 @@ class _Myevent_user_state extends State<Myevent> {
                 padding: const EdgeInsets.fromLTRB(20, 50, 20, 10),
                 child: Column(children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       //Welcome Name
                       Column(
@@ -46,11 +51,18 @@ class _Myevent_user_state extends State<Myevent> {
                           ),
                         ],
                       ),
-                      const Spacer(),
                       Row(
-                        children: const [
-                          Icon(Icons.notifications_outlined),
-                          Icon(Icons.account_circle),
+                        children: [
+                          GestureDetector(
+                              onTap: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return const NotificationPage();
+                                }));
+                              },
+                              child: const Icon(Icons.notifications_outlined)),
+                          CircleAvatar(
+                              backgroundImage: NetworkImage(user.photoURL!)),
                         ],
                       ),
                     ],

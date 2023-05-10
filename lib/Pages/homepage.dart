@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:tungtee/Pages/notification.dart';
 import 'package:tungtee/Pages/profile.dart';
 
 import '../Widgets/cardevent.dart';
@@ -31,7 +32,7 @@ class _HomePagesState extends State<HomePages> {
                 padding: const EdgeInsets.fromLTRB(20, 25, 20, 10),
                 child: Column(children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       //Welcome Name
                       Column(
@@ -54,10 +55,16 @@ class _HomePagesState extends State<HomePages> {
                           ),
                         ],
                       ),
-                      const Spacer(),
                       Row(
                         children: [
-                          const Icon(Icons.notifications_outlined),
+                          GestureDetector(
+                              onTap: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return const NotificationPage();
+                                }));
+                              },
+                              child: const Icon(Icons.notifications_outlined)),
                           const SizedBox(
                             width: 5,
                           ),
