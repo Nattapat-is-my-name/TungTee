@@ -1,9 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:tungtee/Pages/home.dart';
-import 'package:tungtee/Pages/homepage.dart';
 import 'package:tungtee/Pages/login.dart';
-import 'package:tungtee/Pages/register.dart';
 import 'package:tungtee/Pages/register_information.dart';
 import 'package:tungtee/Services/user_provider.dart';
 
