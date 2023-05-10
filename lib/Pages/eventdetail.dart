@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:tungtee/Widgets/dynamicchip.dart';
 import 'package:tungtee/constants/colors.dart';
@@ -28,7 +26,7 @@ class _EventDetail extends State<EventDetail> {
         scrollDirection: Axis.vertical,
         child: Column(
           children: [
-            Image(
+            const Image(
               image: NetworkImage(
                   'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
               fit: BoxFit.fill,

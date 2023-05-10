@@ -69,7 +69,7 @@ class _Myevent_user_state extends State<Myevent> {
                         children: [
                           Row(
                             children: [
-                              Text(
+                              const Text(
                                 'Joined Event',
                                 style: TextStyle(
                                   fontSize: 15,
@@ -100,7 +100,7 @@ class _Myevent_user_state extends State<Myevent> {
                                 builder: (context) => const EventDetail()));
                       },
                       child: Column(
-                        children: [
+                        children: const [
                           CardLayout(
                             thumbnail: Image(
                               image: NetworkImage(
@@ -117,7 +117,7 @@ class _Myevent_user_state extends State<Myevent> {
                             amountPerson: '5',
                             maxPerson: '10',
                           ),
-                          const CardLayout(
+                          CardLayout(
                             thumbnail: Image(
                               image: NetworkImage(
                                   'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
@@ -133,7 +133,7 @@ class _Myevent_user_state extends State<Myevent> {
                             amountPerson: '5',
                             maxPerson: '10',
                           ),
-                          const CardLayout(
+                          CardLayout(
                             thumbnail: Image(
                               image: NetworkImage(
                                   'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
@@ -149,7 +149,7 @@ class _Myevent_user_state extends State<Myevent> {
                             amountPerson: '5',
                             maxPerson: '10',
                           ),
-                          const CardLayout(
+                          CardLayout(
                             thumbnail: Image(
                               image: NetworkImage(
                                   'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
