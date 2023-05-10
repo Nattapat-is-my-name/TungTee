@@ -17,7 +17,7 @@ class _TabbarState extends State<Bottomnavbar> {
   int _selectedIndex = 0;
   final List<Widget> screens = [
     const HomePages(),
-    const Myevent(),
+    const MyEvent(),
     const Createevent(),
     const ChatListPage(),
     const Profile(),

@@ -2,45 +2,20 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import '../Models/event_model.dart';
 import '../Services/user_provider.dart';
-import '../Widgets/DynamicChip.dart';
 import '../Widgets/cardevent.dart';
 import 'package:flutter/material.dart';
-import 'package:tungtee/Pages/eventdetail.dart';
 
 // import 'CardT.dart';
 const List<String> list = <String>['Joined', 'Created'];
 
-class Myevent extends StatefulWidget {
-  const Myevent({
-    super.key,
-  });
+class MyEvent extends StatefulWidget {
+  const MyEvent({super.key});
 
   @override
-  State<Myevent> createState() => _Myevent_user_state();
+  State<MyEvent> createState() => _MyEventState();
 }
 
-class _Myevent_user_state extends State<Myevent> {
-  late Future<List<EventModel>?> joinedEvents;
-  late Future<List<EventModel>?> createdEvents;
-
-  Future<void> getUserEvents() async {
-    print('this is auth user ${FirebaseAuth.instance.currentUser!}');
-    final join =
-        UserProvider().getJoinedEvents(FirebaseAuth.instance.currentUser!.uid);
-    final create =
-        UserProvider().getCreatedEvents(FirebaseAuth.instance.currentUser!.uid);
-    setState(() {
-      joinedEvents = join;
-      createdEvents = create;
-    });
-  }
-
-  @override
-  void initState() {
-    getUserEvents();
-    super.initState();
-  }
-
+class _MyEventState extends State<MyEvent> {
   String? _selectedValue = 'Joined';
 
   void onChanged(String? value) {
@@ -149,12 +124,16 @@ class _Myevent_user_state extends State<Myevent> {
                               FirebaseAuth.instance.currentUser!.uid),
                           builder: (context, AsyncSnapshot snapshot) {
                             if (snapshot.connectionState ==
-                                    ConnectionState.done &&
-                                snapshot.hasData) {
+                                ConnectionState.done) {
                               final List<EventModel> eventList = snapshot.data;
+                              final List<EventModel> createdEvents = eventList
+                                  .where((event) =>
+                                      event.ownerId ==
+                                      FirebaseAuth.instance.currentUser!.uid)
+                                  .toList();
                               // print(eventList);
                               return ListView.builder(
-                                  itemCount: eventList.length,
+                                  itemCount: createdEvents.length,
                                   itemBuilder: (context, index) {
                                     return Column(
                                       children: [
@@ -166,50 +145,50 @@ class _Myevent_user_state extends State<Myevent> {
                                             height: 100,
                                             width: 80,
                                           ),
-                                          title: eventList
+                                          title: createdEvents
                                               .elementAt(index)
                                               .eventTitle,
-                                          subtitle: eventList
+                                          subtitle: createdEvents
                                               .elementAt(index)
                                               .location,
-                                          toptitle: eventList
+                                          toptitle: createdEvents
                                               .elementAt(index)
                                               .dateOfEvent
                                               .start
                                               .toString(),
-                                          amountPerson: eventList
+                                          amountPerson: createdEvents
                                               .elementAt(index)
                                               .joinedUsers
                                               .length
                                               .toString(),
-                                          maxPerson: eventList
+                                          maxPerson: createdEvents
                                               .elementAt(index)
                                               .maximumPeople
                                               .toString(),
                                         ),
-                                        const SizedBox(
-                                          height: 10,
-                                        )
+                                        const SizedBox(height: 10)
                                       ],
                                     );
                                   });
                             } else {
-                              return Container(
-                                  child: const CircularProgressIndicator());
+                              print('error is ${snapshot.error}');
+                              print('data is ${snapshot.data}');
+                              return const Center(
+                                  child: CircularProgressIndicator());
                             }
                           }),
                     ),
                   )
+                // joined events
                 : Expanded(
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
                       child: FutureBuilder<List<EventModel>?>(
-                          future: UserProvider().getCreatedEvents(
+                          future: UserProvider().getJoinedEvents(
                               FirebaseAuth.instance.currentUser!.uid),
                           builder: (context, AsyncSnapshot snapshot) {
                             if (snapshot.connectionState ==
-                                    ConnectionState.done &&
-                                snapshot.hasData) {
+                                ConnectionState.done) {
                               final List<EventModel> eventList = snapshot.data;
                               // print(eventList);
                               return ListView.builder(
@@ -253,8 +232,10 @@ class _Myevent_user_state extends State<Myevent> {
                                     );
                                   });
                             } else {
-                              return Container(
-                                  child: const CircularProgressIndicator());
+                              print('error is ${snapshot.error}');
+                              print('data is ${snapshot.data}');
+                              return const Center(
+                                  child: CircularProgressIndicator());
                             }
                           }),
                     ),

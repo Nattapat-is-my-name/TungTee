@@ -454,6 +454,8 @@ class _CreateeventState extends State<Createevent> {
                             );
 
                             UserProvider().joinEvent(newEventId, user.uid);
+                            UserProvider()
+                                .userCreateEvent(newEventId, user.uid);
 
                             if (context.mounted) {
                               Navigator.push(
