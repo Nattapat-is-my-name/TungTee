@@ -62,7 +62,9 @@ class _Myevent_user_state extends State<Myevent> {
                               },
                               child: const Icon(Icons.notifications_outlined)),
                           CircleAvatar(
-                              backgroundImage: NetworkImage(user.photoURL!)),
+                            backgroundImage: NetworkImage(
+                                (user.photoURL == null) ? "" : user.photoURL!),
+                          ),
                         ],
                       ),
                     ],
