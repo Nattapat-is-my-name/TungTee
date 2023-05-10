@@ -30,17 +30,20 @@ class _EditprofileState extends State<Editprofile> {
         centerTitle: true,
         title: const Text('Edit profile'),
         actions: [
-          IconButton(
-            onPressed: () {
-              setState(() {
-                if (isEditable) {
-                  isEditable = false;
-                } else {
-                  isEditable = true;
-                }
-              });
-            },
-            icon: const Icon(Icons.edit_square, color: rawPrimaryColor),
+          Visibility(
+            visible: !isEditable,
+            child: IconButton(
+              onPressed: () {
+                setState(() {
+                  if (isEditable) {
+                    isEditable = false;
+                  } else {
+                    isEditable = true;
+                  }
+                });
+              },
+              icon: const Icon(Icons.edit_square, color: rawPrimaryColor),
+            ),
           ),
         ],
       ),
@@ -106,6 +109,39 @@ class _EditprofileState extends State<Editprofile> {
                         ),
                         const SizedBox(height: 20)
                       ],
+                    ),
+                    Visibility(
+                      visible: isEditable,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: 100,
+                            height: 45,
+                            child: FilledButton(
+                                onPressed: () {
+                                  setState(() {
+                                    isEditable = !isEditable;
+                                  });
+                                },
+                                child: const Text('save')),
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          SizedBox(
+                            width: 100,
+                            height: 45,
+                            child: OutlinedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    isEditable = !isEditable;
+                                  });
+                                },
+                                child: const Text('cancel')),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),

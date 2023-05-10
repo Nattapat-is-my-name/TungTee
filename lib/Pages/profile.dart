@@ -39,7 +39,7 @@ class _ProfileState extends State<Profile> {
                     ),
                     const SizedBox(height: 20),
                     Text(usermodel!.fullname),
-                    Text(usermodel!.email),
+                    Text(usermodel.email),
                     const SizedBox(height: 10),
                     const Divider(),
                     const SizedBox(height: 10),
