@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:tungtee/Models/event_model.dart';
 import 'package:tungtee/Pages/profile.dart';
+import 'package:tungtee/Services/event_provider.dart';
 import 'package:tungtee/Widgets/dynamicchip.dart';
 
 import '../Widgets/cardevent.dart';
@@ -15,6 +17,14 @@ class HomePages extends StatefulWidget {
 }
 
 class _HomePagesState extends State<HomePages> {
+  late Future<List<EventModel>> events;
+
+  @override
+  void initState() {
+    events = EventProvider().getEvents();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser!;
@@ -129,22 +139,41 @@ class _HomePagesState extends State<HomePages> {
                           ],
                         ),
                       ),
-                      const CardLayout(
-                        thumbnail: Image(
-                          image: NetworkImage(
-                              'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
-                          fit: BoxFit.cover,
-                          height: 100,
-                          width: 80,
-                        ),
-                        title: 'หมู',
-                        subtitle:
-                            'Flutter continues to improve and expand its horizons. '
-                            'This text should max out at two lines and clip',
-                        toptitle: 'Fri 17 Mar 08:09',
-                        amountPerson: '5',
-                        maxPerson: '10',
-                      ),
+                      FutureBuilder<List<EventModel>>(
+                          future: events,
+                          builder: (context, AsyncSnapshot snapshot) {
+                            if (snapshot.connectionState ==
+                                    ConnectionState.done &&
+                                snapshot.hasData) {
+                              final eventList = snapshot.data;
+                              print(eventList);
+                              return ListView.builder(
+                                  itemCount: eventList.length,
+                                  itemBuilder: (context, index) {
+                                    return CardLayout(
+                                      thumbnail: const Image(
+                                        image: NetworkImage(
+                                            'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
+                                        fit: BoxFit.cover,
+                                        height: 100,
+                                        width: 80,
+                                      ),
+                                      title: eventList[index]['title'],
+                                      subtitle: eventList[index]['location'],
+                                      toptitle: eventList[index]['dateOfEvent'],
+                                      amountPerson: eventList[index]
+                                              ['joinedUsers']
+                                          .length,
+                                      maxPerson: eventList[index]
+                                          ['maximumPeople'],
+                                    );
+                                  });
+                            } else {
+                              print('mee error: ${snapshot.hasError}');
+                              print(snapshot.error);
+                              return const CircularProgressIndicator();
+                            }
+                          }),
                     ],
                   ),
                 ),
