@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:tungtee/Models/user_model.dart';
+import 'package:tungtee/Services/user_provider.dart';
 import 'package:tungtee/constants/colors.dart';
 
 class Editprofile extends StatefulWidget {
@@ -12,6 +14,15 @@ class Editprofile extends StatefulWidget {
 class _EditprofileState extends State<Editprofile> {
   bool isEditable = false;
   final user = FirebaseAuth.instance.currentUser!;
+  final myController = TextEditingController();
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    myController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,67 +44,78 @@ class _EditprofileState extends State<Editprofile> {
           ),
         ],
       ),
-      body: SafeArea(
-          child: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              SizedBox(
-                width: 150,
-                height: 150,
-                child: CircleAvatar(
-                  backgroundImage: NetworkImage(
-                      (user.photoURL == null) ? "" : user.photoURL!),
+      body: FutureBuilder<UserModel?>(
+        future: UserProvider().getUserById(user.uid),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done &&
+              snapshot.hasData) {
+            final UserModel? usermodel = snapshot.data;
+            return SafeArea(
+                child: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      width: 150,
+                      height: 150,
+                      child: CircleAvatar(
+                        backgroundImage: NetworkImage(
+                            (user.photoURL == null) ? "" : user.photoURL!),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Column(
+                      children: [
+                        TextFormField(
+                          enabled: isEditable,
+                          decoration: const InputDecoration(
+                              filled: true,
+                              border: UnderlineInputBorder(),
+                              labelText: "Edit your fullname"),
+                          initialValue: usermodel!.fullname,
+                        ),
+                        const SizedBox(height: 20),
+                        TextFormField(
+                            enabled: isEditable,
+                            decoration: const InputDecoration(
+                              filled: true,
+                              border: UnderlineInputBorder(),
+                              labelText: 'Edit your nickname',
+                            ),
+                            initialValue: usermodel.nickname),
+                        const SizedBox(height: 20),
+                        TextFormField(
+                          enabled: false,
+                          decoration: const InputDecoration(
+                            filled: true,
+                            border: UnderlineInputBorder(),
+                            labelText: 'Edit Email',
+                          ),
+                          initialValue: usermodel.email,
+                        ),
+                        const SizedBox(height: 20),
+                        TextFormField(
+                          enabled: false,
+                          decoration: const InputDecoration(
+                            filled: true,
+                            border: UnderlineInputBorder(),
+                            labelText: 'Edit gender',
+                          ),
+                          initialValue: usermodel.gender,
+                        ),
+                        const SizedBox(height: 20)
+                      ],
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(height: 20),
-              Column(
-                children: [
-                  TextFormField(
-                    enabled: isEditable,
-                    decoration: const InputDecoration(
-                      filled: true,
-                      border: UnderlineInputBorder(),
-                      hintText: 'Edit your name',
-                      labelText: 'Name from DB',
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    enabled: isEditable,
-                    decoration: const InputDecoration(
-                      filled: true,
-                      border: UnderlineInputBorder(),
-                      hintText: 'Edit your nickname',
-                      labelText: 'Nick Name from DB',
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    enabled: false,
-                    decoration: const InputDecoration(
-                      filled: true,
-                      border: UnderlineInputBorder(),
-                      labelText: 'Email from DB',
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    enabled: false,
-                    decoration: const InputDecoration(
-                      filled: true,
-                      border: UnderlineInputBorder(),
-                      labelText: 'Gender from DB',
-                    ),
-                  ),
-                  const SizedBox(height: 20)
-                ],
-              ),
-            ],
-          ),
-        ),
-      )),
+            ));
+          } else {
+            return const CircularProgressIndicator();
+          }
+        },
+      ),
     );
   }
 }
