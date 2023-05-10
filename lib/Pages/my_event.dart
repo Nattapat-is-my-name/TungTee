@@ -2,24 +2,20 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import '../Models/event_model.dart';
 import '../Services/user_provider.dart';
-import '../Widgets/DynamicChip.dart';
 import '../Widgets/cardevent.dart';
 import 'package:flutter/material.dart';
-import 'package:tungtee/Pages/eventdetail.dart';
 
 // import 'CardT.dart';
 const List<String> list = <String>['Joined', 'Created'];
 
-class Myevent extends StatefulWidget {
-  const Myevent({
-    super.key,
-  });
+class MyEvent extends StatefulWidget {
+  const MyEvent({super.key});
 
   @override
-  State<Myevent> createState() => _Myevent_user_state();
+  State<MyEvent> createState() => _MyEventState();
 }
 
-class _Myevent_user_state extends State<Myevent> {
+class _MyEventState extends State<MyEvent> {
   late Future<List<EventModel>?> joinedEvents;
   late Future<List<EventModel>?> createdEvents;
 
