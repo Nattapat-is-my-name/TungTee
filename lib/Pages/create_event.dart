@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,8 +9,6 @@ import 'package:intl/intl.dart';
 import 'package:tungtee/Models/event_model.dart';
 import 'package:tungtee/services/event_provider.dart';
 import 'package:uuid/uuid.dart';
-import '../widgets/cardevent.dart';
-import '../widgets/dynamicchip.dart';
 // import '../widgets/pick.dart';
 
 class Createevent extends StatefulWidget {
@@ -29,19 +26,6 @@ class _CreateeventState extends State<Createevent> {
   TextEditingController ageM = TextEditingController();
   TextEditingController ageN = TextEditingController();
   TextEditingController title = TextEditingController();
-  EventModel event = EventModel(
-      eventId: Uuid().v4(),
-      ownerId: Uuid().v4(),
-      eventTitle: "eventTitle",
-      eventDescription: "eventDescription",
-      maximumPeople: 5,
-      tags: ['1', '2'],
-      ageRestriction: AgeRestrictionModel(minimumAge: 18, maximumAge: 25),
-      dateCreated: DateTime.now(),
-      dateOfEvent: DateOfEventModel(end: DateTime.now(), start: DateTime.now()),
-      location: LocationModel(latitude: 23.212323, longitude: 12.334442),
-      images: [],
-      joinedUsers: []);
 
   File? image;
   Future pickImage() async {

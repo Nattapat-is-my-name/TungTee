@@ -4,8 +4,6 @@ import 'package:tungtee/Pages/profile.dart';
 import '../Widgets/cardevent.dart';
 import 'package:flutter/material.dart';
 
-import '../widgets/dynamicchip.dart';
-
 class HomePages extends StatefulWidget {
   const HomePages({
     super.key,

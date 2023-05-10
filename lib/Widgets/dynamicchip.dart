@@ -1,22 +1,5 @@
 import 'package:flutter/material.dart';
 
-final List<String> _Hobby = [
-  '⚽️ Sport',
-  '🎵Music',
-  '✏️ Drawing',
-  '🛒 Shopping',
-  '🎯 Board games',
-  '🍲 Cooking',
-  '📚 Reading',
-  '🎤 Singing',
-  '🌱 Gardening',
-  '🍿 Movies',
-  '🎮 Video games',
-  '✈️ Traveling',
-  '🎣 Fishing',
-  '📸 Photography',
-];
-
 class dynamicChip extends StatefulWidget {
   const dynamicChip({super.key});
 
@@ -25,7 +8,6 @@ class dynamicChip extends StatefulWidget {
 }
 
 class _dynamicChipState extends State<dynamicChip> {
-  bool favorite = false;
   final List<String> _filters = <String>[];
 
   @override
