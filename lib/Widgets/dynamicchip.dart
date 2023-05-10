@@ -1,15 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:tungtee/Constants/event_interests.dart';
 
-class DynamicChip extends StatefulWidget {
-  const DynamicChip({super.key});
+final List<String> _Hobby = [
+  '⚽️ Sport',
+  '🎵Music',
+  '✏️ Drawing',
+  '🛒 Shopping',
+  '🎯 Board games',
+  '🍲 Cooking',
+  '📚 Reading',
+  '🎤 Singing',
+  '🌱 Gardening',
+  '🍿 Movies',
+  '🎮 Video games',
+  '✈️ Traveling',
+  '🎣 Fishing',
+  '📸 Photography',
+];
+
+class dynamicChip extends StatefulWidget {
+  const dynamicChip({super.key});
 
   @override
-  State<DynamicChip> createState() => _DynamicChipState();
+  State<dynamicChip> createState() => _dynamicChipState();
 }
 
-class _DynamicChipState extends State<DynamicChip> {
-  final List<String> selectedInterests = [];
+class _dynamicChipState extends State<dynamicChip> {
+  bool favorite = false;
+  final List<String> _filters = <String>[];
 
   @override
   Widget build(BuildContext context) {
@@ -17,26 +34,27 @@ class _DynamicChipState extends State<DynamicChip> {
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
       child: Wrap(
         spacing: 8.0,
-        children: interests.map((interest) {
+        children: _Hobby.map((_Hobby) {
           return FilterChip(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            label: Text(_Hobby),
+            selected: _filters.contains(_Hobby),
+            selectedColor: Colors.deepPurple[100],
             showCheckmark: false,
-            label: Text(interest),
-            selected: selectedInterests.contains(interest),
-            onSelected: (bool? value) {
+            onSelected: (bool value) {
               setState(() {
-                if (selectedInterests.contains(interest)) {
-                  selectedInterests.remove(interest);
+                if (value) {
+                  if (!_filters.contains(_Hobby)) {
+                    _filters.add(_Hobby);
+                  }
                 } else {
-                  selectedInterests.add(interest);
+                  _filters.removeWhere((String name) {
+                    return name == _Hobby;
+                  });
                 }
               });
             },
-            backgroundColor: const Color.fromRGBO(246, 237, 255, 1),
-            shape: const StadiumBorder(),
-            side: selectedInterests.contains(interest)
-                ? const BorderSide(
-                    width: 1.0, color: Color.fromRGBO(103, 80, 164, 1))
-                : BorderSide.none,
           );
         }).toList(),
       ),

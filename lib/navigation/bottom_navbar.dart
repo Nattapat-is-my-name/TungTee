@@ -37,9 +37,6 @@ class _TabbarState extends State<Bottomnavbar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: screens.elementAt(_selectedIndex),
-      ),
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
           const BottomNavigationBarItem(
@@ -76,6 +73,9 @@ class _TabbarState extends State<Bottomnavbar> {
         unselectedItemColor: Theme.of(context).colorScheme.primary,
         selectedItemColor: Theme.of(context).colorScheme.primary,
         onTap: _onItemTapped,
+      ),
+      body: Center(
+        child: screens.elementAt(_selectedIndex),
       ),
     );
   }

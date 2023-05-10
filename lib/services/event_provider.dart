@@ -26,9 +26,9 @@ class EventProvider {
   /// Get list of `EventModel` that its `tags` field contain any of `interests` (List<String>) argument
   ///
   /// return all events (type: `List<EventModel>`) from Firestore database that matched with interests
-  Future<List<EventModel>> getEventsByTag(String tag) async {
+  Future<List<EventModel>> getEventsByInterests(List<String> interests) async {
     final QuerySnapshot querySnapshot =
-        await _eventCollection.where('tag', isEqualTo: tag).get();
+        await _eventCollection.where('tags', arrayContainsAny: interests).get();
     final List<EventModel> events = querySnapshot.docs
         .map((docSnap) =>
             EventModel.fromJSON(docSnap.data() as Map<String, dynamic>))
@@ -109,9 +109,13 @@ class EventProvider {
   }
 
   /// Update event's location, it takes `eventId` and new `location`
-  Future<void> updateEventLocation(String eventId, String location) async {
+  Future<void> updateEventLocation(
+      String eventId, LocationModel location) async {
     final DocumentReference docRef = _eventCollection.doc(eventId);
-    await docRef.update({'location': location});
+    await docRef.update({
+      'location.latitude': location.latitude,
+      'location.longitude': location.longitude
+    });
   }
 
   /// Remove event's images, it takes `eventId` and `index` of image to remove

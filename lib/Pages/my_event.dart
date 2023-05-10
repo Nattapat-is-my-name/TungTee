@@ -1,9 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../Widgets/dynamicchip.dart';
-import '../Models/event_model.dart';
-import '../Services/user_provider.dart';
-import '../Widgets/DynamicChip.dart';
 import '../Widgets/cardevent.dart';
 import 'package:flutter/material.dart';
 import 'package:tungtee/services/event_provider.dart';
@@ -323,6 +320,39 @@ class _Myevent_user_state extends State<Myevent> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class DropdownButtonExample extends StatefulWidget {
+  const DropdownButtonExample({super.key});
+
+  @override
+  State<DropdownButtonExample> createState() => _DropdownButtonExampleState();
+}
+
+class _DropdownButtonExampleState extends State<DropdownButtonExample> {
+  String dropdownValue = list.first;
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<String>(
+      value: dropdownValue,
+      icon: const Icon(Icons.arrow_downward),
+      alignment: Alignment.centerLeft,
+      elevation: 16,
+      onChanged: (String? value) {
+        // This is called when the user selects an item.
+        setState(() {
+          dropdownValue = value!;
+        });
+      },
+      items: list.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
     );
   }
 }
