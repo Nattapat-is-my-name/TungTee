@@ -1,5 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import '../Widgets/dynamicchip.dart';
 import '../Widgets/cardevent.dart';
 import 'package:flutter/material.dart';
 import 'package:tungtee/services/event_provider.dart';
@@ -67,19 +65,9 @@ class _Myevent_user_state extends State<Myevent> {
                       ),
                       const Spacer(),
                       Row(
-                        children: [
-                          GestureDetector(
-                              onTap: () {
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) {
-                                  return const NotificationPage();
-                                }));
-                              },
-                              child: const Icon(Icons.notifications_outlined)),
-                          CircleAvatar(
-                            backgroundImage: NetworkImage(
-                                (user.photoURL == null) ? "" : user.photoURL!),
-                          ),
+                        children: const [
+                          Icon(Icons.notifications_outlined),
+                          Icon(Icons.account_circle),
                         ],
                       ),
                     ],
@@ -118,8 +106,8 @@ class _Myevent_user_state extends State<Myevent> {
                               ),
                             ],
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     Expanded(
                       child: ListView.builder(
@@ -145,178 +133,9 @@ class _Myevent_user_state extends State<Myevent> {
                     ),
                   ],
                 ),
-              ]),
-            ),
-            Container(
-              padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            const Text(
-                              'Joined Event',
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w400,
-                                height: 1.2222222222,
-                                color: Color(0xff000000),
-                              ),
-                            ),
-                            Expanded(
-                              child: Flex(
-                                direction: Axis.horizontal,
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  DropdownButton<String>(
-                                    value: _selectedValue,
-                                    onChanged: onChanged,
-                                    items: <String>[
-                                      'Joined',
-                                      'Created',
-                                    ].map((String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(value),
-                                      );
-                                    }).toList(),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
               ),
-            ),
-            _selectedValue == 'Created'
-                ? Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
-                      child: FutureBuilder<List<EventModel>?>(
-                          future: UserProvider().getJoinedEvents(
-                              FirebaseAuth.instance.currentUser!.uid),
-                          builder: (context, AsyncSnapshot snapshot) {
-                            if (snapshot.connectionState ==
-                                    ConnectionState.done &&
-                                snapshot.hasData) {
-                              final List<EventModel> eventList = snapshot.data;
-                              // print(eventList);
-                              return ListView.builder(
-                                  itemCount: eventList.length,
-                                  itemBuilder: (context, index) {
-                                    return Column(
-                                      children: [
-                                        CardLayout(
-                                          thumbnail: const Image(
-                                            image: NetworkImage(
-                                                'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
-                                            fit: BoxFit.cover,
-                                            height: 100,
-                                            width: 80,
-                                          ),
-                                          title: eventList
-                                              .elementAt(index)
-                                              .eventTitle,
-                                          subtitle: eventList
-                                              .elementAt(index)
-                                              .location,
-                                          toptitle: eventList
-                                              .elementAt(index)
-                                              .dateOfEvent
-                                              .start
-                                              .toString(),
-                                          amountPerson: eventList
-                                              .elementAt(index)
-                                              .joinedUsers
-                                              .length
-                                              .toString(),
-                                          maxPerson: eventList
-                                              .elementAt(index)
-                                              .maximumPeople
-                                              .toString(),
-                                        ),
-                                        const SizedBox(
-                                          height: 10,
-                                        )
-                                      ],
-                                    );
-                                  });
-                            } else {
-                              return Container(
-                                  child: const CircularProgressIndicator());
-                            }
-                          }),
-                    ),
-                  )
-                : Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
-                      child: FutureBuilder<List<EventModel>?>(
-                          future: UserProvider().getCreatedEvents(
-                              FirebaseAuth.instance.currentUser!.uid),
-                          builder: (context, AsyncSnapshot snapshot) {
-                            if (snapshot.connectionState ==
-                                    ConnectionState.done &&
-                                snapshot.hasData) {
-                              final List<EventModel> eventList = snapshot.data;
-                              // print(eventList);
-                              return ListView.builder(
-                                  itemCount: eventList.length,
-                                  itemBuilder: (context, index) {
-                                    return Column(
-                                      children: [
-                                        CardLayout(
-                                          thumbnail: const Image(
-                                            image: NetworkImage(
-                                                'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
-                                            fit: BoxFit.cover,
-                                            height: 100,
-                                            width: 80,
-                                          ),
-                                          title: eventList
-                                              .elementAt(index)
-                                              .eventTitle,
-                                          subtitle: eventList
-                                              .elementAt(index)
-                                              .location,
-                                          toptitle: eventList
-                                              .elementAt(index)
-                                              .dateOfEvent
-                                              .start
-                                              .toString(),
-                                          amountPerson: eventList
-                                              .elementAt(index)
-                                              .joinedUsers
-                                              .length
-                                              .toString(),
-                                          maxPerson: eventList
-                                              .elementAt(index)
-                                              .maximumPeople
-                                              .toString(),
-                                        ),
-                                        const SizedBox(
-                                          height: 10,
-                                        )
-                                      ],
-                                    );
-                                  });
-                            } else {
-                              return Container(
-                                  child: const CircularProgressIndicator());
-                            }
-                          }),
-                    ),
-                  ),
-          ],
+            ],
+          ),
         ),
       ),
     );
