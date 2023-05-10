@@ -1,8 +1,11 @@
-import '../Widgets/dynamicchip.dart';
 import '../Widgets/cardevent.dart';
 import 'package:flutter/material.dart';
+import 'package:tungtee/services/event_provider.dart';
+import 'package:tungtee/Models/event_model.dart';
+import 'package:tungtee/Services/event_provider.dart';
 
 // import 'CardT.dart';
+
 const List<String> list = <String>['Joined', 'Created'];
 
 class Myevent extends StatefulWidget {
@@ -15,6 +18,21 @@ class Myevent extends StatefulWidget {
 }
 
 class _Myevent_user_state extends State<Myevent> {
+  final List<EventModel> eventData = [
+    EventModel(
+        eventId: "123",
+        ownerId: "123",
+        eventTitle: "Test",
+        eventDescription: "test",
+        maximumPeople: 0,
+        tags: [],
+        ageRestriction: AgeRestrictionModel(minimumAge: 0, maximumAge: 0),
+        dateCreated: DateTime(2),
+        dateOfEvent: DateOfEventModel(start: DateTime(2), end: DateTime(4)),
+        location: LocationModel(latitude: 2, longitude: 232),
+        images: [],
+        joinedUsers: [])
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,7 +86,7 @@ class _Myevent_user_state extends State<Myevent> {
                         children: [
                           Row(
                             children: [
-                              Text(
+                              const Text(
                                 'Joined Event',
                                 style: TextStyle(
                                   fontSize: 15,
@@ -81,7 +99,7 @@ class _Myevent_user_state extends State<Myevent> {
                                 child: Flex(
                                   direction: Axis.horizontal,
                                   mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
+                                  children: const [
                                     DropdownButtonExample(),
                                   ],
                                 ),
@@ -91,69 +109,27 @@ class _Myevent_user_state extends State<Myevent> {
                         ],
                       ),
                     ),
-                    const CardLayout(
-                      thumbnail: Image(
-                        image: NetworkImage(
-                            'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
-                        fit: BoxFit.cover,
-                        height: 100,
-                        width: 80,
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: eventData.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          final EventModel event = eventData[index];
+                          return CardLayout(
+                            thumbnail: const Image(
+                              image: NetworkImage(
+                                  'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
+                              fit: BoxFit.cover,
+                              height: 100,
+                              width: 80,
+                            ),
+                            title: event.eventTitle,
+                            subtitle: event.eventDescription,
+                            toptitle: event.eventTitle,
+                            amountPerson: event.ownerId,
+                            maxPerson: event.ownerId,
+                          );
+                        },
                       ),
-                      title: 'หมู',
-                      subtitle:
-                          'Flutter continues to improve and expand its horizons. '
-                          'This text should max out at two lines and clip',
-                      toptitle: 'Fri 17 Mar 08:09',
-                      amountPerson: '5',
-                      maxPerson: '10',
-                    ),
-                    const CardLayout(
-                      thumbnail: Image(
-                        image: NetworkImage(
-                            'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
-                        fit: BoxFit.cover,
-                        height: 100,
-                        width: 80,
-                      ),
-                      title: 'หมู',
-                      subtitle:
-                          'Flutter continues to improve and expand its horizons. '
-                          'This text should max out at two lines and clip',
-                      toptitle: 'Fri 17 Mar 08:09',
-                      amountPerson: '5',
-                      maxPerson: '10',
-                    ),
-                    const CardLayout(
-                      thumbnail: Image(
-                        image: NetworkImage(
-                            'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
-                        fit: BoxFit.cover,
-                        height: 100,
-                        width: 80,
-                      ),
-                      title: 'หมู',
-                      subtitle:
-                          'Flutter continues to improve and expand its horizons. '
-                          'This text should max out at two lines and clip',
-                      toptitle: 'Fri 17 Mar 08:09',
-                      amountPerson: '5',
-                      maxPerson: '10',
-                    ),
-                    const CardLayout(
-                      thumbnail: Image(
-                        image: NetworkImage(
-                            'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
-                        fit: BoxFit.cover,
-                        height: 100,
-                        width: 80,
-                      ),
-                      title: 'หมู',
-                      subtitle:
-                          'Flutter continues to improve and expand its horizons. '
-                          'This text should max out at two lines and clip',
-                      toptitle: 'Fri 17 Mar 08:09',
-                      amountPerson: '5',
-                      maxPerson: '10',
                     ),
                   ],
                 ),
