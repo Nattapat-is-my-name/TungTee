@@ -113,6 +113,7 @@ class CardLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 4,
       clipBehavior: Clip.antiAliasWithSaveLayer,
       child: SizedBox(
         height: 100,
