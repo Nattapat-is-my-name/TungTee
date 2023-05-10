@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:tungtee/Widgets/dynamicchip.dart';
 import 'package:tungtee/constants/colors.dart';
 
 class EventDetail extends StatefulWidget {
@@ -23,7 +22,6 @@ class _EventDetail extends State<EventDetail> {
       appBar: AppBar(
         title: const Text('หมูกระทะ'),
       ),
-      bottomNavigationBar: MyBottomAppBar(),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(
@@ -59,7 +57,7 @@ class _EventDetail extends State<EventDetail> {
               ),
             ),
             Container(
-              padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
               child: Column(
                 children: [
                   Padding(
@@ -78,11 +76,17 @@ class _EventDetail extends State<EventDetail> {
                             ),
                           ],
                         ),
-                        Row(
-                          children: const [
-                            Icon(Icons.location_on),
-                            Text('Susco ,Thanon Puttabucha Bang Mod')
-                          ],
+                        Container(
+                          margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                          child: Row(
+                            children: const [
+                              Icon(Icons.location_on),
+                              Text(
+                                'Susco ,Thanon Puttabucha Bang Mod',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
@@ -118,6 +122,8 @@ class _EventDetail extends State<EventDetail> {
                       ],
                     ),
                   ),
+                  const Divider(),
+                  const MyBottomAppBar()
                 ],
               ),
             ),
@@ -129,28 +135,18 @@ class _EventDetail extends State<EventDetail> {
 }
 
 class MyBottomAppBar extends StatelessWidget {
+  const MyBottomAppBar({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return BottomAppBar(
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          FilledButton(
-            child: const Text('Join'),
-            onPressed: () {},
-          ),
-          const SizedBox(width: 10),
-          OutlinedButton(
-            style: ButtonStyle(
-              side: MaterialStateProperty.all(
-                  BorderSide(color: Color(0xFF6750A4))),
-            ),
-            child: const Text('Cancel'),
-            onPressed: () {},
-          ),
-        ],
-      ),
+    return Row(
+      children: [
+        FilledButton(onPressed: () {}, child: const Text("Join")),
+        const SizedBox(
+          width: 5,
+        ),
+        OutlinedButton(onPressed: () {}, child: const Text("Cancle"))
+      ],
     );
   }
 }

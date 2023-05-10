@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:tungtee/Pages/chat_list.dart';
 import 'package:tungtee/Pages/homepage.dart';
 
 import '../Pages/create_event.dart';
-import '../Pages/group_chat.dart';
 import '../Pages/my_event.dart';
 import '../Pages/profile.dart';
 
@@ -19,7 +19,7 @@ class _TabbarState extends State<Bottomnavbar> {
     const HomePages(),
     const Myevent(),
     const Createevent(),
-    const Groupchat(),
+    const ChatListPage(),
     const Profile(),
   ];
 
