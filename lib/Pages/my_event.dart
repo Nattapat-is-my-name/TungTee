@@ -1,4 +1,4 @@
-import '../Widgets/dynamicchip.dart';
+import '../Widgets/DynamicChip.dart';
 import '../Widgets/cardevent.dart';
 import 'package:flutter/material.dart';
 import 'package:tungtee/Pages/eventdetail.dart';

@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:tungtee/Widgets/dynamicchip.dart';
+import 'package:tungtee/Widgets/DynamicChip.dart';
 import 'package:tungtee/constants/colors.dart';
 
 class EventDetail extends StatefulWidget {
