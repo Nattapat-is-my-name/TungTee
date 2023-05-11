@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tungtee/Pages/notification.dart';
+import 'package:tungtee/Models/event_model.dart';
 import 'package:tungtee/Pages/profile.dart';
-
+import 'package:tungtee/Services/event_provider.dart';
+import 'package:tungtee/Widgets/dynamicchip.dart';
 import '../Widgets/cardevent.dart';
 import 'package:flutter/material.dart';
-
-import '../widgets/dynamicchip.dart';
 
 class HomePages extends StatefulWidget {
   const HomePages({
@@ -17,12 +17,28 @@ class HomePages extends StatefulWidget {
 }
 
 class _HomePagesState extends State<HomePages> {
+  late Future<List<EventModel>> events;
+
+  @override
+  void initState() {
+    events = EventProvider().getEvents();
+    super.initState();
+  }
+
+  Future<List<EventModel>> getdataEvents() async {
+    events = EventProvider().getEvents();
+    return events;
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser!;
 
     return Scaffold(
-      body: SingleChildScrollView(
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
         child: SafeArea(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -107,11 +123,11 @@ class _HomePagesState extends State<HomePages> {
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  children: const [dynamicChip()],
+                  children: const [DynamicChip()],
                 ),
               ),
               Container(
-                padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
                 child: Column(
                   children: [
                     Padding(
@@ -136,23 +152,64 @@ class _HomePagesState extends State<HomePages> {
                         ],
                       ),
                     ),
-                    const CardLayout(
-                      thumbnail: Image(
-                        image: NetworkImage(
-                            'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
-                        fit: BoxFit.cover,
-                        height: 100,
-                        width: 80,
-                      ),
-                      title: 'หมู',
-                      subtitle:
-                          'Flutter continues to improve and expand its horizons. '
-                          'This text should max out at two lines and clip',
-                      toptitle: 'Fri 17 Mar 08:09',
-                      amountPerson: '5',
-                      maxPerson: '10',
-                    ),
                   ],
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
+                  child: FutureBuilder<List<EventModel>>(
+                      future: getdataEvents(),
+                      builder: (context, AsyncSnapshot snapshot) {
+                        // getdataEvents();
+                        if (snapshot.connectionState == ConnectionState.done &&
+                            snapshot.hasData) {
+                          final List<EventModel> eventList = snapshot.data;
+                          // print(eventList);
+                          return ListView.builder(
+                              itemCount: eventList.length,
+                              itemBuilder: (context, index) {
+                                return Column(
+                                  children: [
+                                    CardLayout(
+                                      thumbnail: const Image(
+                                        image: NetworkImage(
+                                            'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
+                                        fit: BoxFit.cover,
+                                        height: 100,
+                                        width: 80,
+                                      ),
+                                      title:
+                                          eventList.elementAt(index).eventTitle,
+                                      subtitle:
+                                          eventList.elementAt(index).location,
+                                      toptitle: eventList
+                                          .elementAt(index)
+                                          .dateOfEvent
+                                          .start
+                                          .toString(),
+                                      amountPerson: eventList
+                                          .elementAt(index)
+                                          .joinedUsers
+                                          .length
+                                          .toString(),
+                                      maxPerson: eventList
+                                          .elementAt(index)
+                                          .maximumPeople
+                                          .toString(),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    )
+                                  ],
+                                );
+                              });
+                        } else {
+                          print('mee error: ${snapshot.hasError}');
+                          print(snapshot.error);
+                          return const CircularProgressIndicator();
+                        }
+                      }),
                 ),
               ),
             ],
