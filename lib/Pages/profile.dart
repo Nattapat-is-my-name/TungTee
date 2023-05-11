@@ -24,62 +24,111 @@ class _ProfileState extends State<Profile> {
           if (snapshot.connectionState == ConnectionState.done &&
               snapshot.hasData) {
             final UserModel? usermodel = snapshot.data;
-            return SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      width: 150,
-                      height: 150,
-                      child: CircleAvatar(
-                        backgroundImage: NetworkImage(
-                            (user.photoURL == null) ? "" : user.photoURL!),
+            // return SafeArea(
+            //   child: Padding(
+            //     padding: const EdgeInsets.all(20.0),
+            //     child: Column(
+            //       children: [
+            //         SizedBox(
+            //           width: 150,
+            //           height: 150,
+            //           child: CircleAvatar(
+            //             backgroundImage: NetworkImage(
+            //                 (user.photoURL == null) ? "" : user.photoURL!),
+            //           ),
+            //         ),
+            //         const SizedBox(height: 20),
+            //         Text(usermodel!.fullname),
+            //         Text(usermodel.email),
+            //         const SizedBox(height: 10),
+            //         const Divider(),
+            //         const SizedBox(height: 10),
+            //         Column(
+            //           children: [
+            //             GestureDetector(
+            //               onTap: () {
+            //                 Navigator.push(
+            //                     context,
+            //                     MaterialPageRoute(
+            //                         builder: (context) => const Editprofile()));
+            //               },
+            //               child: const ListTile(
+            //                 leading: Icon(Icons.person),
+            //                 title: Text('Profile'),
+            //               ),
+            //             ),
+            //             const ListTile(
+            //               leading: Icon(Icons.history_rounded),
+            //               title: Text('History'),
+            //             ),
+            //             const Divider(),
+            //           ],
+            //         ),
+            //         const Spacer(),
+            //         SizedBox(
+            //           width: double.infinity,
+            //           height: 45,
+            //           child: FilledButton(
+            //               onPressed: () {
+            //                 FirebaseAuth.instance.signOut();
+            //               },
+            //               child: const Text('Logout')),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // );
+            return SingleChildScrollView(
+              child: SafeArea(
+                  child: Container(
+                margin: const EdgeInsets.all(20),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: 150,
+                        height: 150,
+                        child: CircleAvatar(
+                          backgroundImage: NetworkImage(
+                              (user.photoURL == null) ? "" : user.photoURL!),
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 20),
-                    Text(usermodel!.fullname),
-                    Text(usermodel.email),
-                    const SizedBox(height: 10),
-                    const Divider(),
-                    const SizedBox(height: 10),
-                    Expanded(
-                      child: ListView(
-                        children: <Widget>[
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const Editprofile()));
+                      Text(usermodel!.fullname),
+                      Text(usermodel.email),
+                      const Divider(),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Editprofile()));
+                        },
+                        child: const ListTile(
+                          leading: Icon(Icons.person),
+                          title: Text('Profile'),
+                        ),
+                      ),
+                      const ListTile(
+                        leading: Icon(Icons.history_rounded),
+                        title: Text('History'),
+                      ),
+                      const Divider(),
+                      SizedBox(
+                        width: double.infinity,
+                        height: 45,
+                        child: FilledButton(
+                            onPressed: () {
+                              FirebaseAuth.instance.signOut();
                             },
-                            child: const ListTile(
-                              leading: Icon(Icons.person),
-                              title: Text('Profile'),
-                            ),
-                          ),
-                          const ListTile(
-                            leading: Icon(Icons.history_rounded),
-                            title: Text('History'),
-                          ),
-                          const Divider(),
-                        ],
+                            child: const Text('Logout')),
                       ),
-                    ),
-                    const Spacer(),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 45,
-                      child: FilledButton(
-                          onPressed: () {
-                            FirebaseAuth.instance.signOut();
-                          },
-                          child: const Text('Logout')),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
+              )),
             );
           } else {
             return const CircularProgressIndicator();
