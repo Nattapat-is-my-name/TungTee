@@ -5,7 +5,8 @@ import 'package:tungtee/Widgets/DynamicChip.dart';
 import 'package:tungtee/constants/colors.dart';
 
 class EventDetail extends StatefulWidget {
-  const EventDetail({super.key});
+  const EventDetail({super.key, required this.eventId});
+  final String eventId;
 
   @override
   State<EventDetail> createState() => _EventDetail();

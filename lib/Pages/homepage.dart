@@ -167,7 +167,11 @@ class _HomePagesState extends State<HomePages> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    const EventDetail()));
+                                                    EventDetail(
+                                                      eventId: eventList
+                                                          .elementAt(index)
+                                                          .eventId,
+                                                    )));
                                       },
                                       child: CardLayout(
                                         thumbnail: const Image(
