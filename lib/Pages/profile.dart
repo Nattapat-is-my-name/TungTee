@@ -82,7 +82,7 @@ class _ProfileState extends State<Profile> {
               )),
             );
           } else {
-            return const CircularProgressIndicator();
+            return const Center(child: CircularProgressIndicator());
           }
         },
       ),
