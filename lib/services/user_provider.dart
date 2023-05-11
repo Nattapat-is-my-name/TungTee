@@ -168,10 +168,10 @@ class UserProvider {
   }
 
   // in case of deleting event use EventProvider().deleteEventById(eventId)
-  // Future<void> userDeleteEvent(String eventId, String userId) async {
-  //   final DocumentReference docRef = _userCollection.doc(userId);
-  //   await docRef.update({
-  //     'createdEvents': FieldValue.arrayRemove([eventId])
-  //   });
-  // }
+  Future<void> userDeleteEvent(String eventId, String userId) async {
+    final DocumentReference docRef = _userCollection.doc(userId);
+    await docRef.update({
+      'createdEvents': FieldValue.arrayRemove([eventId])
+    });
+  }
 }
