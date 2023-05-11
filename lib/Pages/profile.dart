@@ -1,14 +1,8 @@
-import 'dart:io';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:tungtee/Models/user_model.dart';
 import 'package:tungtee/Pages/edit_profile.dart';
 import 'package:tungtee/Services/user_provider.dart';
-
-final user = FirebaseAuth.instance.currentUser!;
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -18,6 +12,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  final user = FirebaseAuth.instance.currentUser!;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,6 +23,7 @@ class _ProfileState extends State<Profile> {
           if (snapshot.connectionState == ConnectionState.done &&
               snapshot.hasData) {
             final UserModel? usermodel = snapshot.data;
+            print(user);
             return SingleChildScrollView(
               child: SafeArea(
                   child: Container(

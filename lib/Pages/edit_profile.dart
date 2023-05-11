@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -72,8 +73,9 @@ class _EditprofileState extends State<Editprofile> {
           if (snapshot.connectionState == ConnectionState.done &&
               snapshot.hasData) {
             final UserModel? usermodel = snapshot.data;
-            final userImage = (user.photoURL == null) ? "" : user.photoURL!;
-            fullnameController.text = usermodel!.fullname;
+            final userImage =
+                (usermodel!.profileImage == "") ? user.photoURL! : "";
+            fullnameController.text = usermodel.fullname;
             nicknameController.text = usermodel.nickname;
             return SingleChildScrollView(
               child: SafeArea(
@@ -167,6 +169,11 @@ class _EditprofileState extends State<Editprofile> {
                                           user.uid, fullnameController.text);
                                       UserProvider().updateUserNickName(
                                           user.uid, nicknameController.text);
+                                      final bytes =
+                                          File(image!.path).readAsBytesSync();
+                                      String image64 = base64Encode(bytes);
+                                      UserProvider().updateUserProfileImage(
+                                          user.uid, image64);
 
                                       setState(() {
                                         isEditable = !isEditable;
