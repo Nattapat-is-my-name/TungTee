@@ -28,58 +28,56 @@ class _ProfileState extends State<Profile> {
               child: SafeArea(
                   child: Container(
                 margin: const EdgeInsets.all(20),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        width: 150,
-                        height: 150,
-                        child: CircleAvatar(
-                          backgroundImage: NetworkImage(
-                              (user.photoURL == null) ? "" : user.photoURL!),
-                        ),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      width: 150,
+                      height: 150,
+                      child: CircleAvatar(
+                        backgroundImage: NetworkImage(
+                            (user.photoURL == null) ? "" : user.photoURL!),
                       ),
-                      Container(
-                        margin: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                        child: Column(
-                          children: [
-                            Text(usermodel!.fullname),
-                            Text(usermodel.email),
-                          ],
-                        ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+                      child: Column(
+                        children: [
+                          Text(usermodel!.fullname),
+                          Text(usermodel.email),
+                        ],
                       ),
-                      const Divider(),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const Editprofile()));
-                        },
-                        child: const ListTile(
-                          leading: Icon(Icons.person),
-                          title: Text('Profile'),
-                        ),
+                    ),
+                    const Divider(),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Editprofile()));
+                      },
+                      child: const ListTile(
+                        leading: Icon(Icons.person),
+                        title: Text('Profile'),
                       ),
-                      const ListTile(
-                        leading: Icon(Icons.history_rounded),
-                        title: Text('History'),
+                    ),
+                    const ListTile(
+                      leading: Icon(Icons.history_rounded),
+                      title: Text('History'),
+                    ),
+                    const Divider(),
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(0, 50, 0, 0),
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 45,
+                        child: FilledButton(
+                            onPressed: () {
+                              FirebaseAuth.instance.signOut();
+                            },
+                            child: const Text('Logout')),
                       ),
-                      const Divider(),
-                      Container(
-                        margin: const EdgeInsets.fromLTRB(0, 50, 0, 0),
-                        child: SizedBox(
-                          width: double.infinity,
-                          height: 45,
-                          child: FilledButton(
-                              onPressed: () {
-                                FirebaseAuth.instance.signOut();
-                              },
-                              child: const Text('Logout')),
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               )),
             );
