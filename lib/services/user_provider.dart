@@ -28,7 +28,9 @@ class UserProvider {
         return await EventProvider().getEventById(eventId);
       }).toList();
       final List<EventModel> joinedEvents = await Future.wait(futures);
-      return joinedEvents;
+      final List<EventModel> joinedButNotOwned =
+          joinedEvents.where((event) => event.ownerId != userId).toList();
+      return joinedButNotOwned;
     }
     return null;
   }
