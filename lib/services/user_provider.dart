@@ -48,6 +48,19 @@ class UserProvider {
     return null;
   }
 
+  Future<List<EventModel>?> getJoinedAndCreatedEvents(String userId) async {
+    final UserModel? user = await getUserById(userId);
+    if (user != null) {
+      final List<Future<EventModel>> futures =
+          user.joinedEvents.map((String eventId) async {
+        return await EventProvider().getEventById(eventId);
+      }).toList();
+      final List<EventModel> joinedEvents = await Future.wait(futures);
+      return joinedEvents;
+    }
+    return null;
+  }
+
   /* Updatable field
    * fullname
    * nickname
