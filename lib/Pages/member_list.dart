@@ -1,5 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:tungtee/Constants/colors.dart';
+import 'package:tungtee/Models/event_model.dart';
 import 'package:tungtee/Models/user_model.dart';
 import 'package:tungtee/Services/chat_provider.dart';
 import 'package:tungtee/Services/event_provider.dart';
@@ -8,7 +9,7 @@ import 'package:tungtee/Services/user_provider.dart';
 class MemberList extends StatefulWidget {
   const MemberList({super.key, required this.event});
 
-  final Map<String, dynamic> event;
+  final EventModel event;
 
   @override
   State<MemberList> createState() => _MemberListState();
@@ -16,39 +17,11 @@ class MemberList extends StatefulWidget {
 
 class _MemberListState extends State<MemberList> {
   List<UserModel?>? users;
-  final userData = [
-    {
-      'name': 'john doe',
-      'age_sex': 'male, 18',
-      'image':
-          'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?cs=srgb&dl=pexels-simon-robben-614810.jpg&fm=jpg'
-    },
-    {
-      'name': 'john doe',
-      'age_sex': 'male, 18',
-      'image':
-          'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?cs=srgb&dl=pexels-simon-robben-614810.jpg&fm=jpg'
-    },
-    {
-      'name': 'john doe',
-      'age_sex': 'male, 18',
-      'image':
-          'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?cs=srgb&dl=pexels-simon-robben-614810.jpg&fm=jpg'
-    },
-    {
-      'name': 'john doe',
-      'age_sex': 'male, 18',
-      'image':
-          'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?cs=srgb&dl=pexels-simon-robben-614810.jpg&fm=jpg'
-    },
-  ];
 
   @override
   void initState() {
     super.initState();
-    ChatProvider()
-        .getChatMembers('60566c7a-5e94-49ef-9a5f-f2973f30277b')
-        .then((value) {
+    ChatProvider().getChatMembers(widget.event.eventId).then((value) {
       if (value != null) {
         setState(() {
           users = value;
@@ -62,7 +35,7 @@ class _MemberListState extends State<MemberList> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(widget.event['title']),
+        title: Text(widget.event.eventTitle),
       ),
       body: Column(
         children: [
@@ -87,20 +60,22 @@ class _MemberListState extends State<MemberList> {
                                   fit: BoxFit.cover,
                                   'https://eitrawmaterials.eu/wp-content/uploads/2016/09/person-icon.png')),
                           title: Text(
-                            '${users!.elementAt(index)!.fullname} ${users!.elementAt(index)!.userId == '2cc7e547-8b7b-4966-96cc-7fc3036f7e0f' ? "(👑 Owner)" : ""}',
+                            '${users!.elementAt(index)!.fullname} ${users!.elementAt(index)!.userId == widget.event.ownerId ? "(👑 Owner)" : ""}',
                             style: const TextStyle(fontWeight: FontWeight.w700),
                           ),
                           subtitle: Text(
                               '${(DateTime.now().year) - (users!.elementAt(index)!.birthDate.year)}, ${users!.elementAt(index)!.gender}'),
-                          trailing: users!.elementAt(index)!.userId !=
-                                  '2cc7e547-8b7b-4966-96cc-7fc3036f7e0f'
+                          trailing: FirebaseAuth.instance.currentUser!.uid ==
+                                      widget.event.ownerId &&
+                                  users!.elementAt(index)!.userId !=
+                                      widget.event.ownerId
                               ? IconButton(
                                   onPressed: () async {
                                     UserProvider().leftEvent(
-                                        '60566c7a-5e94-49ef-9a5f-f2973f30277b',
+                                        widget.event.eventId,
                                         users!.elementAt(index)!.userId);
                                     EventProvider().removeUserFromEvent(
-                                        '60566c7a-5e94-49ef-9a5f-f2973f30277b',
+                                        widget.event.eventId,
                                         users!.elementAt(index)!.userId);
                                   },
                                   icon: const Icon(

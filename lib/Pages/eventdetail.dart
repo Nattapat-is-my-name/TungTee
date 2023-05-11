@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tungtee/Pages/chat_event.dart';
+import 'package:tungtee/Pages/edit_event.dart';
 import 'package:tungtee/constants/colors.dart';
 import 'package:tungtee/navigation/bottom_navbar.dart';
 import 'package:tungtee/services/event_provider.dart';
@@ -179,8 +180,19 @@ class _EventDetail extends State<EventDetail> {
                                                 backgroundColor:
                                                     MaterialStatePropertyAll(
                                                         Color(0xFF797979))),
-                                            onPressed:
-                                                () {}, // TODO: Implement edit event
+                                            onPressed: () async {
+                                              final isReload =
+                                                  await Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              EditEvent(
+                                                                  eventId: event
+                                                                      .eventId)));
+                                              if (isReload) {
+                                                setState(() {});
+                                              }
+                                            },
                                             child: Row(
                                               children: const [
                                                 Icon(Icons.edit),
@@ -261,14 +273,12 @@ class _EventDetail extends State<EventDetail> {
                                         FilledButton(
                                             onPressed: () {
                                               Navigator.push(
-                                                  // TODO: Change argument of ChatEvent
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) =>
                                                           ChatEvent(
-                                                              event: const <
-                                                                  String,
-                                                                  dynamic>{})));
+                                                            event: event,
+                                                          )));
                                             },
                                             child: Row(
                                               children: const [
@@ -288,7 +298,6 @@ class _EventDetail extends State<EventDetail> {
                                                     MaterialStatePropertyAll(
                                                         Color(0xFFDC362E))),
                                             onPressed: () async {
-                                              // TODO: Test left event
                                               final dialogResult =
                                                   await showDialog<bool>(
                                                       context: context,
@@ -350,14 +359,12 @@ class _EventDetail extends State<EventDetail> {
                                         FilledButton(
                                             onPressed: () {
                                               Navigator.push(
-                                                  // TODO: Change argument of ChatEvent
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) =>
                                                           ChatEvent(
-                                                              event: const <
-                                                                  String,
-                                                                  dynamic>{})));
+                                                            event: event,
+                                                          )));
                                             },
                                             child: Row(
                                               children: const [
