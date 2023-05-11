@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:tungtee/Models/user_model.dart';
 import 'package:tungtee/Pages/edit_profile.dart';
 import 'package:tungtee/Services/user_provider.dart';
@@ -31,8 +35,8 @@ class _ProfileState extends State<Profile> {
                 child: Column(
                   children: [
                     SizedBox(
-                      width: 150,
                       height: 150,
+                      width: 150,
                       child: CircleAvatar(
                         backgroundImage: NetworkImage(
                             (user.photoURL == null) ? "" : user.photoURL!),

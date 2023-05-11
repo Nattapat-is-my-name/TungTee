@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:tungtee/Models/user_model.dart';
 import 'package:tungtee/Services/user_provider.dart';
 import 'package:tungtee/constants/colors.dart';
@@ -17,6 +21,18 @@ class _EditprofileState extends State<Editprofile> {
 
   TextEditingController fullnameController = TextEditingController();
   TextEditingController nicknameController = TextEditingController();
+
+  File? image;
+  Future pickImage() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+      final imageTemp = File(image.path);
+      setState(() => this.image = imageTemp);
+    } on PlatformException catch (e) {
+      print('Failed to pick image: $e');
+    }
+  }
 
   @override
   void dispose() {
@@ -56,6 +72,7 @@ class _EditprofileState extends State<Editprofile> {
           if (snapshot.connectionState == ConnectionState.done &&
               snapshot.hasData) {
             final UserModel? usermodel = snapshot.data;
+            final userImage = (user.photoURL == null) ? "" : user.photoURL!;
             fullnameController.text = usermodel!.fullname;
             nicknameController.text = usermodel.nickname;
             return SingleChildScrollView(
@@ -66,12 +83,25 @@ class _EditprofileState extends State<Editprofile> {
                     padding: const EdgeInsets.all(20),
                     child: Column(
                       children: [
-                        SizedBox(
-                          width: 150,
-                          height: 150,
-                          child: CircleAvatar(
-                            backgroundImage: NetworkImage(
-                                (user.photoURL == null) ? "" : user.photoURL!),
+                        Container(
+                          alignment: Alignment.center,
+                          child: GestureDetector(
+                            onTap: () {
+                              if (isEditable) {
+                                pickImage();
+                              }
+                            },
+                            child: SizedBox(
+                              height: 150,
+                              width: 150,
+                              child: image == null
+                                  ? CircleAvatar(
+                                      backgroundImage: NetworkImage(userImage),
+                                    )
+                                  : CircleAvatar(
+                                      backgroundImage: FileImage(image!),
+                                    ),
+                            ),
                           ),
                         ),
                         const SizedBox(height: 20),
