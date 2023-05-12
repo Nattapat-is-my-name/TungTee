@@ -5,11 +5,8 @@ import 'package:tungtee/Pages/member_list.dart';
 import 'package:tungtee/Widgets/message.dart';
 
 class ChatEvent extends StatelessWidget {
-  // const ChatEvent({super.key, required this.event});
   ChatEvent({super.key, required this.event});
-  final Map<String, dynamic> event;
-
-  // final EventModel event;
+  final EventModel event;
 
   final List<String> messages = [
     'Fire in the hole!',
@@ -29,7 +26,6 @@ class ChatEvent extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              // TODO: check if user is event owner
               Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -38,7 +34,7 @@ class ChatEvent extends StatelessWidget {
             icon: const Icon(Icons.info_outline),
           )
         ],
-        title: Text(event['title']),
+        title: Text(event.eventTitle),
         centerTitle: true,
       ),
       body: Container(

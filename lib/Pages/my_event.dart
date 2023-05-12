@@ -5,9 +5,6 @@ import '../Services/user_provider.dart';
 import '../Widgets/cardevent.dart';
 import 'package:flutter/material.dart';
 
-// import 'CardT.dart';
-const List<String> list = <String>['Joined', 'Created'];
-
 class MyEvent extends StatefulWidget {
   const MyEvent({super.key});
 
@@ -21,7 +18,6 @@ class _MyEventState extends State<MyEvent> {
   void onChanged(String? value) {
     setState(() {
       _selectedValue = value;
-      print(_selectedValue);
     });
   }
 
@@ -78,7 +74,7 @@ class _MyEventState extends State<MyEvent> {
                         Row(
                           children: [
                             const Text(
-                              'Joined Event',
+                              'List of your Events:',
                               style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w400,
@@ -120,7 +116,7 @@ class _MyEventState extends State<MyEvent> {
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
                       child: FutureBuilder<List<EventModel>?>(
-                          future: UserProvider().getJoinedEvents(
+                          future: UserProvider().getCreatedEvents(
                               FirebaseAuth.instance.currentUser!.uid),
                           builder: (context, AsyncSnapshot snapshot) {
                             if (snapshot.connectionState ==
@@ -171,8 +167,6 @@ class _MyEventState extends State<MyEvent> {
                                     );
                                   });
                             } else {
-                              print('error is ${snapshot.error}');
-                              print('data is ${snapshot.data}');
                               return const Center(
                                   child: CircularProgressIndicator());
                             }
@@ -190,7 +184,6 @@ class _MyEventState extends State<MyEvent> {
                             if (snapshot.connectionState ==
                                 ConnectionState.done) {
                               final List<EventModel> eventList = snapshot.data;
-                              // print(eventList);
                               return ListView.builder(
                                   itemCount: eventList.length,
                                   itemBuilder: (context, index) {
@@ -232,8 +225,6 @@ class _MyEventState extends State<MyEvent> {
                                     );
                                   });
                             } else {
-                              print('error is ${snapshot.error}');
-                              print('data is ${snapshot.data}');
                               return const Center(
                                   child: CircularProgressIndicator());
                             }

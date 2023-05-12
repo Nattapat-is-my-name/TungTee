@@ -458,7 +458,7 @@ class _CreateeventState extends State<Createevent> {
                                 .userCreateEvent(newEventId, user.uid);
 
                             if (context.mounted) {
-                              Navigator.push(
+                              Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
