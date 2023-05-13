@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:tungtee/Pages/profile.dart';
 
 import '../Models/event_model.dart';
 import '../Services/user_provider.dart';
@@ -30,7 +31,7 @@ class _MyEventState extends State<MyEvent> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              padding: const EdgeInsets.fromLTRB(20, 50, 20, 10),
+              padding: const EdgeInsets.fromLTRB(20, 40, 20, 10),
               child: Column(children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -52,9 +53,22 @@ class _MyEventState extends State<MyEvent> {
                     ),
                     const Spacer(),
                     Row(
-                      children: const [
-                        Icon(Icons.notifications_outlined),
-                        Icon(Icons.account_circle),
+                      children: [
+                        const Icon(Icons.notifications_outlined),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const Profile()));
+                          },
+                          child: CircleAvatar(
+                              // backgroundImage: NetworkImage(user.photoURL!),
+                              ),
+                        ),
                       ],
                     ),
                   ],
@@ -89,6 +103,7 @@ class _MyEventState extends State<MyEvent> {
                                 children: [
                                   DropdownButton<String>(
                                     value: _selectedValue,
+                                    underline: Container(),
                                     onChanged: onChanged,
                                     items: <String>[
                                       'Joined',
