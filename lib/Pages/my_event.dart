@@ -6,6 +6,8 @@ import '../Services/user_provider.dart';
 import '../Widgets/cardevent.dart';
 import 'package:flutter/material.dart';
 
+import 'eventdetail.dart';
+
 class MyEvent extends StatefulWidget {
   const MyEvent({super.key});
 
@@ -204,34 +206,47 @@ class _MyEventState extends State<MyEvent> {
                                   itemBuilder: (context, index) {
                                     return Column(
                                       children: [
-                                        CardLayout(
-                                          thumbnail: const Image(
-                                            image: NetworkImage(
-                                                'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
-                                            fit: BoxFit.cover,
-                                            height: 100,
-                                            width: 80,
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        EventDetail(
+                                                          eventId: eventList
+                                                              .elementAt(index)
+                                                              .eventId,
+                                                        )));
+                                          },
+                                          child: CardLayout(
+                                            thumbnail: const Image(
+                                              image: NetworkImage(
+                                                  'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
+                                              fit: BoxFit.cover,
+                                              height: 100,
+                                              width: 80,
+                                            ),
+                                            title: eventList
+                                                .elementAt(index)
+                                                .eventTitle,
+                                            subtitle: eventList
+                                                .elementAt(index)
+                                                .location,
+                                            toptitle: eventList
+                                                .elementAt(index)
+                                                .dateOfEvent
+                                                .start
+                                                .toString(),
+                                            amountPerson: eventList
+                                                .elementAt(index)
+                                                .joinedUsers
+                                                .length
+                                                .toString(),
+                                            maxPerson: eventList
+                                                .elementAt(index)
+                                                .maximumPeople
+                                                .toString(),
                                           ),
-                                          title: eventList
-                                              .elementAt(index)
-                                              .eventTitle,
-                                          subtitle: eventList
-                                              .elementAt(index)
-                                              .location,
-                                          toptitle: eventList
-                                              .elementAt(index)
-                                              .dateOfEvent
-                                              .start
-                                              .toString(),
-                                          amountPerson: eventList
-                                              .elementAt(index)
-                                              .joinedUsers
-                                              .length
-                                              .toString(),
-                                          maxPerson: eventList
-                                              .elementAt(index)
-                                              .maximumPeople
-                                              .toString(),
                                         ),
                                         const SizedBox(
                                           height: 10,
