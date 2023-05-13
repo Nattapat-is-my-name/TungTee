@@ -105,8 +105,8 @@ class _HomePagesState extends State<HomePages> {
                                       builder: (context) => const Profile()));
                             },
                             child: CircleAvatar(
-                              backgroundImage: NetworkImage(user.photoURL!),
-                            ),
+                                // backgroundImage: NetworkImage(user.photoURL!),
+                                ),
                           ),
                         ],
                       ),
