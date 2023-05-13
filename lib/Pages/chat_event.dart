@@ -8,7 +8,7 @@ import 'package:tungtee/Services/chat_provider.dart';
 import 'package:tungtee/Widgets/message.dart';
 
 class ChatEvent extends StatefulWidget {
-  ChatEvent({super.key, required this.event});
+  const ChatEvent({super.key, required this.event});
   final EventModel event;
 
   @override
@@ -16,6 +16,7 @@ class ChatEvent extends StatefulWidget {
 }
 
 class _ChatEventState extends State<ChatEvent> {
+  final _chatMessageFormKey = GlobalKey<FormState>();
   final messageController = TextEditingController();
   final DateTime noDateSet = DateTime(1111);
 
@@ -51,36 +52,34 @@ class _ChatEventState extends State<ChatEvent> {
                   width: MediaQuery.of(context).size.width,
                   child: Container(
                     padding:
-                        const EdgeInsets.symmetric(horizontal: 0, vertical: 16),
-                    decoration: BoxDecoration(
-                      border: Border.symmetric(
-                          horizontal:
-                              BorderSide(width: 1, color: Colors.grey.shade400),
-                          vertical: BorderSide.none),
-                      color: const Color(0xFFFFFBFE),
-                    ),
+                        const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+                    color: const Color(0xFFFFFBFE),
                     child: Row(
-                      children: [
+                      children: <Widget>[
                         IconButton(
                           onPressed: () {},
                           icon: Icon(Icons.camera_alt, color: primaryColor),
                         ),
                         Expanded(
-                          child: TextFormField(
-                            keyboardType: TextInputType.emailAddress,
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            controller: messageController,
-                            style: const TextStyle(color: Color(0xFF5B5B5B)),
-                            decoration: InputDecoration(
-                                filled: true,
-                                fillColor: const Color(0xFFECF0F0),
-                                contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 0),
-                                hintText: 'Start typing...',
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide.none,
-                                    borderRadius: BorderRadius.circular(999))),
+                          child: Form(
+                            key: _chatMessageFormKey,
+                            child: TextFormField(
+                              keyboardType: TextInputType.emailAddress,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              controller: messageController,
+                              style: const TextStyle(color: Color(0xFF5B5B5B)),
+                              decoration: InputDecoration(
+                                  filled: true,
+                                  fillColor: const Color(0xFFECF0F0),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 0),
+                                  hintText: 'Start typing...',
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide.none,
+                                      borderRadius:
+                                          BorderRadius.circular(999))),
+                            ),
                           ),
                         ),
                         IconButton(
