@@ -18,6 +18,25 @@ class HomePages extends StatefulWidget {
 
 class _HomePagesState extends State<HomePages> {
   late Future<List<EventModel>> events;
+  List<String> selectedTag = [];
+  bool isTagSelect = false;
+
+  void handleTagSelect(String tag) {
+    setState(() {
+      if (tag.isNotEmpty) {
+        if (selectedTag.contains(tag)) {
+          selectedTag.remove(tag);
+        } else {
+          selectedTag.add(tag);
+        }
+      }
+      if (selectedTag.isEmpty) {
+        isTagSelect = false;
+      } else {
+        isTagSelect = true;
+      }
+    });
+  }
 
   @override
   void initState() {
@@ -114,7 +133,12 @@ class _HomePagesState extends State<HomePages> {
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  children: const [DynamicChip()],
+                  children: [
+                    DynamicChip(
+                      handleTagSelect: handleTagSelect,
+                      selectedTags: selectedTag,
+                    )
+                  ],
                 ),
               ),
               Container(
@@ -150,7 +174,9 @@ class _HomePagesState extends State<HomePages> {
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
                   child: FutureBuilder<List<EventModel>>(
-                      future: getdataEvents(),
+                      future: isTagSelect
+                          ? EventProvider().getEventsByTags(selectedTag)
+                          : getdataEvents(),
                       builder: (context, AsyncSnapshot snapshot) {
                         // getdataEvents();
                         if (snapshot.connectionState == ConnectionState.done) {
@@ -216,8 +242,6 @@ class _HomePagesState extends State<HomePages> {
                                 );
                               });
                         } else {
-                          print('mee error: ${snapshot.hasError}');
-                          print(snapshot.error);
                           return const Center(
                               child: CircularProgressIndicator());
                         }

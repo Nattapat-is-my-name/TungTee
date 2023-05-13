@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:tungtee/Constants/event_interests.dart';
 
 class DynamicChip extends StatefulWidget {
-  const DynamicChip({super.key});
+  const DynamicChip(
+      {super.key, required this.handleTagSelect, required this.selectedTags});
+  final void Function(String) handleTagSelect;
+  final List<String> selectedTags;
 
   @override
   State<DynamicChip> createState() => _DynamicChipState();
 }
 
 class _DynamicChipState extends State<DynamicChip> {
-  final List<String> selectedInterests = [];
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -21,19 +22,13 @@ class _DynamicChipState extends State<DynamicChip> {
           return FilterChip(
             showCheckmark: false,
             label: Text(interest),
-            selected: selectedInterests.contains(interest),
+            selected: widget.selectedTags.contains(interest),
             onSelected: (bool? value) {
-              setState(() {
-                if (selectedInterests.contains(interest)) {
-                  selectedInterests.remove(interest);
-                } else {
-                  selectedInterests.add(interest);
-                }
-              });
+              widget.handleTagSelect(interest);
             },
             backgroundColor: const Color.fromRGBO(246, 237, 255, 1),
             shape: const StadiumBorder(),
-            side: selectedInterests.contains(interest)
+            side: widget.selectedTags.contains(interest)
                 ? const BorderSide(
                     width: 1.0, color: Color.fromRGBO(103, 80, 164, 1))
                 : BorderSide.none,
