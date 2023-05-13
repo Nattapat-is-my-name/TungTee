@@ -158,7 +158,8 @@ class _HomePagesState extends State<HomePages> {
                           final List<EventModel> nonEmptyEvents =
                               eventList.where((event) {
                             return event.maximumPeople !=
-                                event.joinedUsers.length;
+                                    event.joinedUsers.length &&
+                                event.dateOfEvent.start.isAfter(DateTime.now());
                           }).toList();
                           // print(eventList);
                           return ListView.builder(
