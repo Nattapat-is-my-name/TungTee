@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:tungtee/Pages/edit_event.dart';
 import 'package:tungtee/Pages/profile.dart';
 
 import '../Models/event_model.dart';
@@ -150,34 +151,47 @@ class _MyEventState extends State<MyEvent> {
                                   itemBuilder: (context, index) {
                                     return Column(
                                       children: [
-                                        CardLayout(
-                                          thumbnail: const Image(
-                                            image: NetworkImage(
-                                                'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
-                                            fit: BoxFit.cover,
-                                            height: 100,
-                                            width: 80,
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        EditEvent(
+                                                          eventId: createdEvents
+                                                              .elementAt(index)
+                                                              .eventId,
+                                                        )));
+                                          },
+                                          child: CardLayout(
+                                            thumbnail: const Image(
+                                              image: NetworkImage(
+                                                  'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
+                                              fit: BoxFit.cover,
+                                              height: 100,
+                                              width: 80,
+                                            ),
+                                            title: createdEvents
+                                                .elementAt(index)
+                                                .eventTitle,
+                                            subtitle: createdEvents
+                                                .elementAt(index)
+                                                .location,
+                                            toptitle: createdEvents
+                                                .elementAt(index)
+                                                .dateOfEvent
+                                                .start
+                                                .toString(),
+                                            amountPerson: createdEvents
+                                                .elementAt(index)
+                                                .joinedUsers
+                                                .length
+                                                .toString(),
+                                            maxPerson: createdEvents
+                                                .elementAt(index)
+                                                .maximumPeople
+                                                .toString(),
                                           ),
-                                          title: createdEvents
-                                              .elementAt(index)
-                                              .eventTitle,
-                                          subtitle: createdEvents
-                                              .elementAt(index)
-                                              .location,
-                                          toptitle: createdEvents
-                                              .elementAt(index)
-                                              .dateOfEvent
-                                              .start
-                                              .toString(),
-                                          amountPerson: createdEvents
-                                              .elementAt(index)
-                                              .joinedUsers
-                                              .length
-                                              .toString(),
-                                          maxPerson: createdEvents
-                                              .elementAt(index)
-                                              .maximumPeople
-                                              .toString(),
                                         ),
                                         const SizedBox(height: 10)
                                       ],
