@@ -11,6 +11,11 @@ class ChatRoomModel {
     required this.chatMessages,
   });
 
+  @override
+  String toString() {
+    return 'ChatRoomModel{eventId: $eventId, maximumPeople: $maximumPeople, joinedUsers: $joinedUsers, chatMessages: $chatMessages}';
+  }
+
   Map<String, dynamic> toJSON() {
     return {
       'eventId': eventId,
