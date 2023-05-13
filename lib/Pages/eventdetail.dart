@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tungtee/Pages/chat_event.dart';
 import 'package:tungtee/Pages/edit_event.dart';
+import 'package:tungtee/Services/chat_provider.dart';
 import 'package:tungtee/constants/colors.dart';
 import 'package:tungtee/navigation/bottom_navbar.dart';
 import 'package:tungtee/services/event_provider.dart';
@@ -253,6 +254,13 @@ class _EventDetail extends State<EventDetail> {
                                                         widget.eventId,
                                                         FirebaseAuth.instance
                                                             .currentUser!.uid);
+                                                await UserProvider().leftEvent(
+                                                    widget.eventId,
+                                                    FirebaseAuth.instance
+                                                        .currentUser!.uid);
+                                                await ChatProvider()
+                                                    .deleteChatRoom(
+                                                        widget.eventId);
                                                 if (context.mounted) {
                                                   Navigator.pushReplacement(
                                                       context,
@@ -336,6 +344,11 @@ class _EventDetail extends State<EventDetail> {
                                                         .currentUser!.uid);
                                                 await EventProvider()
                                                     .removeUserFromEvent(
+                                                        widget.eventId,
+                                                        FirebaseAuth.instance
+                                                            .currentUser!.uid);
+                                                await ChatProvider()
+                                                    .userLeftEvent(
                                                         widget.eventId,
                                                         FirebaseAuth.instance
                                                             .currentUser!.uid);
