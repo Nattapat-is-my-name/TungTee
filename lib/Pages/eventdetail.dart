@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tungtee/Pages/chat_event.dart';
 import 'package:tungtee/Pages/edit_event.dart';
+import 'package:tungtee/Services/chat_provider.dart';
 import 'package:tungtee/constants/colors.dart';
 import 'package:tungtee/navigation/bottom_navbar.dart';
 import 'package:tungtee/services/event_provider.dart';
@@ -31,9 +32,15 @@ class _EventDetail extends State<EventDetail> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             final event = snapshot.data;
+            bool is5MinClose = false;
+            if (event!.dateOfEvent.start.difference(DateTime.now()).inMinutes <=
+                5) {
+              print('hi');
+              is5MinClose = true;
+            }
             return Scaffold(
               appBar: AppBar(
-                title: Text(event!.eventTitle),
+                title: Text(event.eventTitle),
               ),
               body: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
@@ -147,21 +154,31 @@ class _EventDetail extends State<EventDetail> {
                               ? Row(
                                   // not joined
                                   children: [
-                                    FilledButton(
-                                        onPressed: () async {
-                                          await UserProvider().joinEvent(
-                                              widget.eventId,
-                                              FirebaseAuth
-                                                  .instance.currentUser!.uid);
-                                          await EventProvider().addUserToEvent(
-                                              widget.eventId,
-                                              FirebaseAuth
-                                                  .instance.currentUser!.uid);
-                                          setState(() {
-                                            isJoin = true;
-                                          });
-                                        },
-                                        child: const Text("Join")),
+                                    !is5MinClose
+                                        ? FilledButton(
+                                            onPressed: () async {
+                                              if (is5MinClose || isJoin) return;
+                                              await UserProvider().joinEvent(
+                                                  widget.eventId,
+                                                  FirebaseAuth.instance
+                                                      .currentUser!.uid);
+                                              await EventProvider()
+                                                  .addUserToEvent(
+                                                      widget.eventId,
+                                                      FirebaseAuth.instance
+                                                          .currentUser!.uid);
+                                              setState(() {
+                                                isJoin = true;
+                                              });
+                                            },
+                                            child: const Text('Join'))
+                                        : FilledButton(
+                                            style: const ButtonStyle(
+                                                backgroundColor:
+                                                    MaterialStatePropertyAll(
+                                                        Color(0xFF797979))),
+                                            onPressed: () async {},
+                                            child: const Text('Lock')),
                                     const SizedBox(width: 10),
                                     OutlinedButton(
                                         onPressed: () {
@@ -253,6 +270,13 @@ class _EventDetail extends State<EventDetail> {
                                                         widget.eventId,
                                                         FirebaseAuth.instance
                                                             .currentUser!.uid);
+                                                await UserProvider().leftEvent(
+                                                    widget.eventId,
+                                                    FirebaseAuth.instance
+                                                        .currentUser!.uid);
+                                                await ChatProvider()
+                                                    .deleteChatRoom(
+                                                        widget.eventId);
                                                 if (context.mounted) {
                                                   Navigator.pushReplacement(
                                                       context,
@@ -336,6 +360,11 @@ class _EventDetail extends State<EventDetail> {
                                                         .currentUser!.uid);
                                                 await EventProvider()
                                                     .removeUserFromEvent(
+                                                        widget.eventId,
+                                                        FirebaseAuth.instance
+                                                            .currentUser!.uid);
+                                                await ChatProvider()
+                                                    .userLeftEvent(
                                                         widget.eventId,
                                                         FirebaseAuth.instance
                                                             .currentUser!.uid);

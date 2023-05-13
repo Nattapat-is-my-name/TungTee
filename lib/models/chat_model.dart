@@ -11,6 +11,11 @@ class ChatRoomModel {
     required this.chatMessages,
   });
 
+  @override
+  String toString() {
+    return 'ChatRoomModel{eventId: $eventId, maximumPeople: $maximumPeople, joinedUsers: $joinedUsers, chatMessages: $chatMessages}';
+  }
+
   Map<String, dynamic> toJSON() {
     return {
       'eventId': eventId,
@@ -19,19 +24,33 @@ class ChatRoomModel {
       'chatMessages': chatMessages.map((message) => message.toJSON()).toList(),
     };
   }
+
+  factory ChatRoomModel.fromJSON(Map<String, dynamic> json) {
+    return ChatRoomModel(
+      eventId: json['eventId'],
+      chatMessages: (json['chatMessages'] as List<dynamic>)
+          .cast<Map<String, dynamic>>()
+          .map((message) => ChatMessageModel.fromJSON(message))
+          .toList(),
+      joinedUsers: (json['joinedUsers'] as List<dynamic>)
+          .map((user) => user.toString())
+          .toList(),
+      maximumPeople: json['maximumPeople'],
+    );
+  }
 }
 
 class ChatMessageModel {
   final String userId;
   final DateTime dateSend;
   final String message;
-  final List<String>? images; // images are optional
+  final List<dynamic>? images; // images are optional
 
   ChatMessageModel({
     required this.userId,
     required this.dateSend,
     required this.message,
-    required this.images,
+    this.images,
   });
 
   Map<String, dynamic> toJSON() {
@@ -41,5 +60,20 @@ class ChatMessageModel {
       'message': message,
       'images': images,
     };
+  }
+
+  factory ChatMessageModel.fromJSON(Map<String, dynamic> json) {
+    return ChatMessageModel(
+      userId: json['userId'] ?? "",
+      dateSend:
+          DateTime.parse(json['dateSend'] ?? DateTime.now().toIso8601String()),
+      images: json['images'] as List<dynamic>?,
+      message: json['message'] ?? "",
+    );
+  }
+
+  @override
+  String toString() {
+    return 'ChatMessageModel{userId: $userId, dateSend: $dateSend, message: $message, images: $images}';
   }
 }

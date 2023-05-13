@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:tungtee/Constants/event_interests.dart';
 import 'package:tungtee/Models/event_model.dart';
 import 'package:tungtee/Pages/homepage.dart';
+import 'package:tungtee/Services/chat_provider.dart';
 import 'package:tungtee/Widgets/dynamicchip.dart';
 import 'package:tungtee/navigation/bottom_navbar.dart';
 import 'package:tungtee/services/event_provider.dart';
@@ -453,9 +454,12 @@ class _CreateeventState extends State<Createevent> {
                                   joinedUsers: [user.uid]),
                             );
 
-                            UserProvider().joinEvent(newEventId, user.uid);
-                            UserProvider()
+                            await UserProvider()
+                                .joinEvent(newEventId, user.uid);
+                            await UserProvider()
                                 .userCreateEvent(newEventId, user.uid);
+                            await ChatProvider().initChatRoom(
+                                newEventId, int.parse(ageM.text), [user.uid]);
 
                             if (context.mounted) {
                               Navigator.pushReplacement(
