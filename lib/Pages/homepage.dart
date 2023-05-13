@@ -155,9 +155,14 @@ class _HomePagesState extends State<HomePages> {
                         // getdataEvents();
                         if (snapshot.connectionState == ConnectionState.done) {
                           final List<EventModel> eventList = snapshot.data;
+                          final List<EventModel> nonEmptyEvents =
+                              eventList.where((event) {
+                            return event.maximumPeople !=
+                                event.joinedUsers.length;
+                          }).toList();
                           // print(eventList);
                           return ListView.builder(
-                              itemCount: eventList.length,
+                              itemCount: nonEmptyEvents.length,
                               itemBuilder: (context, index) {
                                 return Column(
                                   children: [
@@ -168,7 +173,7 @@ class _HomePagesState extends State<HomePages> {
                                             MaterialPageRoute(
                                                 builder: (context) =>
                                                     EventDetail(
-                                                      eventId: eventList
+                                                      eventId: nonEmptyEvents
                                                           .elementAt(index)
                                                           .eventId,
                                                     )));
@@ -181,22 +186,23 @@ class _HomePagesState extends State<HomePages> {
                                           height: 100,
                                           width: 80,
                                         ),
-                                        title: eventList
+                                        title: nonEmptyEvents
                                             .elementAt(index)
                                             .eventTitle,
-                                        subtitle:
-                                            eventList.elementAt(index).location,
-                                        toptitle: eventList
+                                        subtitle: nonEmptyEvents
+                                            .elementAt(index)
+                                            .location,
+                                        toptitle: nonEmptyEvents
                                             .elementAt(index)
                                             .dateOfEvent
                                             .start
                                             .toString(),
-                                        amountPerson: eventList
+                                        amountPerson: nonEmptyEvents
                                             .elementAt(index)
                                             .joinedUsers
                                             .length
                                             .toString(),
-                                        maxPerson: eventList
+                                        maxPerson: nonEmptyEvents
                                             .elementAt(index)
                                             .maximumPeople
                                             .toString(),
