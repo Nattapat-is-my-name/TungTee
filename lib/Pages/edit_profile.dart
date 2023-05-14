@@ -5,9 +5,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:tungtee/Models/user_model.dart';
 import 'package:tungtee/Services/user_provider.dart';
 import 'package:tungtee/constants/colors.dart';
+import 'package:http/http.dart' as http;
 
 class Editprofile extends StatefulWidget {
   const Editprofile({super.key});
@@ -73,10 +76,7 @@ class _EditprofileState extends State<Editprofile> {
           if (snapshot.connectionState == ConnectionState.done &&
               snapshot.hasData) {
             final UserModel? usermodel = snapshot.data;
-            final userImage =
-                (usermodel!.profileImage == "") ? user.photoURL! : "";
-            final testImage = base64Decode(usermodel.profileImage);
-            fullnameController.text = usermodel.fullname;
+            fullnameController.text = usermodel!.fullname;
             nicknameController.text = usermodel.nickname;
             return SingleChildScrollView(
               child: SafeArea(
@@ -95,16 +95,40 @@ class _EditprofileState extends State<Editprofile> {
                               }
                             },
                             child: SizedBox(
-                              height: 150,
-                              width: 150,
-                              child: image == null
-                                  ? CircleAvatar(
-                                      backgroundImage: MemoryImage(testImage),
-                                    )
-                                  : CircleAvatar(
-                                      backgroundImage: FileImage(image!),
-                                    ),
-                            ),
+                                height: 150,
+                                width: 150,
+                                child: image == null
+                                    // ? (usermodel.profileImage != null)
+                                    //     ? CircleAvatar(
+                                    //         backgroundImage: MemoryImage(
+                                    //             base64Decode(
+                                    //                 usermodel.profileImage)))
+                                    //     : (user.photoURL != null)
+                                    //         ? CircleAvatar(
+                                    //             backgroundImage: NetworkImage(
+                                    //                 user.photoURL!))
+                                    //         : CircleAvatar(
+                                    //             backgroundColor:
+                                    //                 primaryColor.shade100,
+                                    //           )
+                                    ? (usermodel.profileImage != "")
+                                        ? CircleAvatar(
+                                            backgroundImage: MemoryImage(
+                                                base64Decode(
+                                                    usermodel.profileImage)),
+                                          )
+                                        : (user.photoURL != null)
+                                            ? CircleAvatar(
+                                                backgroundImage: NetworkImage(
+                                                    user.photoURL!),
+                                              )
+                                            : CircleAvatar(
+                                                backgroundColor:
+                                                    primaryColor.shade100,
+                                              )
+                                    : CircleAvatar(
+                                        backgroundImage: FileImage(image!),
+                                      )),
                           ),
                         ),
                         const SizedBox(height: 20),
@@ -163,9 +187,6 @@ class _EditprofileState extends State<Editprofile> {
                                 height: 45,
                                 child: FilledButton(
                                     onPressed: () {
-                                      // setState(() {
-                                      //   isEditable = !isEditable;
-                                      // });
                                       UserProvider().updateUserFullName(
                                           user.uid, fullnameController.text);
                                       UserProvider().updateUserNickName(
