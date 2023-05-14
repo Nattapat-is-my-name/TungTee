@@ -75,6 +75,7 @@ class _EditprofileState extends State<Editprofile> {
             final UserModel? usermodel = snapshot.data;
             final userImage =
                 (usermodel!.profileImage == "") ? user.photoURL! : "";
+            final testImage = base64Decode(usermodel.profileImage);
             fullnameController.text = usermodel.fullname;
             nicknameController.text = usermodel.nickname;
             return SingleChildScrollView(
@@ -98,7 +99,7 @@ class _EditprofileState extends State<Editprofile> {
                               width: 150,
                               child: image == null
                                   ? CircleAvatar(
-                                      backgroundImage: NetworkImage(userImage),
+                                      backgroundImage: MemoryImage(testImage),
                                     )
                                   : CircleAvatar(
                                       backgroundImage: FileImage(image!),

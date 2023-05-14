@@ -23,7 +23,6 @@ class _ProfileState extends State<Profile> {
           if (snapshot.connectionState == ConnectionState.done &&
               snapshot.hasData) {
             final UserModel? usermodel = snapshot.data;
-            print(user);
             return SingleChildScrollView(
               child: SafeArea(
                   child: Container(
