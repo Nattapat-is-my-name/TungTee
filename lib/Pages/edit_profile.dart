@@ -98,19 +98,6 @@ class _EditprofileState extends State<Editprofile> {
                                 height: 150,
                                 width: 150,
                                 child: image == null
-                                    // ? (usermodel.profileImage != null)
-                                    //     ? CircleAvatar(
-                                    //         backgroundImage: MemoryImage(
-                                    //             base64Decode(
-                                    //                 usermodel.profileImage)))
-                                    //     : (user.photoURL != null)
-                                    //         ? CircleAvatar(
-                                    //             backgroundImage: NetworkImage(
-                                    //                 user.photoURL!))
-                                    //         : CircleAvatar(
-                                    //             backgroundColor:
-                                    //                 primaryColor.shade100,
-                                    //           )
                                     ? (usermodel.profileImage != "")
                                         ? CircleAvatar(
                                             backgroundImage: MemoryImage(
