@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tungtee/Pages/notification.dart';
 import 'package:tungtee/Models/event_model.dart';
+import 'package:tungtee/Pages/eventdetail.dart';
 import 'package:tungtee/Pages/profile.dart';
 import 'package:tungtee/Services/event_provider.dart';
 import 'package:tungtee/Widgets/dynamicchip.dart';
@@ -18,6 +19,25 @@ class HomePages extends StatefulWidget {
 
 class _HomePagesState extends State<HomePages> {
   late Future<List<EventModel>> events;
+  List<String> selectedTag = [];
+  bool isTagSelect = false;
+
+  void handleTagSelect(String tag) {
+    setState(() {
+      if (tag.isNotEmpty) {
+        if (selectedTag.contains(tag)) {
+          selectedTag.remove(tag);
+        } else {
+          selectedTag.add(tag);
+        }
+      }
+      if (selectedTag.isEmpty) {
+        isTagSelect = false;
+      } else {
+        isTagSelect = true;
+      }
+    });
+  }
 
   @override
   void initState() {
@@ -123,7 +143,12 @@ class _HomePagesState extends State<HomePages> {
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  children: const [DynamicChip()],
+                  children: [
+                    DynamicChip(
+                      handleTagSelect: handleTagSelect,
+                      selectedTags: selectedTag,
+                    )
+                  ],
                 ),
               ),
               Container(
@@ -159,44 +184,66 @@ class _HomePagesState extends State<HomePages> {
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
                   child: FutureBuilder<List<EventModel>>(
-                      future: getdataEvents(),
+                      future: isTagSelect
+                          ? EventProvider().getEventsByTags(selectedTag)
+                          : getdataEvents(),
                       builder: (context, AsyncSnapshot snapshot) {
                         // getdataEvents();
-                        if (snapshot.connectionState == ConnectionState.done &&
-                            snapshot.hasData) {
+                        if (snapshot.connectionState == ConnectionState.done) {
                           final List<EventModel> eventList = snapshot.data;
+                          final List<EventModel> nonEmptyEvents =
+                              eventList.where((event) {
+                            return event.maximumPeople !=
+                                    event.joinedUsers.length &&
+                                event.dateOfEvent.start.isAfter(DateTime.now());
+                          }).toList();
                           // print(eventList);
                           return ListView.builder(
-                              itemCount: eventList.length,
+                              itemCount: nonEmptyEvents.length,
                               itemBuilder: (context, index) {
                                 return Column(
                                   children: [
-                                    CardLayout(
-                                      thumbnail: const Image(
-                                        image: NetworkImage(
-                                            'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
-                                        fit: BoxFit.cover,
-                                        height: 100,
-                                        width: 80,
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    EventDetail(
+                                                      eventId: nonEmptyEvents
+                                                          .elementAt(index)
+                                                          .eventId,
+                                                    )));
+                                      },
+                                      child: CardLayout(
+                                        thumbnail: const Image(
+                                          image: NetworkImage(
+                                              'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
+                                          fit: BoxFit.cover,
+                                          height: 100,
+                                          width: 80,
+                                        ),
+                                        title: nonEmptyEvents
+                                            .elementAt(index)
+                                            .eventTitle,
+                                        subtitle: nonEmptyEvents
+                                            .elementAt(index)
+                                            .location,
+                                        toptitle: nonEmptyEvents
+                                            .elementAt(index)
+                                            .dateOfEvent
+                                            .start
+                                            .toString(),
+                                        amountPerson: nonEmptyEvents
+                                            .elementAt(index)
+                                            .joinedUsers
+                                            .length
+                                            .toString(),
+                                        maxPerson: nonEmptyEvents
+                                            .elementAt(index)
+                                            .maximumPeople
+                                            .toString(),
                                       ),
-                                      title:
-                                          eventList.elementAt(index).eventTitle,
-                                      subtitle:
-                                          eventList.elementAt(index).location,
-                                      toptitle: eventList
-                                          .elementAt(index)
-                                          .dateOfEvent
-                                          .start
-                                          .toString(),
-                                      amountPerson: eventList
-                                          .elementAt(index)
-                                          .joinedUsers
-                                          .length
-                                          .toString(),
-                                      maxPerson: eventList
-                                          .elementAt(index)
-                                          .maximumPeople
-                                          .toString(),
                                     ),
                                     const SizedBox(
                                       height: 10,
@@ -205,9 +252,8 @@ class _HomePagesState extends State<HomePages> {
                                 );
                               });
                         } else {
-                          print('mee error: ${snapshot.hasError}');
-                          print(snapshot.error);
-                          return const CircularProgressIndicator();
+                          return const Center(
+                              child: CircularProgressIndicator());
                         }
                       }),
                 ),

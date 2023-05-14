@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tungtee/Constants/colors.dart';
 import 'package:tungtee/Pages/chat_event.dart';
+import 'package:tungtee/Services/user_provider.dart';
 
 class ChatListPage extends StatefulWidget {
   const ChatListPage({super.key});
@@ -10,21 +12,6 @@ class ChatListPage extends StatefulWidget {
 }
 
 class _ChatListPageState extends State<ChatListPage> {
-  final chatData = [
-    {
-      'title': 'หมูกระทะ',
-      'lastMessage': 'Let\'s go!',
-      'lastMessageDate': 'Yesterday',
-      'image': 'https://mpics.mgronline.com/pics/Images/565000005463801.JPEG'
-    },
-    {
-      'title': 'หมูกระทะ',
-      'lastMessage': 'Let\'s go!',
-      'lastMessageDate': 'Yesterday',
-      'image': 'https://images.deliveryhero.io/image/fd-th/LH/ujjl-hero.jpg'
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,40 +60,51 @@ class _ChatListPageState extends State<ChatListPage> {
             const SizedBox(height: 28),
             Expanded(
               child: Scrollbar(
-                child: ListView.separated(
-                  itemCount: chatData.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      trailing: Text(chatData[index]['lastMessageDate']!),
-                      leading: SizedBox(
-                          height: 100,
-                          width: 80,
-                          child: Image.network(
-                              fit: BoxFit.cover, chatData[index]['image']!)),
-                      title: Text(
-                        chatData[index]['title']!,
-                        style: const TextStyle(fontWeight: FontWeight.w700),
-                      ),
-                      subtitle: Text(chatData[index]['lastMessage']!),
-                      splashColor: primaryColor.shade600,
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ChatEvent(
-                                      event: chatData[index],
-                                    )));
+                  child: FutureBuilder(
+                future: UserProvider().getJoinedAndCreatedEvents(
+                    FirebaseAuth.instance.currentUser!.uid),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    final events = snapshot.data;
+                    return ListView.separated(
+                      itemCount: events!.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          trailing: const Text('Yesterday'),
+                          leading: SizedBox(
+                              height: 100,
+                              width: 80,
+                              child: Image.network(
+                                  fit: BoxFit.cover,
+                                  'https://mpics.mgronline.com/pics/Images/565000005463801.JPEG')),
+                          title: Text(
+                            events.elementAt(index).eventTitle,
+                            style: const TextStyle(fontWeight: FontWeight.w700),
+                          ),
+                          subtitle: const Text('Let\'s go!'),
+                          splashColor: primaryColor.shade600,
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ChatEvent(
+                                          event: events.elementAt(index),
+                                        )));
+                          },
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return const Divider(
+                          indent: 16,
+                          endIndent: 16,
+                        );
                       },
                     );
-                  },
-                  separatorBuilder: (context, index) {
-                    return const Divider(
-                      indent: 16,
-                      endIndent: 16,
-                    );
-                  },
-                ),
-              ),
+                  } else {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                },
+              )),
             ),
           ],
         ),

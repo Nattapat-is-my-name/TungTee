@@ -26,9 +26,9 @@ class EventProvider {
   /// Get list of `EventModel` that its `tags` field contain any of `interests` (List<String>) argument
   ///
   /// return all events (type: `List<EventModel>`) from Firestore database that matched with interests
-  Future<List<EventModel>> getEventsByTag(String tag) async {
+  Future<List<EventModel>> getEventsByTags(List<String> tags) async {
     final QuerySnapshot querySnapshot =
-        await _eventCollection.where('tag', isEqualTo: tag).get();
+        await _eventCollection.where('tag', whereIn: tags).get();
     final List<EventModel> events = querySnapshot.docs
         .map((docSnap) =>
             EventModel.fromJSON(docSnap.data() as Map<String, dynamic>))
@@ -153,6 +153,9 @@ class EventProvider {
   }
 
   /// delete event by `eventId` (String)
+  ///
+  /// in case of deleting event you have to update joined event list
+  /// in user provider
   Future<void> deleteEventById(String eventId) async {
     await _eventCollection.doc(eventId).delete();
   }
