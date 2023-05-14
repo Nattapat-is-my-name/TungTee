@@ -1,11 +1,10 @@
-import 'dart:convert';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:tungtee/Constants/colors.dart';
 import 'package:tungtee/Models/user_model.dart';
 import 'package:tungtee/Pages/edit_profile.dart';
 import 'package:tungtee/Services/user_provider.dart';
+
+import '../Widgets/profilepic.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -32,22 +31,12 @@ class _ProfileState extends State<Profile> {
                 margin: const EdgeInsets.all(20),
                 child: Column(
                   children: [
-                    SizedBox(
-                        height: 150,
-                        width: 150,
-                        child: usermodel!.profileImage != ""
-                            ? CircleAvatar(
-                                backgroundImage: MemoryImage(
-                                    base64Decode(usermodel.profileImage)),
-                              )
-                            : (user.photoURL != null)
-                                ? CircleAvatar(
-                                    backgroundImage:
-                                        NetworkImage(user.photoURL!),
-                                  )
-                                : CircleAvatar(
-                                    backgroundColor: primaryColor.shade100,
-                                  )),
+                    ProfilePic(
+                      usermodel: usermodel,
+                      user: user,
+                      h: 150,
+                      w: 150,
+                    ),
                     Container(
                       margin: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                       child: Column(
