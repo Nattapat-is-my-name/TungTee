@@ -1,0 +1,16 @@
+const List<String> interests = [
+  '⚽️ Sport',
+  '🎵Music',
+  '✏️ Drawing',
+  '🛒 Shopping',
+  '🎯 Board games',
+  '🍲 Cooking',
+  '📚 Reading',
+  '🎤 Singing',
+  '🌱 Gardening',
+  '🍿 Movies',
+  '🎮 Video games',
+  '✈️ Traveling',
+  '🎣 Fishing',
+  '📸 Photography',
+];

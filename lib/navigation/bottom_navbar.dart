@@ -17,7 +17,7 @@ class _TabbarState extends State<Bottomnavbar> {
   int _selectedIndex = 0;
   final List<Widget> screens = [
     const HomePages(),
-    const Myevent(),
+    const MyEvent(),
     const Createevent(),
     const ChatListPage(),
     const Profile(),
@@ -37,6 +37,9 @@ class _TabbarState extends State<Bottomnavbar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      body: Center(
+        child: screens.elementAt(_selectedIndex),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
           const BottomNavigationBarItem(
@@ -73,9 +76,6 @@ class _TabbarState extends State<Bottomnavbar> {
         unselectedItemColor: Theme.of(context).colorScheme.primary,
         selectedItemColor: Theme.of(context).colorScheme.primary,
         onTap: _onItemTapped,
-      ),
-      body: Center(
-        child: screens.elementAt(_selectedIndex),
       ),
     );
   }
