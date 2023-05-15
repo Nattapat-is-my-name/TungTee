@@ -157,7 +157,7 @@ class _MyEventState extends State<MyEvent> {
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        EditEvent(
+                                                        EventDetail(
                                                           eventId: createdEvents
                                                               .elementAt(index)
                                                               .eventId,

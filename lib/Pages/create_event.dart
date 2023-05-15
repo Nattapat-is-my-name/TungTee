@@ -273,8 +273,6 @@ class _CreateeventState extends State<Createevent> {
                                 initialTime: TimeOfDay.now(),
                                 context: context,
                               );
-                              DateTime End = DateTime(
-                                  pickedTime!.hour, pickedTime!.minute);
 
                               if (pickedTime != null) {
                                 setState(() {
