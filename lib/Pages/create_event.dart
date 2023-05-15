@@ -450,7 +450,7 @@ class _CreateeventState extends State<Createevent> {
                                       end: DateTime.parse(dateStart.text),
                                       start: DateTime.parse(dateEnd.text)),
                                   location: location.text,
-                                  image: [],
+                                  image: "",
                                   joinedUsers: [user.uid]),
                             );
 
