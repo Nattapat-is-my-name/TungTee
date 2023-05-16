@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:tungtee/Constants/colors.dart';
 import 'package:tungtee/Models/event_model.dart';
 import 'package:tungtee/Models/user_model.dart';
 import 'package:tungtee/Services/chat_provider.dart';
@@ -54,11 +57,46 @@ class _MemberListState extends State<MemberList> {
                       itemBuilder: (context, index) {
                         return ListTile(
                           leading: SizedBox(
-                              height: 100,
-                              width: 80,
-                              child: Image.network(
-                                  fit: BoxFit.cover,
-                                  'https://eitrawmaterials.eu/wp-content/uploads/2016/09/person-icon.png')),
+                            height: 100,
+                            width: 80,
+                            child: FutureBuilder(
+                                future: UserProvider().getUserById(
+                                    users!.elementAt(index)!.userId),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.done) {
+                                    final image = snapshot.data?.profileImage;
+                                    return image == null || image == ""
+                                        ? Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 8),
+                                            child: CircleAvatar(
+                                              radius: 18,
+                                              backgroundColor:
+                                                  primaryColor.shade100,
+                                              child: const Icon(Icons.person),
+                                            ))
+                                        : Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 8),
+                                            child: CircleAvatar(
+                                              radius: 18,
+                                              backgroundImage:
+                                                  image.startsWith('https')
+                                                      ? null
+                                                      : MemoryImage(
+                                                          base64Decode(image)),
+                                              child: image.startsWith('https')
+                                                  ? Image.network(image)
+                                                  : null,
+                                            ));
+                                  }
+                                  return Container();
+                                }),
+                            // child: Image.network(
+                            //     fit: BoxFit.cover,
+                            //     'https://eitrawmaterials.eu/wp-content/uploads/2016/09/person-icon.png'),
+                          ),
                           title: Text(
                             '${users!.elementAt(index)!.fullname} ${users!.elementAt(index)!.userId == widget.event.ownerId ? "(👑 Owner)" : ""}',
                             style: const TextStyle(fontWeight: FontWeight.w700),
