@@ -233,8 +233,8 @@ class _CreateeventState extends State<Createevent> {
 
                               if (pickedTime != null) {
                                 setState(() {
-                                  DateTime parsedTime = DateFormat.jm().parse(
-                                      pickedTime.format(context).toString());
+                                  DateTime parsedTime = DateFormat("HH:mm").parse(
+                                      "${pickedTime.hour.toString()}:${pickedTime.minute.toString()}");
 
                                   String formattedTime =
                                       DateFormat('HH:mm').format(parsedTime);
@@ -275,8 +275,8 @@ class _CreateeventState extends State<Createevent> {
 
                               if (pickedTime != null) {
                                 setState(() {
-                                  DateTime parsedTime = DateFormat.jm().parse(
-                                      pickedTime.format(context).toString());
+                                  DateTime parsedTime = DateFormat("HH:mm").parse(
+                                      "${pickedTime.hour.toString()}:${pickedTime.minute.toString()}");
 
                                   String formattedTime =
                                       DateFormat('HH:mm').format(parsedTime);
