@@ -5,12 +5,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:tungtee/Models/user_model.dart';
 import 'package:tungtee/Services/user_provider.dart';
 import 'package:tungtee/constants/colors.dart';
-import 'package:http/http.dart' as http;
 
 class Editprofile extends StatefulWidget {
   const Editprofile({super.key});
