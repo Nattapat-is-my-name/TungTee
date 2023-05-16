@@ -1,5 +1,6 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:tungtee/Pages/notification.dart';
 import 'package:tungtee/Models/event_model.dart';
 import 'package:tungtee/Pages/eventdetail.dart';
 import 'package:tungtee/Pages/profile.dart';
@@ -68,7 +69,7 @@ class _HomePagesState extends State<HomePages> {
                 padding: const EdgeInsets.fromLTRB(20, 25, 20, 10),
                 child: Column(children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       //Welcome Name
                       Column(
@@ -91,16 +92,10 @@ class _HomePagesState extends State<HomePages> {
                           ),
                         ],
                       ),
+                      const Spacer(),
                       Row(
                         children: [
-                          GestureDetector(
-                              onTap: () {
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) {
-                                  return const NotificationPage();
-                                }));
-                              },
-                              child: const Icon(Icons.notifications_outlined)),
+                          const Icon(Icons.notifications_outlined),
                           const SizedBox(
                             width: 5,
                           ),
@@ -112,11 +107,8 @@ class _HomePagesState extends State<HomePages> {
                                       builder: (context) => const Profile()));
                             },
                             child: CircleAvatar(
-                              backgroundImage: NetworkImage(
-                                  (user.photoURL == null)
-                                      ? ""
-                                      : user.photoURL!),
-                            ),
+                                // backgroundImage: NetworkImage(user.photoURL!),
+                                ),
                           ),
                         ],
                       ),
@@ -216,9 +208,9 @@ class _HomePagesState extends State<HomePages> {
                                                     )));
                                       },
                                       child: CardLayout(
-                                        thumbnail: const Image(
-                                          image: NetworkImage(
-                                              'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
+                                        thumbnail: Image(
+                                          image: MemoryImage(base64Decode(
+                                              nonEmptyEvents[index].image)),
                                           fit: BoxFit.cover,
                                           height: 100,
                                           width: 80,
