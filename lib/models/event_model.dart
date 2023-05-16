@@ -11,7 +11,7 @@ class EventModel {
   final DateTime dateCreated;
   final DateOfEventModel dateOfEvent;
   final String location; // CHANGE let user types the location directly
-  final List<int> image; // CHANGE Array of bytes
+  final String image; // CHANGE Array of bytes
   final List<String> joinedUsers; // list of userId String
 
   EventModel({
@@ -62,7 +62,7 @@ class EventModel {
     final DateOfEventModel dateOfEvent =
         DateOfEventModel.fromJSON(json['dateOfEvent']);
     final String location = json['location'];
-    final List<int> image = List<int>.from(json['image']);
+    final String image = json['image'];
     final List<String> joinedUsers = List<String>.from(json['joinedUsers']);
 
     return EventModel(
