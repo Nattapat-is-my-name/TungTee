@@ -17,10 +17,13 @@ class ChatProvider {
     return users;
   }
 
-  Future<ChatRoomModel> getChatMessage(String eventId) async {
-    final DocumentReference docRef = _chatCollection.doc(eventId);
-    final DocumentSnapshot docSnap = await docRef.get();
-    return ChatRoomModel.fromJSON(docSnap.data() as Map<String, dynamic>);
+  // Future<ChatRoomModel> getChatMessage(String eventId) async {
+  //   final DocumentReference docRef = _chatCollection.doc(eventId);
+  //   final DocumentSnapshot docSnap = await docRef.get();
+  //   return ChatRoomModel.fromJSON(docSnap.data() as Map<String, dynamic>);
+  // }
+  Stream<DocumentSnapshot> getChatMessage(String eventId) {
+    return _chatCollection.doc(eventId).snapshots();
   }
 
   Future<void> createMessage(
