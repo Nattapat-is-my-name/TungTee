@@ -10,6 +10,7 @@ class EventProvider {
   ///
   /// return `EventModel` that successfully added to Firestore database
   Future<void> createEvent(EventModel event) async {
+    print(event.toJSON());
     await _eventCollection.doc(event.eventId).set(event.toJSON());
   }
 

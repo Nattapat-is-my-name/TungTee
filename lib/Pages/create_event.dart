@@ -1,9 +1,11 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:image/image.dart' as Img;
 
 import 'package:intl/intl.dart';
 import 'package:tungtee/Constants/event_interests.dart';
@@ -27,11 +29,15 @@ class Createevent extends StatefulWidget {
 class _CreateeventState extends State<Createevent> {
   TextEditingController dateStart = TextEditingController();
   TextEditingController dateEnd = TextEditingController();
+  TextEditingController timeStart = TextEditingController();
+  TextEditingController timeEnd = TextEditingController();
   TextEditingController detail = TextEditingController();
   TextEditingController location = TextEditingController();
   TextEditingController ageM = TextEditingController();
   TextEditingController ageN = TextEditingController();
   TextEditingController title = TextEditingController();
+  DateTime dateStart1 = DateTime.now();
+  DateTime dateEnd1 = DateTime.now();
 
   String selectedTag = "";
 
@@ -51,6 +57,8 @@ class _CreateeventState extends State<Createevent> {
   void initState() {
     dateStart.text = '';
     detail.text = '';
+    timeStart.text = '';
+    timeEnd.text = '';
     location.text = '';
     dateEnd.text = '';
     ageM.text = '';
@@ -143,6 +151,7 @@ class _CreateeventState extends State<Createevent> {
 
                                 setState(() {
                                   dateStart.text = formattedDate;
+                                  dateStart1 = pickedDate;
                                 });
                               } else {
                                 print("Date is not selected");
@@ -185,9 +194,99 @@ class _CreateeventState extends State<Createevent> {
 
                                 setState(() {
                                   dateEnd.text = formattedDate;
+                                  dateEnd1 = pickedDate;
                                 });
                               } else {
                                 print("Date is not selected");
+                              }
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 15),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: SizedBox(
+                          child: TextFormField(
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter some text';
+                              }
+                              return null;
+                            },
+                            controller:
+                                timeStart, //editing controller of this TextField
+                            decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+
+                                //icon of text field
+                                hintText: "Start Time" //label text of field
+                                ),
+                            readOnly: true, // when true user cannot edit text
+                            onTap: () async {
+                              TimeOfDay? pickedTime = await showTimePicker(
+                                initialTime: TimeOfDay.now(),
+                                context: context,
+                              );
+
+                              if (pickedTime != null) {
+                                setState(() {
+                                  DateTime parsedTime = DateFormat.jm().parse(
+                                      pickedTime.format(context).toString());
+
+                                  String formattedTime =
+                                      DateFormat('HH:mm').format(parsedTime);
+
+                                  timeStart.text = formattedTime;
+                                });
+                              } else {
+                                print("Time is not selected");
+                              }
+                            },
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 15),
+                      Expanded(
+                        child: SizedBox(
+                          child: TextFormField(
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter some text';
+                              }
+                              return null;
+                            },
+                            controller:
+                                timeEnd, //editing controller of this TextField
+                            decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+
+                                //icon of text field
+                                hintText: "End Time" //label text of field
+                                ),
+                            readOnly: true, // when true user cannot edit text
+                            onTap: () async {
+                              TimeOfDay? pickedTime = await showTimePicker(
+                                initialTime: TimeOfDay.now(),
+                                context: context,
+                              );
+
+                              if (pickedTime != null) {
+                                setState(() {
+                                  DateTime parsedTime = DateFormat.jm().parse(
+                                      pickedTime.format(context).toString());
+
+                                  String formattedTime =
+                                      DateFormat('HH:mm').format(parsedTime);
+
+                                  timeEnd.text = formattedTime;
+                                });
+                              } else {
+                                print("Time is not selected");
                               }
                             },
                           ),
@@ -431,43 +530,72 @@ class _CreateeventState extends State<Createevent> {
                       const SizedBox(width: 16),
                       FilledButton(
                         onPressed: () async {
-                          if (_createEventFormKey.currentState!.validate()) {
-                            final newEventId = const Uuid().v4();
-                            await EventProvider().createEvent(
-                              EventModel(
-                                  eventId: newEventId,
-                                  ownerId: user.uid,
-                                  eventTitle: title.text,
-                                  eventDescription: detail.text,
-                                  maximumPeople: _endValue.toInt(),
-                                  minimumPeople: _startValue.toInt(),
-                                  tag: selectedTag,
-                                  ageRestriction: AgeRestrictionModel(
-                                      minimumAge: int.parse(ageN.text),
-                                      maximumAge: int.parse(ageM.text)),
-                                  dateCreated: DateTime.now(),
-                                  dateOfEvent: DateOfEventModel(
-                                      end: DateTime.parse(dateStart.text),
-                                      start: DateTime.parse(dateEnd.text)),
-                                  location: location.text,
-                                  image: "",
-                                  joinedUsers: [user.uid]),
-                            );
+                          if (!dateEnd1.isBefore(dateStart1)) {
+                            if (_createEventFormKey.currentState!.validate()) {
+                              final newEventId = const Uuid().v4();
 
-                            await UserProvider()
-                                .joinEvent(newEventId, user.uid);
-                            await UserProvider()
-                                .userCreateEvent(newEventId, user.uid);
-                            await ChatProvider().initChatRoom(
-                                newEventId, int.parse(ageM.text), [user.uid]);
+                              final imageFile = File(image!.path);
+                              final imageBytes = imageFile.readAsBytesSync();
+                              Img.Image imageTemp =
+                                  Img.decodeImage(imageBytes)!;
+                              Img.Image imageResize = Img.copyResize(imageTemp,
+                                  width: 400, height: 400);
+                              final resizeBytes = Img.encodeJpg(imageResize);
 
-                            if (context.mounted) {
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const Bottomnavbar()));
+                              String image64 = base64Encode(resizeBytes);
+                              // String image64 = base64Encode(imageBytes);
+
+                              await EventProvider().createEvent(
+                                EventModel(
+                                    eventId: newEventId,
+                                    ownerId: user.uid,
+                                    eventTitle: title.text,
+                                    eventDescription: detail.text,
+                                    maximumPeople: _endValue.toInt(),
+                                    minimumPeople: _startValue.toInt(),
+                                    tag: selectedTag,
+                                    ageRestriction: AgeRestrictionModel(
+                                        minimumAge: int.parse(ageN.text),
+                                        maximumAge: int.parse(ageM.text)),
+                                    dateCreated: DateTime.now(),
+                                    dateOfEvent: DateOfEventModel(
+                                        end: DateTime.parse(
+                                            "${dateEnd.text} ${timeEnd.text}"),
+                                        start: DateTime.parse(
+                                            "${dateStart.text} ${timeStart.text}")),
+                                    location: location.text,
+                                    image: image64,
+                                    joinedUsers: [user.uid]),
+                              );
+
+                              await UserProvider()
+                                  .joinEvent(newEventId, user.uid);
+                              await UserProvider()
+                                  .userCreateEvent(newEventId, user.uid);
+                              await ChatProvider().initChatRoom(
+                                  newEventId, int.parse(ageM.text), [user.uid]);
+
+                              if (context.mounted) {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const Bottomnavbar()));
+                              }
                             }
+                          } else {
+                            final snackBar = SnackBar(
+                              content: const Text(
+                                  'End date must be after start date!'),
+                              action: SnackBarAction(
+                                label: 'Ok',
+                                onPressed: () {
+                                  // Some code to undo the change.
+                                },
+                              ),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
                           }
                         },
                         child: const Text('Create Event'),

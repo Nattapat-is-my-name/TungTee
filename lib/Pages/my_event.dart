@@ -1,11 +1,15 @@
 import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:tungtee/Pages/edit_event.dart';
+import 'package:tungtee/Pages/profile.dart';
 
 import '../Models/event_model.dart';
 import '../Services/user_provider.dart';
 import '../Widgets/cardevent.dart';
 import 'package:flutter/material.dart';
+
+import 'eventdetail.dart';
 
 class MyEvent extends StatefulWidget {
   const MyEvent({super.key});
@@ -32,7 +36,7 @@ class _MyEventState extends State<MyEvent> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              padding: const EdgeInsets.fromLTRB(20, 50, 20, 10),
+              padding: const EdgeInsets.fromLTRB(20, 40, 20, 10),
               child: Column(children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -54,9 +58,22 @@ class _MyEventState extends State<MyEvent> {
                     ),
                     const Spacer(),
                     Row(
-                      children: const [
-                        Icon(Icons.notifications_outlined),
-                        Icon(Icons.account_circle),
+                      children: [
+                        const Icon(Icons.notifications_outlined),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const Profile()));
+                          },
+                          child: CircleAvatar(
+                              // backgroundImage: NetworkImage(user.photoURL!),
+                              ),
+                        ),
                       ],
                     ),
                   ],
@@ -91,6 +108,7 @@ class _MyEventState extends State<MyEvent> {
                                 children: [
                                   DropdownButton<String>(
                                     value: _selectedValue,
+                                    underline: Container(),
                                     onChanged: onChanged,
                                     items: <String>[
                                       'Joined',
@@ -135,34 +153,49 @@ class _MyEventState extends State<MyEvent> {
                                   itemBuilder: (context, index) {
                                     return Column(
                                       children: [
-                                        CardLayout(
-                                          thumbnail: const Image(
-                                            image: NetworkImage(
-                                                'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
-                                            fit: BoxFit.cover,
-                                            height: 100,
-                                            width: 80,
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        EventDetail(
+                                                          eventId: createdEvents
+                                                              .elementAt(index)
+                                                              .eventId,
+                                                        )));
+                                          },
+                                          child: CardLayout(
+                                            thumbnail: Image(
+                                              image: MemoryImage(base64Decode(
+                                                  createdEvents
+                                                      .elementAt(index)
+                                                      .image)),
+                                              fit: BoxFit.cover,
+                                              height: 100,
+                                              width: 80,
+                                            ),
+                                            title: createdEvents
+                                                .elementAt(index)
+                                                .eventTitle,
+                                            subtitle: createdEvents
+                                                .elementAt(index)
+                                                .location,
+                                            toptitle: createdEvents
+                                                .elementAt(index)
+                                                .dateOfEvent
+                                                .start
+                                                .toString(),
+                                            amountPerson: createdEvents
+                                                .elementAt(index)
+                                                .joinedUsers
+                                                .length
+                                                .toString(),
+                                            maxPerson: createdEvents
+                                                .elementAt(index)
+                                                .maximumPeople
+                                                .toString(),
                                           ),
-                                          title: createdEvents
-                                              .elementAt(index)
-                                              .eventTitle,
-                                          subtitle: createdEvents
-                                              .elementAt(index)
-                                              .location,
-                                          toptitle: createdEvents
-                                              .elementAt(index)
-                                              .dateOfEvent
-                                              .start
-                                              .toString(),
-                                          amountPerson: createdEvents
-                                              .elementAt(index)
-                                              .joinedUsers
-                                              .length
-                                              .toString(),
-                                          maxPerson: createdEvents
-                                              .elementAt(index)
-                                              .maximumPeople
-                                              .toString(),
                                         ),
                                         const SizedBox(height: 10)
                                       ],
@@ -191,34 +224,49 @@ class _MyEventState extends State<MyEvent> {
                                   itemBuilder: (context, index) {
                                     return Column(
                                       children: [
-                                        CardLayout(
-                                          thumbnail: Image(
-                                            image: MemoryImage(base64Decode(
-                                                eventList[index].image)),
-                                            fit: BoxFit.cover,
-                                            height: 100,
-                                            width: 80,
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        EventDetail(
+                                                          eventId: eventList
+                                                              .elementAt(index)
+                                                              .eventId,
+                                                        )));
+                                          },
+                                          child: CardLayout(
+                                            thumbnail: Image(
+                                              image: MemoryImage(base64Decode(
+                                                  eventList
+                                                      .elementAt(index)
+                                                      .image)),
+                                              fit: BoxFit.cover,
+                                              height: 100,
+                                              width: 80,
+                                            ),
+                                            title: eventList
+                                                .elementAt(index)
+                                                .eventTitle,
+                                            subtitle: eventList
+                                                .elementAt(index)
+                                                .location,
+                                            toptitle: eventList
+                                                .elementAt(index)
+                                                .dateOfEvent
+                                                .start
+                                                .toString(),
+                                            amountPerson: eventList
+                                                .elementAt(index)
+                                                .joinedUsers
+                                                .length
+                                                .toString(),
+                                            maxPerson: eventList
+                                                .elementAt(index)
+                                                .maximumPeople
+                                                .toString(),
                                           ),
-                                          title: eventList
-                                              .elementAt(index)
-                                              .eventTitle,
-                                          subtitle: eventList
-                                              .elementAt(index)
-                                              .location,
-                                          toptitle: eventList
-                                              .elementAt(index)
-                                              .dateOfEvent
-                                              .start
-                                              .toString(),
-                                          amountPerson: eventList
-                                              .elementAt(index)
-                                              .joinedUsers
-                                              .length
-                                              .toString(),
-                                          maxPerson: eventList
-                                              .elementAt(index)
-                                              .maximumPeople
-                                              .toString(),
                                         ),
                                         const SizedBox(
                                           height: 10,

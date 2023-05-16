@@ -210,7 +210,9 @@ class _HomePagesState extends State<HomePages> {
                                       child: CardLayout(
                                         thumbnail: Image(
                                           image: MemoryImage(base64Decode(
-                                              nonEmptyEvents[index].image)),
+                                              nonEmptyEvents
+                                                  .elementAt(index)
+                                                  .image)),
                                           fit: BoxFit.cover,
                                           height: 100,
                                           width: 80,

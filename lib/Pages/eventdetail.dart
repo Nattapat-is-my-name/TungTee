@@ -204,6 +204,7 @@ class _EventDetail extends State<EventDetail> {
                                                       MaterialPageRoute(
                                                           builder: (context) =>
                                                               EditEvent(
+                                                                  event: event,
                                                                   eventId: event
                                                                       .eventId)));
                                               if (isReload) {
