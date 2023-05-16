@@ -26,8 +26,14 @@ class ProfilePic extends StatelessWidget {
         width: w,
         child: usermodel!.profileImage != ""
             ? CircleAvatar(
-                backgroundImage:
-                    MemoryImage(base64Decode(usermodel!.profileImage)),
+                backgroundImage: usermodel!.profileImage.startsWith('https')
+                    ? null
+                    : MemoryImage(base64Decode(usermodel!.profileImage)),
+                child: usermodel!.profileImage.startsWith('https')
+                    ? Image.network(usermodel!.profileImage)
+                    : null,
+                // backgroundImage:
+                //     MemoryImage(base64Decode(usermodel!.profileImage)),
               )
             : (user.photoURL != null)
                 ? CircleAvatar(
