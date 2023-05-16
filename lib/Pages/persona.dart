@@ -128,7 +128,7 @@ class _PersonaPageState extends State<PersonaPage> {
                               createdEvents: [],
                               joinedEvents: [],
                               behaviorPoint: 3,
-                              profileImage: '',
+                              profileImage: user.photoURL ?? "",
                             ));
                             if (context.mounted) {
                               Navigator.pushReplacement(
