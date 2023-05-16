@@ -112,48 +112,25 @@ class _ChatEventState extends State<ChatEvent> {
   }
 
   chatMessages() {
-    return FutureBuilder(
-      future: ChatProvider().getChatMessage(widget.event.eventId),
+    return StreamBuilder(
+      stream: ChatProvider().getChatMessage(widget.event.eventId),
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done &&
-            snapshot.data != null) {
-          final chat = snapshot.data;
+        if (snapshot.hasData) {
+          final chatRoom = ChatRoomModel.fromJSON(
+              snapshot.data!.data() as Map<String, dynamic>);
           return ListView.builder(
-            itemCount: chat!.chatMessages.length,
+            itemCount: chatRoom.chatMessages.length,
             itemBuilder: (context, index) {
-              final message = chat.chatMessages.elementAt(index);
+              final message = chatRoom.chatMessages.elementAt(index);
               bool nextMessageHasSameOwner = false;
-              // DateTime nxtMsgDate = message.dateSend;
-              // DateTime nowMsgDate = message.dateSend;
-              // DateTime prvMsgDate = message.dateSend;
 
               if (index - 1 >= 0) {
                 nextMessageHasSameOwner = message.userId ==
-                    chat.chatMessages.elementAt(index - 1).userId;
-                // prvMsgDate = chat.chatMessages.elementAt(index - 1).dateSend;
+                    chatRoom.chatMessages.elementAt(index - 1).userId;
               }
 
               return renderMsgWithOutDateDivider(
                   message, nextMessageHasSameOwner);
-
-              // if (index + 1 < chat.chatMessages.length) {
-              //   nxtMsgDate = chat.chatMessages.elementAt(index + 1).dateSend;
-              //   bool isShowDateDivider =
-              //       nowMsgDate.difference(nxtMsgDate).inHours <= -1;
-
-              //   bool isSameMonth = nowMsgDate.year == nxtMsgDate.year &&
-              //       nowMsgDate.month == nxtMsgDate.month;
-
-              //   bool isSameWeek =
-              //       isSameMonth && nowMsgDate.day - nxtMsgDate.day < 7;
-
-              //   bool isSameDate =
-              //       isSameMonth && nowMsgDate.day == nxtMsgDate.day;
-
-              //   bool isSameHour =
-              //       isSameDate && nowMsgDate.hour - nxtMsgDate.hour <= 1;
-
-              // }
             },
           );
         }
@@ -162,61 +139,12 @@ class _ChatEventState extends State<ChatEvent> {
     );
   }
 
-  String getDateDivider(DateTime nxtMsg) {
-    return '';
-  }
-
-  String getWeekDay(int d) {
-    switch (d) {
-      case 1:
-        return 'Monday';
-      case 2:
-        return 'Tuesday';
-      case 3:
-        return 'Wednesday';
-      case 4:
-        return 'Thursday';
-      case 5:
-        return 'Friday';
-      case 6:
-        return 'Saturday';
-      case 7:
-        return 'Sunday';
-      default:
-        return 'Day of week not exist';
-    }
-  }
-
   Widget renderMsgWithOutDateDivider(
       ChatMessageModel message, bool nextMessageHasSameOwner) {
     return Message(
       message: message,
       nextMessageHasSameOwner: nextMessageHasSameOwner,
       isShowDateDivider: false,
-    );
-  }
-
-  // Message with Date divider
-  Widget renderMsgWithDateDivider(
-      ChatMessageModel message, bool nextMessageHasSameOwner) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 16),
-          child: Center(
-            child: Container(
-                margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
-                // child: Text(getTimeDivider(prvMsgSendDate,
-                //     message.dateSend, timeBtwMsg))),
-                child: const Text('test')),
-          ),
-        ),
-        Message(
-          message: message,
-          nextMessageHasSameOwner: nextMessageHasSameOwner,
-          isShowDateDivider: true,
-        ),
-      ],
     );
   }
 }
