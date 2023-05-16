@@ -1,37 +1,52 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:tungtee/Models/user_model.dart';
 import 'package:tungtee/Pages/edit_profile.dart';
+import 'package:tungtee/Services/user_provider.dart';
 
-final user = FirebaseAuth.instance.currentUser!;
+import '../Widgets/profilepic.dart';
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget {
   const Profile({super.key});
 
+  @override
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
+  final user = FirebaseAuth.instance.currentUser!;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              SizedBox(
-                width: 150,
-                height: 150,
-                child: CircleAvatar(
-                  backgroundImage: NetworkImage(user.photoURL!),
-                ),
-              ),
-              const SizedBox(height: 20),
-              const Text("Nattapat Teeranuntacahi"),
-              const Text("MJndjkn@gmail.com"),
-              const SizedBox(height: 10),
-              const Divider(),
-              const SizedBox(height: 10),
-              Expanded(
-                child: ListView(
-                  children: <Widget>[
+      body: FutureBuilder<UserModel?>(
+        future: UserProvider().getUserById(user.uid),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done &&
+              snapshot.hasData) {
+            final UserModel? usermodel = snapshot.data;
+            return SingleChildScrollView(
+              child: SafeArea(
+                  child: Container(
+                margin: const EdgeInsets.all(20),
+                child: Column(
+                  children: [
+                    ProfilePic(
+                      usermodel: usermodel,
+                      user: user,
+                      h: 150,
+                      w: 150,
+                    ),
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+                      child: Column(
+                        children: [
+                          Text(usermodel!.fullname),
+                          Text(usermodel.email),
+                        ],
+                      ),
+                    ),
+                    const Divider(),
                     GestureDetector(
                       onTap: () {
                         Navigator.push(
@@ -49,22 +64,26 @@ class Profile extends StatelessWidget {
                       title: Text('History'),
                     ),
                     const Divider(),
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(0, 50, 0, 0),
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 45,
+                        child: FilledButton(
+                            onPressed: () {
+                              FirebaseAuth.instance.signOut();
+                            },
+                            child: const Text('Logout')),
+                      ),
+                    ),
                   ],
                 ),
-              ),
-              const Spacer(),
-              SizedBox(
-                width: double.infinity,
-                height: 45,
-                child: FilledButton(
-                    onPressed: () {
-                      FirebaseAuth.instance.signOut();
-                    },
-                    child: const Text('Logout')),
-              ),
-            ],
-          ),
-        ),
+              )),
+            );
+          } else {
+            return const Center(child: CircularProgressIndicator());
+          }
+        },
       ),
     );
   }

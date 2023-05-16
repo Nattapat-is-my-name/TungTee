@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tungtee/Constants/event_interests.dart';
 import 'package:tungtee/Models/user_model.dart';
+import 'package:tungtee/Pages/homepage.dart';
 import 'package:tungtee/Services/auth_provider.dart';
 import 'package:tungtee/Services/user_provider.dart';
 import 'package:tungtee/navigation/bottom_navbar.dart';

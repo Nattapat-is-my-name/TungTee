@@ -143,7 +143,7 @@ class _RegisterInformationState extends State<RegisterInformation> {
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your name';
-                        } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value)) {
+                        } else if (!RegExp(r'^[a-zA-Z]').hasMatch(value)) {
                           return 'Name could only be letters, no special character or number';
                         } else if (value.length < 3 || value.length > 70) {
                           return 'Your name length should be between 3-70 characters';
@@ -201,7 +201,6 @@ class _RegisterInformationState extends State<RegisterInformation> {
                     const SizedBox(height: 24),
                     // PHONE FIELD
                     TextFormField(
-                      keyboardType: TextInputType.phone,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       controller: phoneController,
                       validator: (value) {
