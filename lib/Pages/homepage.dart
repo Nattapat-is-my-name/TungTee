@@ -209,6 +209,8 @@ class _HomePagesState extends State<HomePages> {
                                                     eventId: nonEmptyEvents
                                                         .elementAt(index)
                                                         .eventId,
+                                                    image: nonEmptyEvents[index]
+                                                        .image,
                                                   )));
                                     },
                                     child: CardLayout(

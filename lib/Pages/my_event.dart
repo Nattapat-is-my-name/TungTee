@@ -180,6 +180,10 @@ class _MyEventState extends State<MyEvent> {
                                                                     .elementAt(
                                                                         index)
                                                                     .eventId,
+                                                                image:
+                                                                    createdEvents[
+                                                                            index]
+                                                                        .image,
                                                               )));
                                                 },
                                                 child: CardLayout(
@@ -258,6 +262,9 @@ class _MyEventState extends State<MyEvent> {
                                                                     .elementAt(
                                                                         index)
                                                                     .eventId,
+                                                                image: eventList[
+                                                                        index]
+                                                                    .image,
                                                               )));
                                                 },
                                                 child: CardLayout(

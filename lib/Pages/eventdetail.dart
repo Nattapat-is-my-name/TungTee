@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tungtee/Pages/chat_event.dart';
@@ -9,8 +11,9 @@ import 'package:tungtee/services/event_provider.dart';
 import 'package:tungtee/services/user_provider.dart';
 
 class EventDetail extends StatefulWidget {
-  const EventDetail({super.key, required this.eventId});
+  const EventDetail({super.key, required this.eventId, required this.image});
   final String eventId;
+  final String image;
 
   @override
   State<EventDetail> createState() => _EventDetail();
@@ -46,10 +49,9 @@ class _EventDetail extends State<EventDetail> {
                 scrollDirection: Axis.vertical,
                 child: Column(
                   children: [
-                    const Image(
-                      image: NetworkImage(
-                          'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
-                      fit: BoxFit.fill,
+                    Image(
+                      image: MemoryImage(base64Decode(widget.image)),
+                      fit: BoxFit.cover,
                       height: 200,
                       width: double.infinity,
                     ),
