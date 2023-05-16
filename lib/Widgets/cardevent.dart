@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 class CardDetail extends StatelessWidget {
@@ -103,7 +105,7 @@ class CardLayout extends StatelessWidget {
     required this.maxPerson,
   });
 
-  final Widget thumbnail;
+  final String thumbnail;
   final String title;
   final String subtitle;
   final String toptitle;
@@ -128,9 +130,13 @@ class CardLayout extends StatelessWidget {
                 maxPerson: maxPerson,
               ),
             ),
-            Center(
-              child: thumbnail,
-            ),
+            AspectRatio(
+              aspectRatio: 1.1,
+              child: Image.memory(
+                base64Decode(thumbnail),
+                fit: BoxFit.fill,
+              ),
+            )
           ],
         ),
       ),

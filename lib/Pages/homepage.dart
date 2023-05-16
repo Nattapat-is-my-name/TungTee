@@ -212,15 +212,7 @@ class _HomePagesState extends State<HomePages> {
                                                   )));
                                     },
                                     child: CardLayout(
-                                      thumbnail: Image(
-                                        image: MemoryImage(base64Decode(
-                                            nonEmptyEvents
-                                                .elementAt(index)
-                                                .image)),
-                                        fit: BoxFit.cover,
-                                        height: 100,
-                                        width: 80,
-                                      ),
+                                      thumbnail: nonEmptyEvents[index].image,
                                       title: nonEmptyEvents
                                           .elementAt(index)
                                           .eventTitle,

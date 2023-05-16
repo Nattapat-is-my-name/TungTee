@@ -183,17 +183,20 @@ class _MyEventState extends State<MyEvent> {
                                                               )));
                                                 },
                                                 child: CardLayout(
-                                                  thumbnail: Image(
-                                                    image: MemoryImage(
-                                                        base64Decode(
-                                                            createdEvents
-                                                                .elementAt(
-                                                                    index)
-                                                                .image)),
-                                                    fit: BoxFit.cover,
-                                                    height: 100,
-                                                    width: 80,
-                                                  ),
+                                                  // thumbnail: Image(
+                                                  //   image: MemoryImage(
+                                                  //       base64Decode(
+                                                  //           createdEvents
+                                                  //               .elementAt(
+                                                  //                   index)
+                                                  //               .image)),
+                                                  //   fit: BoxFit.cover,
+                                                  //   height: 100,
+                                                  //   width: 80,
+                                                  // ),
+                                                  thumbnail:
+                                                      createdEvents[index]
+                                                          .image,
                                                   title: createdEvents
                                                       .elementAt(index)
                                                       .eventTitle,
@@ -258,15 +261,17 @@ class _MyEventState extends State<MyEvent> {
                                                               )));
                                                 },
                                                 child: CardLayout(
-                                                  thumbnail: Image(
-                                                    image: MemoryImage(
-                                                        base64Decode(eventList
-                                                            .elementAt(index)
-                                                            .image)),
-                                                    fit: BoxFit.cover,
-                                                    height: 100,
-                                                    width: 80,
-                                                  ),
+                                                  // thumbnail: Image(
+                                                  //   image: MemoryImage(
+                                                  //       base64Decode(eventList
+                                                  //           .elementAt(index)
+                                                  //           .image)),
+                                                  //   fit: BoxFit.cover,
+                                                  //   height: 100,
+                                                  //   width: 80,
+                                                  // ),
+                                                  thumbnail:
+                                                      eventList[index].image,
                                                   title: eventList
                                                       .elementAt(index)
                                                       .eventTitle,
