@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:tungtee/Pages/chat_event.dart';
 import 'package:tungtee/Pages/edit_event.dart';
 import 'package:tungtee/Services/chat_provider.dart';
@@ -60,6 +61,7 @@ class _EventDetail extends State<EventDetail> {
                       child: Wrap(
                         // mainAxisAlignment: MainAxisAlignment.start,
                         alignment: WrapAlignment.start,
+                        crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
                           Chip(
                             label: Text(
@@ -73,7 +75,8 @@ class _EventDetail extends State<EventDetail> {
                           ),
                           const SizedBox(width: 10),
                           Text(
-                            '${event.dateOfEvent.start} - ${event.dateOfEvent.end}', // !need to pull from boss-sora
+                            // '${event.dateOfEvent.start} - ${event.dateOfEvent.end}', // !need to pull from boss-sora
+                            '${getTimeConvert(event.dateOfEvent.start)} - ${getTimeConvert(event.dateOfEvent.end)}',
                             style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ],
@@ -419,4 +422,9 @@ class _EventDetail extends State<EventDetail> {
           }
         });
   }
+}
+
+String getTimeConvert(DateTime time) {
+  String string = DateFormat("dd-MM-yy hh:mm").format(time);
+  return string;
 }
