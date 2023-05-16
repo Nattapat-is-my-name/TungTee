@@ -28,11 +28,13 @@ class ChatProvider {
 
   Future<void> createMessage(
       String eventId, String userId, String message) async {
+    final user = await UserProvider().getUserById(userId);
     final DocumentReference docRef = _chatCollection.doc(eventId);
     final chatMessage = ChatMessageModel(
       dateSend: DateTime.now(),
       message: message,
       userId: userId,
+      nickname: user?.nickname ?? userId,
       images: [],
     );
     docRef.update({
