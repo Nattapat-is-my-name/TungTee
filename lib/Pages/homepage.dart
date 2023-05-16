@@ -58,12 +58,22 @@ class _HomePagesState extends State<HomePages> {
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser!;
     return Scaffold(
-      body: FutureBuilder<UserModel?>(
-        future: UserProvider().getUserById(user.uid),
+      body: FutureBuilder<List>(
+        future: Future.wait([
+          UserProvider().getUserById(user.uid),
+          (isTagSelect)
+              ? EventProvider().getEventsByTags(selectedTag)
+              : getdataEvents()
+        ]),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done &&
               snapshot.hasData) {
-            final UserModel? usermodel = snapshot.data;
+            final UserModel usermodel = snapshot.data![0];
+            final List<EventModel> eventList = snapshot.data![1];
+            final List<EventModel> nonEmptyEvents = eventList.where((event) {
+              return event.maximumPeople != event.joinedUsers.length &&
+                  event.dateOfEvent.start.isAfter(DateTime.now());
+            }).toList();
             return GestureDetector(
               onTap: () {
                 FocusScope.of(context).unfocus();
@@ -82,7 +92,7 @@ class _HomePagesState extends State<HomePages> {
                             //Welcome Name
                             Column(
                               children: [
-                                Text('Welcome ${usermodel!.nickname}',
+                                Text('Welcome ${usermodel.nickname}',
                                     style: const TextStyle(
                                         fontSize: 24,
                                         fontWeight: FontWeight.w400,
@@ -185,85 +195,59 @@ class _HomePagesState extends State<HomePages> {
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
-                        child: FutureBuilder<List<EventModel>>(
-                            future: isTagSelect
-                                ? EventProvider().getEventsByTags(selectedTag)
-                                : getdataEvents(),
-                            builder: (context, AsyncSnapshot snapshot) {
-                              // getdataEvents();
-                              if (snapshot.connectionState ==
-                                  ConnectionState.done) {
-                                final List<EventModel> eventList =
-                                    snapshot.data;
-                                final List<EventModel> nonEmptyEvents =
-                                    eventList.where((event) {
-                                  return event.maximumPeople !=
-                                          event.joinedUsers.length &&
-                                      event.dateOfEvent.start
-                                          .isAfter(DateTime.now());
-                                }).toList();
-                                // print(eventList);
-                                return ListView.builder(
-                                    itemCount: nonEmptyEvents.length,
-                                    itemBuilder: (context, index) {
-                                      return Column(
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          EventDetail(
-                                                            eventId:
-                                                                nonEmptyEvents
-                                                                    .elementAt(
-                                                                        index)
-                                                                    .eventId,
-                                                          )));
-                                            },
-                                            child: CardLayout(
-                                              thumbnail: Image(
-                                                image: MemoryImage(base64Decode(
-                                                    nonEmptyEvents
+                        child: ListView.builder(
+                            itemCount: nonEmptyEvents.length,
+                            itemBuilder: (context, index) {
+                              return Column(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => EventDetail(
+                                                    eventId: nonEmptyEvents
                                                         .elementAt(index)
-                                                        .image)),
-                                                fit: BoxFit.cover,
-                                                height: 100,
-                                                width: 80,
-                                              ),
-                                              title: nonEmptyEvents
-                                                  .elementAt(index)
-                                                  .eventTitle,
-                                              subtitle: nonEmptyEvents
-                                                  .elementAt(index)
-                                                  .location,
-                                              toptitle: nonEmptyEvents
-                                                  .elementAt(index)
-                                                  .dateOfEvent
-                                                  .start
-                                                  .toString(),
-                                              amountPerson: nonEmptyEvents
-                                                  .elementAt(index)
-                                                  .joinedUsers
-                                                  .length
-                                                  .toString(),
-                                              maxPerson: nonEmptyEvents
-                                                  .elementAt(index)
-                                                  .maximumPeople
-                                                  .toString(),
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            height: 10,
-                                          )
-                                        ],
-                                      );
-                                    });
-                              } else {
-                                return const Center(
-                                    child: CircularProgressIndicator());
-                              }
+                                                        .eventId,
+                                                  )));
+                                    },
+                                    child: CardLayout(
+                                      thumbnail: Image(
+                                        image: MemoryImage(base64Decode(
+                                            nonEmptyEvents
+                                                .elementAt(index)
+                                                .image)),
+                                        fit: BoxFit.cover,
+                                        height: 100,
+                                        width: 80,
+                                      ),
+                                      title: nonEmptyEvents
+                                          .elementAt(index)
+                                          .eventTitle,
+                                      subtitle: nonEmptyEvents
+                                          .elementAt(index)
+                                          .location,
+                                      toptitle: nonEmptyEvents
+                                          .elementAt(index)
+                                          .dateOfEvent
+                                          .start
+                                          .toString(),
+                                      amountPerson: nonEmptyEvents
+                                          .elementAt(index)
+                                          .joinedUsers
+                                          .length
+                                          .toString(),
+                                      maxPerson: nonEmptyEvents
+                                          .elementAt(index)
+                                          .maximumPeople
+                                          .toString(),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  )
+                                ],
+                              );
                             }),
                       ),
                     ),
