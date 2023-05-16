@@ -42,6 +42,7 @@ class ChatRoomModel {
 
 class ChatMessageModel {
   final String userId;
+  final String nickname;
   final DateTime dateSend;
   final String message;
   final List<dynamic>? images; // images are optional
@@ -50,12 +51,14 @@ class ChatMessageModel {
     required this.userId,
     required this.dateSend,
     required this.message,
+    required this.nickname,
     this.images,
   });
 
   Map<String, dynamic> toJSON() {
     return {
       'userId': userId,
+      'nickname': nickname,
       'dateSend': dateSend.toIso8601String(),
       'message': message,
       'images': images,
@@ -65,6 +68,7 @@ class ChatMessageModel {
   factory ChatMessageModel.fromJSON(Map<String, dynamic> json) {
     return ChatMessageModel(
       userId: json['userId'] ?? "",
+      nickname: json['nickname'] ?? "",
       dateSend:
           DateTime.parse(json['dateSend'] ?? DateTime.now().toIso8601String()),
       images: json['images'] as List<dynamic>?,
@@ -74,6 +78,6 @@ class ChatMessageModel {
 
   @override
   String toString() {
-    return 'ChatMessageModel{userId: $userId, dateSend: $dateSend, message: $message, images: $images}';
+    return 'ChatMessageModel{userId: $userId, nickname: $nickname, dateSend: $dateSend, message: $message, images: $images}';
   }
 }
