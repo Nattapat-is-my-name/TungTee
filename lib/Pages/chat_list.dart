@@ -25,39 +25,7 @@ class _ChatListPageState extends State<ChatListPage> {
         },
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-              child: Form(
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 32, vertical: 0),
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      hintText: 'Search Chat',
-                      prefixIcon: const Padding(
-                        padding: EdgeInsets.only(left: 20, right: 10),
-                        child: Icon(Icons.search, size: 28),
-                      ),
-                      filled: true,
-                      fillColor: primaryColor.shade50,
-                      contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 32, vertical: 16),
-                      border: OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                          borderRadius: BorderRadius.circular(999)),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 28),
-            const Divider(
-              indent: 64,
-              endIndent: 64,
-              height: 1.2,
-              thickness: 1.5,
-            ),
-            const SizedBox(height: 28),
+            const SizedBox(height: 10),
             Expanded(
               child: Scrollbar(
                   child: FutureBuilder(
