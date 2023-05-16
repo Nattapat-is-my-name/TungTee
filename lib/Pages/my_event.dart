@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../Models/event_model.dart';
@@ -190,9 +192,9 @@ class _MyEventState extends State<MyEvent> {
                                     return Column(
                                       children: [
                                         CardLayout(
-                                          thumbnail: const Image(
-                                            image: NetworkImage(
-                                                'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
+                                          thumbnail: Image(
+                                            image: MemoryImage(base64Decode(
+                                                eventList[index].image)),
                                             fit: BoxFit.cover,
                                             height: 100,
                                             width: 80,
