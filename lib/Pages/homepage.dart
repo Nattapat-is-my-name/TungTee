@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tungtee/Pages/notification.dart';
 import 'package:tungtee/Models/event_model.dart';
@@ -218,11 +216,9 @@ class _HomePagesState extends State<HomePages> {
                                                     )));
                                       },
                                       child: CardLayout(
-                                        thumbnail: Image(
-                                          image: MemoryImage(base64Decode(
-                                              nonEmptyEvents
-                                                  .elementAt(index)
-                                                  .image)),
+                                        thumbnail: const Image(
+                                          image: NetworkImage(
+                                              'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
                                           fit: BoxFit.cover,
                                           height: 100,
                                           width: 80,

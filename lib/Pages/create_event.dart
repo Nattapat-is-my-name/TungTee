@@ -1,11 +1,9 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:image/image.dart' as Img;
 
 import 'package:intl/intl.dart';
 import 'package:tungtee/Constants/event_interests.dart';
@@ -42,6 +40,7 @@ class _CreateeventState extends State<Createevent> {
   String selectedTag = "";
 
   File? image;
+
   Future pickImage() async {
     try {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -533,18 +532,6 @@ class _CreateeventState extends State<Createevent> {
                           if (!dateEnd1.isBefore(dateStart1)) {
                             if (_createEventFormKey.currentState!.validate()) {
                               final newEventId = const Uuid().v4();
-
-                              final imageFile = File(image!.path);
-                              final imageBytes = imageFile.readAsBytesSync();
-                              Img.Image imageTemp =
-                                  Img.decodeImage(imageBytes)!;
-                              Img.Image imageResize = Img.copyResize(imageTemp,
-                                  width: 400, height: 400);
-                              final resizeBytes = Img.encodeJpg(imageResize);
-
-                              String image64 = base64Encode(resizeBytes);
-                              // String image64 = base64Encode(imageBytes);
-
                               await EventProvider().createEvent(
                                 EventModel(
                                     eventId: newEventId,
@@ -564,7 +551,7 @@ class _CreateeventState extends State<Createevent> {
                                         start: DateTime.parse(
                                             "${dateStart.text} ${timeStart.text}")),
                                     location: location.text,
-                                    image: image64,
+                                    image: [],
                                     joinedUsers: [user.uid]),
                               );
 

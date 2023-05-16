@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tungtee/Pages/edit_event.dart';
 import 'package:tungtee/Pages/profile.dart';
@@ -166,11 +164,9 @@ class _MyEventState extends State<MyEvent> {
                                                         )));
                                           },
                                           child: CardLayout(
-                                            thumbnail: Image(
-                                              image: MemoryImage(base64Decode(
-                                                  createdEvents
-                                                      .elementAt(index)
-                                                      .image)),
+                                            thumbnail: const Image(
+                                              image: NetworkImage(
+                                                  'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
                                               fit: BoxFit.cover,
                                               height: 100,
                                               width: 80,
@@ -237,11 +233,9 @@ class _MyEventState extends State<MyEvent> {
                                                         )));
                                           },
                                           child: CardLayout(
-                                            thumbnail: Image(
-                                              image: MemoryImage(base64Decode(
-                                                  eventList
-                                                      .elementAt(index)
-                                                      .image)),
+                                            thumbnail: const Image(
+                                              image: NetworkImage(
+                                                  'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
                                               fit: BoxFit.cover,
                                               height: 100,
                                               width: 80,
