@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class CardDetail extends StatelessWidget {
   const CardDetail({
@@ -37,7 +38,7 @@ class CardDetail extends StatelessWidget {
                     children: [
                       Text(
                         toptitle,
-                        maxLines: 2,
+                        maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                             fontWeight: FontWeight.w400,
@@ -123,7 +124,8 @@ class CardLayout extends StatelessWidget {
           children: <Widget>[
             Expanded(
               child: CardDetail(
-                toptitle: toptitle,
+                toptitle: DateFormat("dd-MM-yyyy hh:mm")
+                    .format(DateFormat("yyyy-MM-dd hh:mm").parse(toptitle)),
                 title: title,
                 subtitle: subtitle,
                 amountPerson: amountPerson,
