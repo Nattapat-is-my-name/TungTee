@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tungtee/Constants/colors.dart';
 import 'package:tungtee/Services/user_provider.dart';
@@ -110,6 +111,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                 } else {
                                   if (context.mounted) {
                                     // TODO handle send email
+                                    FirebaseAuth.instance
+                                        .sendPasswordResetEmail(
+                                            email: emailController.text);
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
                                           backgroundColor: rawPrimaryColor,
