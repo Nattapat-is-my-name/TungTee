@@ -95,7 +95,9 @@ class _EditprofileState extends State<Editprofile> {
                                 height: 150,
                                 width: 150,
                                 child: image == null
-                                    ? (usermodel.profileImage != "")
+                                    ? (usermodel.profileImage != "" &&
+                                            !usermodel.profileImage
+                                                .startsWith('https'))
                                         ? CircleAvatar(
                                             backgroundImage: MemoryImage(
                                                 base64Decode(

@@ -21,26 +21,20 @@ class ProfilePic extends StatelessWidget {
   final double w;
   @override
   Widget build(BuildContext context) {
+    final image = usermodel!.profileImage;
     return SizedBox(
         height: h,
         width: w,
-        child: usermodel!.profileImage != "" &&
-                !usermodel!.profileImage.startsWith('https')
+        child: image.isNotEmpty && !(image.startsWith('https'))
             ? CircleAvatar(
-                backgroundImage: MemoryImage(
-                base64Decode(usermodel!.profileImage),
-              ))
-            : usermodel!.profileImage.startsWith('https')
+                backgroundImage: MemoryImage(base64Decode(image)),
+              )
+            : (user.photoURL != null)
                 ? CircleAvatar(
-                    backgroundImage: NetworkImage(usermodel!.profileImage))
-                : (user.photoURL != null)
-                    ? CircleAvatar(
-                        backgroundImage: NetworkImage(user.photoURL!),
-                      )
-                    : CircleAvatar(
-                        radius: 18,
-                        backgroundColor: primaryColor.shade100,
-                        child: const Icon(Icons.person),
-                      ));
+                    backgroundImage: NetworkImage(user.photoURL!),
+                  )
+                : CircleAvatar(
+                    backgroundColor: primaryColor.shade100,
+                  ));
   }
 }
