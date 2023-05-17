@@ -20,6 +20,10 @@ class UserProvider {
     return null;
   }
 
+  Stream<DocumentSnapshot> getUserStreamById(String userId) {
+    return _userCollection.doc(userId).snapshots();
+  }
+
   Future<List<EventModel>?> getJoinedEvents(String userId) async {
     final UserModel? user = await getUserById(userId);
     if (user != null) {
