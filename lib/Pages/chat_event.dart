@@ -16,9 +16,47 @@ class ChatEvent extends StatefulWidget {
 }
 
 class _ChatEventState extends State<ChatEvent> {
-  final _chatMessageFormKey = GlobalKey<FormState>();
   final messageController = TextEditingController();
-  final DateTime noDateSet = DateTime(1111);
+
+  @override
+  Widget build(BuildContext context) {
+    return ChatRoom(
+      event: widget.event,
+      messageController: messageController,
+    );
+  }
+}
+
+class ChatRoom extends StatefulWidget {
+  const ChatRoom({
+    super.key,
+    required this.event,
+    required this.messageController,
+  });
+  final EventModel event;
+  final TextEditingController messageController;
+
+  @override
+  State<ChatRoom> createState() => _ChatRoomState();
+}
+
+class _ChatRoomState extends State<ChatRoom> {
+  final _chatMessageFormKey = GlobalKey<FormState>();
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void scrollToBottom() {
+    _scrollController.animateTo(
+      _scrollController.position.maxScrollExtent,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeOut,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,15 +76,16 @@ class _ChatEventState extends State<ChatEvent> {
         title: Text(widget.event.eventTitle),
         centerTitle: true,
       ),
-      body: Container(
-        margin: const EdgeInsets.only(top: 20),
+      body: SafeArea(
         child: GestureDetector(
           onTap: () {
             FocusScope.of(context).unfocus();
           },
-          child: Stack(
+          child: Column(
             children: <Widget>[
-              chatMessages(),
+              Expanded(
+                child: chatMessages(),
+              ),
               Container(
                   alignment: Alignment.bottomCenter,
                   width: MediaQuery.of(context).size.width,
@@ -64,7 +103,7 @@ class _ChatEventState extends State<ChatEvent> {
                               keyboardType: TextInputType.emailAddress,
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
-                              controller: messageController,
+                              controller: widget.messageController,
                               style: const TextStyle(color: Color(0xFF5B5B5B)),
                               decoration: InputDecoration(
                                   filled: true,
@@ -81,15 +120,13 @@ class _ChatEventState extends State<ChatEvent> {
                         ),
                         IconButton(
                           onPressed: () async {
-                            if (messageController.text.isNotEmpty) {
+                            if (widget.messageController.text.isNotEmpty) {
                               await ChatProvider().createMessage(
                                 widget.event.eventId,
                                 FirebaseAuth.instance.currentUser!.uid,
-                                messageController.text,
+                                widget.messageController.text,
                               );
-                              setState(() {
-                                messageController.text = '';
-                              });
+                              widget.messageController.clear();
                             }
 
                             if (context.mounted) {
@@ -115,7 +152,12 @@ class _ChatEventState extends State<ChatEvent> {
         if (snapshot.hasData) {
           final chatRoom = ChatRoomModel.fromJSON(
               snapshot.data!.data() as Map<String, dynamic>);
+
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            scrollToBottom();
+          });
           return ListView.builder(
+            controller: _scrollController,
             itemCount: chatRoom.chatMessages.length,
             itemBuilder: (context, index) {
               final message = chatRoom.chatMessages.elementAt(index);
