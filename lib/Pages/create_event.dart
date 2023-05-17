@@ -104,6 +104,8 @@ class _CreateeventState extends State<Createevent> {
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter some text';
+                        } else if (value.length >= 20) {
+                          return 'letter must be letter 30';
                         }
                         return null;
                       },

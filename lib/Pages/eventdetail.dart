@@ -289,13 +289,13 @@ class _EventDetail extends State<EventDetail> {
                                                 await ChatProvider()
                                                     .deleteChatRoom(
                                                         widget.eventId);
-                                                // if (context.mounted) {
-                                                //   Navigator.pushReplacement(
-                                                //       context,
-                                                //       MaterialPageRoute(
-                                                //           builder: (context) =>
-                                                //               const Bottomnavbar()));
-                                                // }
+                                                if (context.mounted) {
+                                                  Navigator.pushReplacement(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              const Bottomnavbar()));
+                                                }
                                               }
                                             },
                                             child: Row(
