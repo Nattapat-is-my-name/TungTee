@@ -42,15 +42,9 @@ class _ChatListPageState extends State<ChatListPage> {
                         final image = events.elementAt(index).image;
                         return ListTile(
                           // trailing: const Text('Yesterday'),
-                          leading: SizedBox(
-                            height: 100,
-                            width: 80,
-                            child: Expanded(
-                              child: Image.memory(
-                                base64Decode(image),
-                                fit: BoxFit.fill,
-                              ),
-                            ),
+                          leading: Image.memory(
+                            base64Decode(image),
+                            fit: BoxFit.fill,
                           ),
                           title: Text(
                             events.elementAt(index).eventTitle,
