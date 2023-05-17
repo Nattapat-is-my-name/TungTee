@@ -95,7 +95,7 @@ class Message extends StatelessWidget {
                 snapshot.data!.data() as Map<String, dynamic>);
             final image = user.profileImage;
             if (!isMe && (!nextMessageHasSameOwner || isShowDateDivider)) {
-              return image.isNotEmpty
+              return image.isEmpty
                   ? Padding(
                       padding: const EdgeInsets.only(left: 8),
                       child: CircleAvatar(
