@@ -269,7 +269,10 @@ class _HomePagesState extends State<HomePages> {
           final eventTemp =
               eventsFromSearch.isEmpty ? eventList : eventsFromSearch;
           final events = eventTemp
-              .where((event) => event.joinedUsers.length < event.maximumPeople)
+              .where((event) =>
+                  event.joinedUsers.length < event.maximumPeople &&
+                  event.dateOfEvent.start.difference(DateTime.now()).inMinutes >
+                      5)
               .toList();
           return ListView.builder(
               itemCount: events.length,
@@ -335,7 +338,10 @@ class _HomePagesState extends State<HomePages> {
           final eventTemp =
               eventsFromSearch.isEmpty ? eventList : eventsFromSearch;
           final events = eventTemp
-              .where((event) => event.joinedUsers.length < event.maximumPeople)
+              .where((event) =>
+                  event.joinedUsers.length < event.maximumPeople &&
+                  event.dateOfEvent.start.difference(DateTime.now()).inMinutes >
+                      5)
               .toList();
           return ListView.builder(
               itemCount: events.length,
