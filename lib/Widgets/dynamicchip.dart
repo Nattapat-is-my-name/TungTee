@@ -1,60 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:tungtee/Constants/event_interests.dart';
 
-final List<String> _Hobby = [
-  '⚽️ Sport',
-  '🎵Music',
-  '✏️ Drawing',
-  '🛒 Shopping',
-  '🎯 Board games',
-  '🍲 Cooking',
-  '📚 Reading',
-  '🎤 Singing',
-  '🌱 Gardening',
-  '🍿 Movies',
-  '🎮 Video games',
-  '✈️ Traveling',
-  '🎣 Fishing',
-  '📸 Photography',
-];
-
-class dynamicChip extends StatefulWidget {
-  const dynamicChip({super.key});
+class DynamicChip extends StatefulWidget {
+  const DynamicChip(
+      {super.key, required this.handleTagSelect, required this.selectedTags});
+  final void Function(String) handleTagSelect;
+  final List<String> selectedTags;
 
   @override
-  State<dynamicChip> createState() => _dynamicChipState();
+  State<DynamicChip> createState() => _DynamicChipState();
 }
 
-class _dynamicChipState extends State<dynamicChip> {
-  bool favorite = false;
-  final List<String> _filters = <String>[];
-
+class _DynamicChipState extends State<DynamicChip> {
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
       child: Wrap(
         spacing: 8.0,
-        children: _Hobby.map((_Hobby) {
+        children: interests.map((interest) {
           return FilterChip(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            label: Text(_Hobby),
-            selected: _filters.contains(_Hobby),
-            selectedColor: Colors.deepPurple[100],
             showCheckmark: false,
-            onSelected: (bool value) {
-              setState(() {
-                if (value) {
-                  if (!_filters.contains(_Hobby)) {
-                    _filters.add(_Hobby);
-                  }
-                } else {
-                  _filters.removeWhere((String name) {
-                    return name == _Hobby;
-                  });
-                }
-              });
+            label: Text(interest),
+            selected: widget.selectedTags.contains(interest),
+            onSelected: (bool? value) {
+              widget.handleTagSelect(interest);
             },
+            backgroundColor: const Color.fromRGBO(246, 237, 255, 1),
+            shape: const StadiumBorder(),
+            side: widget.selectedTags.contains(interest)
+                ? const BorderSide(
+                    width: 1.0, color: Color.fromRGBO(103, 80, 164, 1))
+                : BorderSide.none,
           );
         }).toList(),
       ),

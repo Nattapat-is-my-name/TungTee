@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class CardDetail extends StatelessWidget {
   const CardDetail({
@@ -34,8 +37,8 @@ class CardDetail extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        toptitle,
-                        maxLines: 2,
+                        getDateString(toptitle),
+                        maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                             fontWeight: FontWeight.w400,
@@ -103,7 +106,7 @@ class CardLayout extends StatelessWidget {
     required this.maxPerson,
   });
 
-  final Widget thumbnail;
+  final String thumbnail;
   final String title;
   final String subtitle;
   final String toptitle;
@@ -127,12 +130,21 @@ class CardLayout extends StatelessWidget {
                 maxPerson: maxPerson,
               ),
             ),
-            Center(
-              child: thumbnail,
-            ),
+            AspectRatio(
+              aspectRatio: 1.1,
+              child: Image.memory(
+                base64Decode(thumbnail),
+                fit: BoxFit.fill,
+              ),
+            )
           ],
         ),
       ),
     );
   }
+}
+
+String getDateString(String value) {
+  return DateFormat("E dd/MM/yy")
+      .format(DateFormat("yyyy-MM-dd hh:mm").parse(value));
 }

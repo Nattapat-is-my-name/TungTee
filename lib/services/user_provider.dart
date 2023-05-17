@@ -28,7 +28,9 @@ class UserProvider {
         return await EventProvider().getEventById(eventId);
       }).toList();
       final List<EventModel> joinedEvents = await Future.wait(futures);
-      return joinedEvents;
+      final List<EventModel> joinedButNotOwned =
+          joinedEvents.where((event) => event.ownerId != userId).toList();
+      return joinedButNotOwned;
     }
     return null;
   }
@@ -42,6 +44,19 @@ class UserProvider {
       }).toList();
       final List<EventModel> createdEvents = await Future.wait(futures);
       return createdEvents;
+    }
+    return null;
+  }
+
+  Future<List<EventModel>?> getJoinedAndCreatedEvents(String userId) async {
+    final UserModel? user = await getUserById(userId);
+    if (user != null) {
+      final List<Future<EventModel>> futures =
+          user.joinedEvents.map((String eventId) async {
+        return await EventProvider().getEventById(eventId);
+      }).toList();
+      final List<EventModel> joinedEvents = await Future.wait(futures);
+      return joinedEvents;
     }
     return null;
   }
@@ -156,5 +171,20 @@ class UserProvider {
       return UserModel.fromJSON(user.data() as Map<String, dynamic>);
     }
     return null;
+  }
+
+  Future<void> userCreateEvent(String eventId, String userId) async {
+    final DocumentReference docRef = _userCollection.doc(userId);
+    await docRef.update({
+      'createdEvents': FieldValue.arrayUnion([eventId])
+    });
+  }
+
+  // in case of deleting event use EventProvider().deleteEventById(eventId)
+  Future<void> userDeleteEvent(String eventId, String userId) async {
+    final DocumentReference docRef = _userCollection.doc(userId);
+    await docRef.update({
+      'createdEvents': FieldValue.arrayRemove([eventId])
+    });
   }
 }

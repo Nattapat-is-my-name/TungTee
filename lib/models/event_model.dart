@@ -5,12 +5,13 @@ class EventModel {
   final String eventTitle; // max 30 char and can't be empty
   final String eventDescription; // max 255 char can be empty
   final int maximumPeople; // max 20
-  final List<String> tags; // max 10 // need to change in doc
+  final int minimumPeople; // ADD min 2
+  final String tag; // CHANGE only one tag for 1 event
   final AgeRestrictionModel ageRestriction;
   final DateTime dateCreated;
   final DateOfEventModel dateOfEvent;
-  final LocationModel location;
-  final List<String> images; // Array of Base64 String
+  final String location; // CHANGE let user types the location directly
+  final String image; // CHANGE Array of bytes
   final List<String> joinedUsers; // list of userId String
 
   EventModel({
@@ -19,12 +20,13 @@ class EventModel {
     required this.eventTitle,
     required this.eventDescription,
     required this.maximumPeople,
-    required this.tags,
+    required this.minimumPeople,
+    required this.tag,
     required this.ageRestriction,
     required this.dateCreated,
     required this.dateOfEvent,
     required this.location,
-    required this.images,
+    required this.image,
     required this.joinedUsers,
   });
 
@@ -35,12 +37,13 @@ class EventModel {
       'eventTitle': eventTitle,
       'eventDescription': eventDescription,
       'maximumPeople': maximumPeople,
-      'tags': tags,
+      'minimumPeople': minimumPeople,
+      'tag': tag,
       'ageRestriction': ageRestriction.toJSON(),
       'dateCreated': dateCreated.toIso8601String(),
       'dateOfEvent': dateOfEvent.toJSON(),
-      'location': location.toJSON(),
-      'images': images,
+      'location': location,
+      'image': image,
       'joinedUsers': joinedUsers,
     };
   }
@@ -51,14 +54,15 @@ class EventModel {
     final String eventTitle = json['eventTitle'];
     final String eventDescription = json['eventDescription'];
     final int maximumPeople = json['maximumPeople'];
-    final List<String> tags = List<String>.from(json['tags']);
+    final int minimumPeople = json['minimumPeople'];
+    final String tag = json['tag'];
     final AgeRestrictionModel ageRestriction =
         AgeRestrictionModel.fromJSON(json['ageRestriction']);
     final DateTime dateCreated = DateTime.parse(json['dateCreated']);
     final DateOfEventModel dateOfEvent =
         DateOfEventModel.fromJSON(json['dateOfEvent']);
-    final LocationModel location = LocationModel.fromJSON(json['location']);
-    final List<String> images = List<String>.from(json['images']);
+    final String location = json['location'];
+    final String image = json['image'];
     final List<String> joinedUsers = List<String>.from(json['joinedUsers']);
 
     return EventModel(
@@ -67,19 +71,20 @@ class EventModel {
       eventTitle: eventTitle,
       eventDescription: eventDescription,
       maximumPeople: maximumPeople,
-      tags: tags,
+      minimumPeople: minimumPeople,
+      tag: tag,
       ageRestriction: ageRestriction,
       dateCreated: dateCreated,
       dateOfEvent: dateOfEvent,
       location: location,
-      images: images,
+      image: image,
       joinedUsers: joinedUsers,
     );
   }
 
   @override
   String toString() {
-    return 'EventModel{eventId: $eventId, ownerId: $ownerId, eventTitle: $eventTitle, eventDescription: $eventDescription, maximumPeople: $maximumPeople, tags: $tags, ageRestriction: $ageRestriction, dateCreated: $dateCreated, dateOfEvent: $dateOfEvent, location: $location, images: $images, joinedUsers: $joinedUsers}';
+    return 'EventModel{eventId: $eventId, ownerId: $ownerId, eventTitle: $eventTitle, eventDescription: $eventDescription, maximumPeople: $maximumPeople, minimumPeople: $minimumPeople, tag: $tag, ageRestriction: $ageRestriction, dateCreated: $dateCreated, dateOfEvent: $dateOfEvent, location: $location, image: $image, joinedUsers: $joinedUsers}';
     // return 'EventModel{ownerId: $ownerId, eventTitle: $eventTitle, eventDescription: $eventDescription, maximumPeople: $maximumPeople, tags: $tags, ageRestriction: $ageRestriction, dateCreated: $dateCreated, dateOfEvent: $dateOfEvent, location: $location, images: $images, joinedUsers: $joinedUsers}';
   }
 }
@@ -137,33 +142,5 @@ class DateOfEventModel {
   @override
   String toString() {
     return 'DateOfEventModel{start: $start, end: $end}';
-  }
-}
-
-class LocationModel {
-  final double latitude;
-  final double longitude;
-
-  LocationModel({
-    required this.latitude,
-    required this.longitude,
-  });
-
-  Map<String, dynamic> toJSON() {
-    return {
-      'latitude': latitude,
-      'longitude': longitude,
-    };
-  }
-
-  factory LocationModel.fromJSON(Map<String, dynamic> json) {
-    return LocationModel(
-      latitude: json['latitude'] ?? 0.0,
-      longitude: json['longitude'] ?? 0.0,
-    );
-  }
-  @override
-  String toString() {
-    return 'LocationModel{latitude: $latitude, longitude: $longitude}';
   }
 }
