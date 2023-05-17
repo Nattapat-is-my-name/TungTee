@@ -546,10 +546,12 @@ class _EditEventState extends State<EditEvent> {
                                     widget.eventId, detail.text);
                                 EventProvider().updateEventEndDate(
                                     widget.eventId,
-                                    DateTime.parse(dateEnd.text));
+                                    convertStringDate(
+                                        dateEnd.text, timeEnd.text));
                                 EventProvider().updateEventStartDate(
                                     widget.eventId,
-                                    DateTime.parse(dateStart.text));
+                                    convertStringDate(
+                                        dateStart.text, timeStart.text));
                                 EventProvider().updateEventLocation(
                                     widget.eventId, location.text);
                                 EventProvider().updateEventMaximumAge(
@@ -590,4 +592,10 @@ class _EditEventState extends State<EditEvent> {
       ),
     );
   }
+}
+
+DateTime convertStringDate(String date, String time) {
+  String dateTime = '$date $time';
+  final datetime = DateTime.parse(dateTime);
+  return datetime;
 }
