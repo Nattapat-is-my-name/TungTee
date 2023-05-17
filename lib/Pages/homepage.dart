@@ -1,6 +1,5 @@
-import 'dart:convert';
-
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:tungtee/Constants/colors.dart';
 import 'package:tungtee/Models/event_model.dart';
 import 'package:tungtee/Models/user_model.dart';
 import 'package:tungtee/Pages/eventdetail.dart';
@@ -25,6 +24,8 @@ class _HomePagesState extends State<HomePages> {
   late Future<List<EventModel>> events;
   List<String> selectedTag = [];
   bool isTagSelect = false;
+  final searchController = TextEditingController();
+  String searchQuery = '';
 
   void handleTagSelect(String tag) {
     setState(() {
@@ -58,32 +59,21 @@ class _HomePagesState extends State<HomePages> {
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser!;
     return Scaffold(
-      body: FutureBuilder<List>(
-        future: Future.wait([
-          UserProvider().getUserById(user.uid),
-          (isTagSelect)
-              ? EventProvider().getEventsByTags(selectedTag)
-              : getdataEvents()
-        ]),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done &&
-              snapshot.hasData) {
-            final UserModel usermodel = snapshot.data![0];
-            final List<EventModel> eventList = snapshot.data![1];
-            final List<EventModel> nonEmptyEvents = eventList.where((event) {
-              return event.maximumPeople != event.joinedUsers.length &&
-                  event.dateOfEvent.start.isAfter(DateTime.now());
-            }).toList();
-            return GestureDetector(
-              onTap: () {
-                FocusScope.of(context).unfocus();
-              },
-              child: SafeArea(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
+        body: GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            FutureBuilder(
+                future: UserProvider().getUserById(user.uid),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    final UserModel usermodel = snapshot.data!;
+                    return Container(
                       padding: const EdgeInsets.fromLTRB(20, 25, 20, 10),
                       child: Column(children: [
                         Row(
@@ -134,126 +124,255 @@ class _HomePagesState extends State<HomePages> {
                             ),
                           ],
                         ),
-
-                        //Search Bar
-                        Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 0, vertical: 16),
-                            child: TextField(
-                                decoration: InputDecoration(
-                              contentPadding:
-                                  const EdgeInsets.symmetric(vertical: 15),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(50.0),
-                              ),
-                              prefixIcon: const Icon(Icons.search),
-                              hintText: 'Search Event',
-                            ))),
                       ]),
-                    ),
-                    //Chip
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
+                    );
+                  }
+
+                  // connection is not done
+                  return Container(
+                    padding: const EdgeInsets.fromLTRB(20, 25, 20, 10),
+                    child: Column(children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          DynamicChip(
-                            handleTagSelect: handleTagSelect,
-                            selectedTags: selectedTag,
-                          )
-                        ],
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: const [
-                                    Text(
-                                      'Event',
-                                      style: TextStyle(
-                                        fontSize: 36,
-                                        fontWeight: FontWeight.w400,
-                                        height: 1.2222222222,
-                                        color: Color(0xff000000),
-                                      ),
-                                    ),
-                                  ],
+                          //Welcome Name
+                          Column(
+                            children: const [
+                              Text('Welcome!',
+                                  style: TextStyle(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.w400,
+                                      height: 1.33,
+                                      color: Color(0xff3b383e))),
+                              Text(
+                                // tungtee9sD (57:18316)
+                                'TUNG TEE',
+                                style: TextStyle(
+                                  fontSize: 36,
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.2222222222,
+                                  color: Color(0xff000000),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
+                          ),
+                          const Spacer(),
+                          Row(
+                            children: [
+                              const Icon(Icons.notifications_outlined),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              GestureDetector(
+                                  onTap: () {},
+                                  child: CircleAvatar(
+                                    radius: 18,
+                                    backgroundColor: primaryColor.shade100,
+                                    child: const Icon(Icons.person),
+                                  )),
+                            ],
                           ),
                         ],
                       ),
+                    ]),
+                  );
+                }),
+
+            //Search Bar
+            Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                child: TextField(
+                    controller: searchController,
+                    onSubmitted: (value) {
+                      setState(() {
+                        searchQuery = value;
+                      });
+                    },
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.symmetric(vertical: 15),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(50.0),
+                      ),
+                      prefixIcon: const Icon(Icons.search),
+                      hintText: 'Search Event',
+                    ))),
+            //Chip
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  DynamicChip(
+                    handleTagSelect: handleTagSelect,
+                    selectedTags: selectedTag,
+                  )
+                ],
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: const [
+                            Text(
+                              'Event',
+                              style: TextStyle(
+                                fontSize: 36,
+                                fontWeight: FontWeight.w400,
+                                height: 1.2222222222,
+                                color: Color(0xff000000),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
-                        child: ListView.builder(
-                            itemCount: nonEmptyEvents.length,
-                            itemBuilder: (context, index) {
-                              return Column(
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => EventDetail(
-                                                    eventId: nonEmptyEvents
-                                                        .elementAt(index)
-                                                        .eventId,
-                                                    image: nonEmptyEvents[index]
-                                                        .image,
-                                                  )));
-                                    },
-                                    child: CardLayout(
-                                      thumbnail: nonEmptyEvents[index].image,
-                                      title: nonEmptyEvents
-                                          .elementAt(index)
-                                          .eventTitle,
-                                      subtitle: nonEmptyEvents
-                                          .elementAt(index)
-                                          .location,
-                                      toptitle: nonEmptyEvents
-                                          .elementAt(index)
-                                          .dateOfEvent
-                                          .start
-                                          .toString(),
-                                      amountPerson: nonEmptyEvents
-                                          .elementAt(index)
-                                          .joinedUsers
-                                          .length
-                                          .toString(),
-                                      maxPerson: nonEmptyEvents
-                                          .elementAt(index)
-                                          .maximumPeople
-                                          .toString(),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  )
-                                ],
-                              );
-                            }),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
+                  child:
+                      isTagSelect ? renderTagSelected() : renderEventStream()),
+            ),
+          ],
+        ),
+      ),
+    ));
+  }
+
+  renderEventStream() {
+    return StreamBuilder(
+      stream: EventProvider().getEventStream(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final docs = snapshot.data!.docs;
+          final eventList = docs.map((querySnapshot) {
+            return EventModel.fromJSON(
+                querySnapshot.data() as Map<String, dynamic>);
+          }).toList();
+          List<EventModel> eventsFromSearch = [];
+          if (searchQuery.isNotEmpty) {
+            eventsFromSearch = eventList.where((event) {
+              return event.eventTitle == searchQuery;
+            }).toList();
+          }
+          final events =
+              eventsFromSearch.isEmpty ? eventList : eventsFromSearch;
+          return ListView.builder(
+              itemCount: events.length,
+              itemBuilder: (context, index) {
+                return Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EventDetail(
+                                      eventId: events.elementAt(index).eventId,
+                                      image: events[index].image,
+                                    )));
+                      },
+                      child: CardLayout(
+                        thumbnail: events[index].image,
+                        title: events.elementAt(index).eventTitle,
+                        subtitle: events.elementAt(index).location,
+                        toptitle: events
+                            .elementAt(index)
+                            .dateOfEvent
+                            .start
+                            .toString(),
+                        amountPerson: events
+                            .elementAt(index)
+                            .joinedUsers
+                            .length
+                            .toString(),
+                        maxPerson:
+                            events.elementAt(index).maximumPeople.toString(),
                       ),
                     ),
+                    const SizedBox(
+                      height: 10,
+                    )
                   ],
-                ),
-              ),
-            );
-          } else {
-            return const Center(child: CircularProgressIndicator());
+                );
+              });
+        }
+        return const Center(child: CircularProgressIndicator());
+      },
+    );
+  }
+
+  renderTagSelected() {
+    return FutureBuilder(
+      future: EventProvider().getEventsByTags(selectedTag),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          final List<EventModel> eventList = snapshot.data!;
+          final List<EventModel> nonEmptyEvents = eventList.where((event) {
+            return event.maximumPeople != event.joinedUsers.length &&
+                event.dateOfEvent.start.isAfter(DateTime.now());
+          }).toList();
+          List<EventModel> eventsFromSearch = [];
+          if (searchQuery.isNotEmpty) {
+            eventsFromSearch = nonEmptyEvents.where((event) {
+              return event.eventTitle == searchQuery;
+            }).toList();
           }
-        },
-      ),
+          final events =
+              eventsFromSearch.isEmpty ? nonEmptyEvents : eventsFromSearch;
+          return ListView.builder(
+              itemCount: events.length,
+              itemBuilder: (context, index) {
+                return Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EventDetail(
+                                      eventId: events.elementAt(index).eventId,
+                                      image: events[index].image,
+                                    )));
+                      },
+                      child: CardLayout(
+                        thumbnail: events[index].image,
+                        title: events.elementAt(index).eventTitle,
+                        subtitle: events.elementAt(index).location,
+                        toptitle: events
+                            .elementAt(index)
+                            .dateOfEvent
+                            .start
+                            .toString(),
+                        amountPerson: events
+                            .elementAt(index)
+                            .joinedUsers
+                            .length
+                            .toString(),
+                        maxPerson:
+                            events.elementAt(index).maximumPeople.toString(),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    )
+                  ],
+                );
+              });
+        }
+        return const Center(child: CircularProgressIndicator());
+      },
     );
   }
 }

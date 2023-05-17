@@ -21,13 +21,13 @@ class ProfilePic extends StatelessWidget {
   final double w;
   @override
   Widget build(BuildContext context) {
+    final image = usermodel!.profileImage;
     return SizedBox(
         height: h,
         width: w,
-        child: usermodel!.profileImage != ""
+        child: image.isNotEmpty && !(image.startsWith('https'))
             ? CircleAvatar(
-                backgroundImage:
-                    MemoryImage(base64Decode(usermodel!.profileImage)),
+                backgroundImage: MemoryImage(base64Decode(image)),
               )
             : (user.photoURL != null)
                 ? CircleAvatar(

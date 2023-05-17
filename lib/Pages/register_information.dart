@@ -22,6 +22,8 @@ class _RegisterInformationState extends State<RegisterInformation> {
   final genderController = TextEditingController();
   final birthDateController = TextEditingController();
 
+  final user = FirebaseAuth.instance.currentUser;
+
   bool isShowClearFullName = false;
   bool isShowClearNickName = false;
   bool isShowClearPhone = false;
@@ -105,6 +107,15 @@ class _RegisterInformationState extends State<RegisterInformation> {
     phoneController.dispose();
     genderController.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (user != null) {
+      fullnameController.text = user?.displayName ?? "user";
+      phoneController.text = user?.phoneNumber ?? "";
+    }
   }
 
   @override

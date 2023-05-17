@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tungtee/Constants/colors.dart';
@@ -37,19 +39,18 @@ class _ChatListPageState extends State<ChatListPage> {
                     return ListView.separated(
                       itemCount: events!.length,
                       itemBuilder: (context, index) {
+                        final image = events.elementAt(index).image;
                         return ListTile(
-                          trailing: const Text('Yesterday'),
-                          leading: SizedBox(
-                              height: 100,
-                              width: 80,
-                              child: Image.network(
-                                  fit: BoxFit.cover,
-                                  'https://mpics.mgronline.com/pics/Images/565000005463801.JPEG')),
+                          // trailing: const Text('Yesterday'),
+                          leading: Image.memory(
+                            base64Decode(image),
+                            fit: BoxFit.fill,
+                          ),
                           title: Text(
                             events.elementAt(index).eventTitle,
                             style: const TextStyle(fontWeight: FontWeight.w700),
                           ),
-                          subtitle: const Text('Let\'s go!'),
+                          subtitle: Text(events.elementAt(index).location),
                           splashColor: primaryColor.shade600,
                           onTap: () {
                             Navigator.push(
