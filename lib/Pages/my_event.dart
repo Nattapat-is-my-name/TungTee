@@ -160,8 +160,10 @@ class _MyEventState extends State<MyEvent> {
                                         eventList
                                             .where((event) =>
                                                 event.ownerId ==
-                                                FirebaseAuth
-                                                    .instance.currentUser!.uid)
+                                                    FirebaseAuth.instance
+                                                        .currentUser!.uid &&
+                                                event.dateOfEvent.end
+                                                    .isAfter(DateTime.now()))
                                             .toList();
                                     // print(eventList);
                                     return ListView.builder(
@@ -187,17 +189,6 @@ class _MyEventState extends State<MyEvent> {
                                                               )));
                                                 },
                                                 child: CardLayout(
-                                                  // thumbnail: Image(
-                                                  //   image: MemoryImage(
-                                                  //       base64Decode(
-                                                  //           createdEvents
-                                                  //               .elementAt(
-                                                  //                   index)
-                                                  //               .image)),
-                                                  //   fit: BoxFit.cover,
-                                                  //   height: 100,
-                                                  //   width: 80,
-                                                  // ),
                                                   thumbnail:
                                                       createdEvents[index]
                                                           .image,
@@ -244,8 +235,14 @@ class _MyEventState extends State<MyEvent> {
                                 builder: (context, AsyncSnapshot snapshot) {
                                   if (snapshot.connectionState ==
                                       ConnectionState.done) {
-                                    final List<EventModel> eventList =
+                                    final List<EventModel> joinedEvents =
                                         snapshot.data;
+                                    final List<EventModel> eventList =
+                                        joinedEvents
+                                            .where((event) => event
+                                                .dateOfEvent.end
+                                                .isAfter(DateTime.now()))
+                                            .toList();
                                     return ListView.builder(
                                         itemCount: eventList.length,
                                         itemBuilder: (context, index) {
@@ -268,15 +265,6 @@ class _MyEventState extends State<MyEvent> {
                                                               )));
                                                 },
                                                 child: CardLayout(
-                                                  // thumbnail: Image(
-                                                  //   image: MemoryImage(
-                                                  //       base64Decode(eventList
-                                                  //           .elementAt(index)
-                                                  //           .image)),
-                                                  //   fit: BoxFit.cover,
-                                                  //   height: 100,
-                                                  //   width: 80,
-                                                  // ),
                                                   thumbnail:
                                                       eventList[index].image,
                                                   title: eventList
