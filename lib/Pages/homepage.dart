@@ -266,8 +266,11 @@ class _HomePagesState extends State<HomePages> {
               return event.eventTitle == searchQuery;
             }).toList();
           }
-          final events =
+          final eventTemp =
               eventsFromSearch.isEmpty ? eventList : eventsFromSearch;
+          final events = eventTemp
+              .where((event) => event.joinedUsers.length < event.maximumPeople)
+              .toList();
           return ListView.builder(
               itemCount: events.length,
               itemBuilder: (context, index) {
@@ -329,8 +332,11 @@ class _HomePagesState extends State<HomePages> {
               return event.eventTitle == searchQuery;
             }).toList();
           }
-          final events =
-              eventsFromSearch.isEmpty ? nonEmptyEvents : eventsFromSearch;
+          final eventTemp =
+              eventsFromSearch.isEmpty ? eventList : eventsFromSearch;
+          final events = eventTemp
+              .where((event) => event.joinedUsers.length < event.maximumPeople)
+              .toList();
           return ListView.builder(
               itemCount: events.length,
               itemBuilder: (context, index) {
