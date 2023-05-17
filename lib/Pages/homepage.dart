@@ -240,81 +240,139 @@ class _HomePagesState extends State<HomePages> {
             ),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
-                child: FutureBuilder(
-                  future: isTagSelect
-                      ? EventProvider().getEventsByTags(selectedTag)
-                      : getdataEvents(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      final List<EventModel> eventList = snapshot.data!;
-                      final List<EventModel> nonEmptyEvents =
-                          eventList.where((event) {
-                        return event.maximumPeople !=
-                                event.joinedUsers.length &&
-                            event.dateOfEvent.start.isAfter(DateTime.now());
-                      }).toList();
-                      List<EventModel> eventsFromSearch = [];
-                      if (searchQuery.isNotEmpty) {
-                        eventsFromSearch = nonEmptyEvents.where((event) {
-                          return event.eventTitle == searchQuery;
-                        }).toList();
-                      }
-                      final events = eventsFromSearch.isEmpty
-                          ? nonEmptyEvents
-                          : eventsFromSearch;
-                      return ListView.builder(
-                          itemCount: events.length,
-                          itemBuilder: (context, index) {
-                            return Column(
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => EventDetail(
-                                                  eventId: events
-                                                      .elementAt(index)
-                                                      .eventId,
-                                                  image: events[index].image,
-                                                )));
-                                  },
-                                  child: CardLayout(
-                                    thumbnail: events[index].image,
-                                    title: events.elementAt(index).eventTitle,
-                                    subtitle: events.elementAt(index).location,
-                                    toptitle: events
-                                        .elementAt(index)
-                                        .dateOfEvent
-                                        .start
-                                        .toString(),
-                                    amountPerson: events
-                                        .elementAt(index)
-                                        .joinedUsers
-                                        .length
-                                        .toString(),
-                                    maxPerson: events
-                                        .elementAt(index)
-                                        .maximumPeople
-                                        .toString(),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                )
-                              ],
-                            );
-                          });
-                    }
-                    return const Center(child: CircularProgressIndicator());
-                  },
-                ),
-              ),
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
+                  child:
+                      isTagSelect ? renderTagSelected() : renderEventStream()),
             ),
           ],
         ),
       ),
     ));
+  }
+
+  renderEventStream() {
+    return StreamBuilder(
+      stream: EventProvider().getEventStream(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final docs = snapshot.data!.docs;
+          final eventList = docs.map((querySnapshot) {
+            return EventModel.fromJSON(
+                querySnapshot.data() as Map<String, dynamic>);
+          }).toList();
+          List<EventModel> eventsFromSearch = [];
+          if (searchQuery.isNotEmpty) {
+            eventsFromSearch = eventList.where((event) {
+              return event.eventTitle == searchQuery;
+            }).toList();
+          }
+          final events =
+              eventsFromSearch.isEmpty ? eventList : eventsFromSearch;
+          return ListView.builder(
+              itemCount: events.length,
+              itemBuilder: (context, index) {
+                return Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EventDetail(
+                                      eventId: events.elementAt(index).eventId,
+                                      image: events[index].image,
+                                    )));
+                      },
+                      child: CardLayout(
+                        thumbnail: events[index].image,
+                        title: events.elementAt(index).eventTitle,
+                        subtitle: events.elementAt(index).location,
+                        toptitle: events
+                            .elementAt(index)
+                            .dateOfEvent
+                            .start
+                            .toString(),
+                        amountPerson: events
+                            .elementAt(index)
+                            .joinedUsers
+                            .length
+                            .toString(),
+                        maxPerson:
+                            events.elementAt(index).maximumPeople.toString(),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    )
+                  ],
+                );
+              });
+        }
+        return const Center(child: CircularProgressIndicator());
+      },
+    );
+  }
+
+  renderTagSelected() {
+    return FutureBuilder(
+      future: EventProvider().getEventsByTags(selectedTag),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          final List<EventModel> eventList = snapshot.data!;
+          final List<EventModel> nonEmptyEvents = eventList.where((event) {
+            return event.maximumPeople != event.joinedUsers.length &&
+                event.dateOfEvent.start.isAfter(DateTime.now());
+          }).toList();
+          List<EventModel> eventsFromSearch = [];
+          if (searchQuery.isNotEmpty) {
+            eventsFromSearch = nonEmptyEvents.where((event) {
+              return event.eventTitle == searchQuery;
+            }).toList();
+          }
+          final events =
+              eventsFromSearch.isEmpty ? nonEmptyEvents : eventsFromSearch;
+          return ListView.builder(
+              itemCount: events.length,
+              itemBuilder: (context, index) {
+                return Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EventDetail(
+                                      eventId: events.elementAt(index).eventId,
+                                      image: events[index].image,
+                                    )));
+                      },
+                      child: CardLayout(
+                        thumbnail: events[index].image,
+                        title: events.elementAt(index).eventTitle,
+                        subtitle: events.elementAt(index).location,
+                        toptitle: events
+                            .elementAt(index)
+                            .dateOfEvent
+                            .start
+                            .toString(),
+                        amountPerson: events
+                            .elementAt(index)
+                            .joinedUsers
+                            .length
+                            .toString(),
+                        maxPerson:
+                            events.elementAt(index).maximumPeople.toString(),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    )
+                  ],
+                );
+              });
+        }
+        return const Center(child: CircularProgressIndicator());
+      },
+    );
   }
 }

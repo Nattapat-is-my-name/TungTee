@@ -23,6 +23,10 @@ class EventProvider {
     return events;
   }
 
+  Stream<QuerySnapshot> getEventStream() {
+    return _eventCollection.snapshots();
+  }
+
   /// Get list of `EventModel` that its `tags` field contain any of `interests` (List<String>) argument
   ///
   /// return all events (type: `List<EventModel>`) from Firestore database that matched with interests
