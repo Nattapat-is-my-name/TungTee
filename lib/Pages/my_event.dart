@@ -1,8 +1,6 @@
-import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tungtee/Models/user_model.dart';
-import 'package:tungtee/Pages/edit_event.dart';
 import 'package:tungtee/Pages/profile.dart';
 import 'package:tungtee/Widgets/profilepic.dart';
 

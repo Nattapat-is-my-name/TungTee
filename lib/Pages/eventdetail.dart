@@ -210,19 +210,15 @@ class _EventDetail extends State<EventDetail> {
                                                 backgroundColor:
                                                     MaterialStatePropertyAll(
                                                         Color(0xFF797979))),
-                                            onPressed: () async {
-                                              final isReload =
-                                                  await Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              EditEvent(
-                                                                  event: event,
-                                                                  eventId: event
-                                                                      .eventId)));
-                                              if (isReload) {
-                                                setState(() {});
-                                              }
+                                            onPressed: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          EditEvent(
+                                                              event: event,
+                                                              eventId: event
+                                                                  .eventId)));
                                             },
                                             child: Row(
                                               children: const [
@@ -270,12 +266,14 @@ class _EventDetail extends State<EventDetail> {
                                                       });
                                               if (dialogResult != null &&
                                                   dialogResult) {
-                                                event.joinedUsers
-                                                    .map((userId) async {
-                                                  await UserProvider()
-                                                      .leftEvent(widget.eventId,
-                                                          userId);
-                                                });
+                                                await Future.forEach(
+                                                    event.joinedUsers,
+                                                    (userId) async =>
+                                                        await UserProvider()
+                                                            .leftEvent(
+                                                                event.eventId,
+                                                                userId));
+
                                                 await EventProvider()
                                                     .deleteEventById(
                                                         widget.eventId);
@@ -291,13 +289,13 @@ class _EventDetail extends State<EventDetail> {
                                                 await ChatProvider()
                                                     .deleteChatRoom(
                                                         widget.eventId);
-                                                if (context.mounted) {
-                                                  Navigator.pushReplacement(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              const Bottomnavbar()));
-                                                }
+                                                // if (context.mounted) {
+                                                //   Navigator.pushReplacement(
+                                                //       context,
+                                                //       MaterialPageRoute(
+                                                //           builder: (context) =>
+                                                //               const Bottomnavbar()));
+                                                // }
                                               }
                                             },
                                             child: Row(
