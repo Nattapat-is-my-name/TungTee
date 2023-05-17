@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tungtee/Constants/colors.dart';
 import 'package:tungtee/Models/chat_model.dart';
+import 'package:tungtee/Models/user_model.dart';
 import 'package:tungtee/Services/user_provider.dart';
 
 class Message extends StatelessWidget {
@@ -86,14 +87,15 @@ class Message extends StatelessWidget {
 
   Widget renderMsgWithProfile(bool isMe, bool nextMessageHasSameOwner,
       User user, bool isShowDateDivider) {
-    return FutureBuilder(
-        future: UserProvider().getUserById(message.userId),
+    return StreamBuilder(
+        stream: UserProvider().getUserStreamById(message.userId),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            final user = snapshot.data;
-            final image = user?.profileImage;
+          if (snapshot.hasData) {
+            final user = UserModel.fromJSON(
+                snapshot.data!.data() as Map<String, dynamic>);
+            final image = user.profileImage;
             if (!isMe && (!nextMessageHasSameOwner || isShowDateDivider)) {
-              return image == null || image == ""
+              return image.isNotEmpty
                   ? Padding(
                       padding: const EdgeInsets.only(left: 8),
                       child: CircleAvatar(
