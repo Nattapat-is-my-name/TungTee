@@ -37,7 +37,7 @@ class CardDetail extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        toptitle,
+                        getDateString(toptitle),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
@@ -124,8 +124,7 @@ class CardLayout extends StatelessWidget {
           children: <Widget>[
             Expanded(
               child: CardDetail(
-                toptitle: DateFormat("dd-MM-yyyy hh:mm")
-                    .format(DateFormat("yyyy-MM-dd hh:mm").parse(toptitle)),
+                toptitle: toptitle,
                 title: title,
                 subtitle: subtitle,
                 amountPerson: amountPerson,
@@ -144,4 +143,9 @@ class CardLayout extends StatelessWidget {
       ),
     );
   }
+}
+
+String getDateString(String value) {
+  return DateFormat("E dd/MM/yy")
+      .format(DateFormat("yyyy-MM-dd hh:mm").parse(value));
 }
