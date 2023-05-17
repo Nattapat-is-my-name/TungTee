@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:tungtee/Pages/chat_event.dart';
 import 'package:tungtee/Pages/edit_event.dart';
 import 'package:tungtee/Services/chat_provider.dart';
+import 'package:tungtee/Widgets/timewidget.dart';
 import 'package:tungtee/constants/colors.dart';
 import 'package:tungtee/navigation/bottom_navbar.dart';
 import 'package:tungtee/services/event_provider.dart';
@@ -58,10 +59,10 @@ class _EventDetail extends State<EventDetail> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8),
-                      child: Wrap(
+                      child: Row(
                         // mainAxisAlignment: MainAxisAlignment.start,
-                        alignment: WrapAlignment.start,
-                        crossAxisAlignment: WrapCrossAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Chip(
                             label: Text(
@@ -74,11 +75,18 @@ class _EventDetail extends State<EventDetail> {
                             backgroundColor: rawPrimaryColor,
                           ),
                           const SizedBox(width: 10),
-                          Text(
-                            // '${event.dateOfEvent.start} - ${event.dateOfEvent.end}', // !need to pull from boss-sora
-                            '${getTimeConvert(event.dateOfEvent.start)} - ${getTimeConvert(event.dateOfEvent.end)}',
-                            style: const TextStyle(fontWeight: FontWeight.bold),
-                          ),
+                          // Text(
+                          //   // '${event.dateOfEvent.start} - ${event.dateOfEvent.end}', // !need to pull from boss-sora
+                          //   '${getTimeConvert(event.dateOfEvent.start)} - ${getTimeConvert(event.dateOfEvent.end)}',
+                          //   style: const TextStyle(fontWeight: FontWeight.bold),
+                          // ),
+                          DateCard(
+                              icons: Icons.calendar_month_outlined,
+                              label: getDateConvert(event.dateOfEvent.start)),
+                          const SizedBox(width: 10),
+                          DateCard(
+                              icons: Icons.alarm,
+                              label: getTimeConvert(event.dateOfEvent.start))
                         ],
                       ),
                     ),
@@ -424,7 +432,12 @@ class _EventDetail extends State<EventDetail> {
   }
 }
 
+String getDateConvert(DateTime time) {
+  String string = DateFormat("dd-MM-yy").format(time);
+  return string;
+}
+
 String getTimeConvert(DateTime time) {
-  String string = DateFormat("dd-MM-yy hh:mm").format(time);
+  String string = DateFormat("HH:mm").format(time);
   return string;
 }
