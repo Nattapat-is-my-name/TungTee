@@ -24,23 +24,23 @@ class ProfilePic extends StatelessWidget {
     return SizedBox(
         height: h,
         width: w,
-        child: usermodel!.profileImage != ""
+        child: usermodel!.profileImage != "" &&
+                !usermodel!.profileImage.startsWith('https')
             ? CircleAvatar(
-                backgroundImage: usermodel!.profileImage.startsWith('https')
-                    ? null
-                    : MemoryImage(base64Decode(usermodel!.profileImage)),
-                child: usermodel!.profileImage.startsWith('https')
-                    ? Image.network(usermodel!.profileImage)
-                    : null,
-                // backgroundImage:
-                //     MemoryImage(base64Decode(usermodel!.profileImage)),
-              )
-            : (user.photoURL != null)
+                backgroundImage: MemoryImage(
+                base64Decode(usermodel!.profileImage),
+              ))
+            : usermodel!.profileImage.startsWith('https')
                 ? CircleAvatar(
-                    backgroundImage: NetworkImage(user.photoURL!),
-                  )
-                : CircleAvatar(
-                    backgroundColor: primaryColor.shade100,
-                  ));
+                    backgroundImage: NetworkImage(usermodel!.profileImage))
+                : (user.photoURL != null)
+                    ? CircleAvatar(
+                        backgroundImage: NetworkImage(user.photoURL!),
+                      )
+                    : CircleAvatar(
+                        radius: 18,
+                        backgroundColor: primaryColor.shade100,
+                        child: const Icon(Icons.person),
+                      ));
   }
 }

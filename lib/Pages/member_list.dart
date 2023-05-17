@@ -79,17 +79,24 @@ class _MemberListState extends State<MemberList> {
                                         : Padding(
                                             padding:
                                                 const EdgeInsets.only(left: 8),
-                                            child: CircleAvatar(
-                                              radius: 18,
-                                              backgroundImage:
-                                                  image.startsWith('https')
-                                                      ? null
-                                                      : MemoryImage(
-                                                          base64Decode(image)),
-                                              child: image.startsWith('https')
-                                                  ? Image.network(image)
-                                                  : null,
-                                            ));
+                                            child: image.startsWith('https')
+                                                ? CircleAvatar(
+                                                    radius: 18,
+                                                    backgroundImage:
+                                                        NetworkImage(image))
+                                                : image.isNotEmpty
+                                                    ? CircleAvatar(
+                                                        radius: 18,
+                                                        backgroundImage:
+                                                            MemoryImage(
+                                                                base64Decode(
+                                                                    image)),
+                                                      )
+                                                    : CircleAvatar(
+                                                        backgroundColor:
+                                                            primaryColor
+                                                                .shade100,
+                                                      ));
                                   }
                                   return Container();
                                 }),

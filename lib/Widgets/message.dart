@@ -103,15 +103,20 @@ class Message extends StatelessWidget {
                       ))
                   : Padding(
                       padding: const EdgeInsets.only(left: 8),
-                      child: CircleAvatar(
-                        radius: 18,
-                        backgroundImage: image.startsWith('https')
-                            ? null
-                            : MemoryImage(base64Decode(image)),
-                        child: image.startsWith('https')
-                            ? Image.network(image)
-                            : null,
-                      ));
+                      child: image.startsWith('https')
+                          ? CircleAvatar(
+                              radius: 18, backgroundImage: NetworkImage(image))
+                          : image.isNotEmpty
+                              ? CircleAvatar(
+                                  radius: 18,
+                                  backgroundImage:
+                                      MemoryImage(base64Decode(image)),
+                                )
+                              : CircleAvatar(
+                                  radius: 18,
+                                  backgroundColor: primaryColor.shade100,
+                                  child: const Icon(Icons.person),
+                                ));
             }
             return const Padding(
               padding: EdgeInsets.only(left: 44), // (2 * radius) + padding
