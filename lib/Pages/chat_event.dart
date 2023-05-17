@@ -56,10 +56,7 @@ class _ChatEventState extends State<ChatEvent> {
                     color: const Color(0xFFFFFBFE),
                     child: Row(
                       children: <Widget>[
-                        IconButton(
-                          onPressed: () {},
-                          icon: Icon(Icons.camera_alt, color: primaryColor),
-                        ),
+                        const SizedBox(width: 16),
                         Expanded(
                           child: Form(
                             key: _chatMessageFormKey,
