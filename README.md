@@ -1,5 +1,5 @@
 # tungtee
-*Explore the work and make a new friend*
+*Explore the world and make a new friend*
 
 **Tech Stack**
 
