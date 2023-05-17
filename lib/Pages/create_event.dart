@@ -535,7 +535,8 @@ class _CreateeventState extends State<Createevent> {
                         const SizedBox(width: 16),
                         FilledButton(
                           onPressed: () async {
-                            if (!dateEnd1.isBefore(dateStart1)) {
+                            if (!dateEnd1.isBefore(dateStart1) &&
+                                image != null) {
                               if (_createEventFormKey.currentState!
                                   .validate()) {
                                 final newEventId = const Uuid().v4();
@@ -551,59 +552,81 @@ class _CreateeventState extends State<Createevent> {
                                 final resizeBytes = Img.encodeJpg(imageResize);
 
                                 String image64 = base64Encode(resizeBytes);
-                                // String image64 = base64Encode(imageBytes);
 
-                                // await EventProvider().createEvent(
-                                //   EventModel(
-                                //       eventId: newEventId,
-                                //       ownerId: user.uid,
-                                //       eventTitle: title.text,
-                                //       eventDescription: detail.text,
-                                //       maximumPeople: _endValue.toInt(),
-                                //       minimumPeople: _startValue.toInt(),
-                                //       tag: selectedTag,
-                                //       ageRestriction: AgeRestrictionModel(
-                                //           minimumAge: int.parse(ageN.text),
-                                //           maximumAge: int.parse(ageM.text)),
-                                //       dateCreated: DateTime.now(),
-                                //       dateOfEvent: DateOfEventModel(
-                                //           end: DateTime.parse(
-                                //               "${dateEnd.text} ${timeEnd.text}"),
-                                //           start: DateTime.parse(
-                                //               "${dateStart.text} ${timeStart.text}")),
-                                //       location: location.text,
-                                //       image: image64,
-                                //       joinedUsers: [user.uid]),
-                                // );
+                                await EventProvider().createEvent(
+                                  EventModel(
+                                      eventId: newEventId,
+                                      ownerId: user.uid,
+                                      eventTitle: title.text,
+                                      eventDescription: detail.text,
+                                      maximumPeople: (showWidget1)
+                                          ? _endValue.toInt()
+                                          : 20,
+                                      minimumPeople: (showWidget1)
+                                          ? _startValue.toInt()
+                                          : 1,
+                                      tag: selectedTag,
+                                      ageRestriction: AgeRestrictionModel(
+                                          minimumAge: int.parse(
+                                              (showWidget) ? ageN.text : "16"),
+                                          maximumAge: int.parse(
+                                              (showWidget) ? ageM.text : "60")),
+                                      dateCreated: DateTime.now(),
+                                      dateOfEvent: DateOfEventModel(
+                                          end: DateTime.parse(
+                                              "${dateEnd.text} ${timeEnd.text}"),
+                                          start: DateTime.parse("${dateStart.text} ${timeStart.text}")),
+                                      location: location.text,
+                                      image: image64,
+                                      joinedUsers: [user.uid]),
+                                );
 
-                                // await UserProvider()
-                                //     .joinEvent(newEventId, user.uid);
-                                // await UserProvider()
-                                //     .userCreateEvent(newEventId, user.uid);
-                                // await ChatProvider().initChatRoom(
-                                //     newEventId, int.parse(ageM.text), [user.uid]);
+                                await UserProvider()
+                                    .joinEvent(newEventId, user.uid);
+                                await UserProvider()
+                                    .userCreateEvent(newEventId, user.uid);
+                                await ChatProvider().initChatRoom(
+                                    newEventId,
+                                    (showWidget1) ? _endValue.toInt() : 20,
+                                    [user.uid]);
 
-                                // if (context.mounted) {
-                                //   Navigator.pushReplacement(
-                                //       context,
-                                //       MaterialPageRoute(
-                                //           builder: (context) =>
-                                //               const Bottomnavbar()));
-                                // }
+                                if (context.mounted) {
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const Bottomnavbar()));
+                                }
                               }
                             } else {
-                              final snackBar = SnackBar(
-                                content: const Text(
-                                    'End date must be after start date!'),
-                                action: SnackBarAction(
-                                  label: 'Ok',
-                                  onPressed: () {
-                                    // Some code to undo the change.
-                                  },
-                                ),
-                              );
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
+                              // final snackBar = SnackBar(
+                              //   content: const Text(
+                              //       'End date must be after start date!'),
+                              //   action: SnackBarAction(
+                              //     label: 'Ok',
+                              //     onPressed: () {
+                              //       // Some code to undo the change.
+                              //     },
+                              //   ),
+                              // );
+                              // ScaffoldMessenger.of(context)
+                              //     .showSnackBar(snackBar);
+                              showDialog(
+                                  context: context,
+                                  builder: ((context) {
+                                    return AlertDialog(
+                                      title: const Text("Can't create event"),
+                                      content:
+                                          const Text('Check time and image'),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context, 'OK'),
+                                          child: const Text('OK'),
+                                        ),
+                                      ],
+                                    );
+                                  }));
                             }
                           },
                           child: const Text('Create Event'),
