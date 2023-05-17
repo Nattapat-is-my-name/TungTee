@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:image/image.dart' as image_lbrary;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -175,11 +176,25 @@ class _EditprofileState extends State<Editprofile> {
                                           user.uid, fullnameController.text);
                                       UserProvider().updateUserNickName(
                                           user.uid, nicknameController.text);
-                                      final bytes =
-                                          File(image!.path).readAsBytesSync();
-                                      String image64 = base64Encode(bytes);
-                                      UserProvider().updateUserProfileImage(
-                                          user.uid, image64);
+
+                                      //image handleler
+                                      if (image != null) {
+                                        final imageFile = File(image!.path);
+                                        final imageBytes =
+                                            imageFile.readAsBytesSync();
+                                        image_lbrary.Image imageTemp =
+                                            image_lbrary
+                                                .decodeImage(imageBytes)!;
+                                        image_lbrary.Image imageResize =
+                                            image_lbrary.copyResize(imageTemp,
+                                                width: 400, height: 400);
+                                        final resizeBytes =
+                                            image_lbrary.encodeJpg(imageResize);
+                                        String image64 =
+                                            base64Encode(resizeBytes);
+                                        UserProvider().updateUserProfileImage(
+                                            user.uid, image64);
+                                      }
 
                                       setState(() {
                                         isEditable = !isEditable;
